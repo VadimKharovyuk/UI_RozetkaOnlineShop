@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Rozetka Online Shop</title>
+</head>
+<body>
+<div th:if="${session.token}">
+    <a th:href="@{/auth/profile}">Profile</a> |
+    <a th:href="@{/auth/logout}">Logout</a>
+</div>
+<div th:unless="${session.token}">
+    <a th:href="@{/auth/login}">Login</a> |
+    <a th:href="@{/auth/register}">Register</a>
+</div>
+
+<h1>Welcome to Rozetka Online Shop</h1>
+</body>
+</html>
