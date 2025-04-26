@@ -1,0 +1,57 @@
+.header {
+    margin-top: 80px;
+    padding: 2rem 5%;
+}
+
+.promo-container {
+    position: relative;
+    overflow: hidden;
+    border-radius: 12px;
+    box-shadow: var(--shadow);
+}
+
+.promo-slider {
+    height: 500px;
+    background: linear-gradient(135deg, #f8f8f8 0%, #e8e8e8 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+    position: relative;
+}
+
+.promo-content {
+    text-align: center;
+    padding: 2rem;
+}
+
+.promo-title {
+    font-size: 2.5rem;
+    font-weight: 300;
+    margin-bottom: 1rem;
+    color: var(--primary-color);
+}
+
+.promo-subtitle {
+    font-size: 1.1rem;
+    color: #777;
+    margin-bottom: 2rem;
+}
+
+.promo-btn {
+    display: inline-block;
+    padding: 1rem 2.5rem;
+    background-color: var(--primary-color);
+    color: #fff;
+    border: none;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+.promo-btn:hover {
+    background-color: var(--accent-color);
+    transform: translateY(-2px);
+}
