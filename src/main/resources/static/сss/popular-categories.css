@@ -1,5 +1,7 @@
+/* Popular Categories Section */
 .popular-categories {
     margin-top: 4rem;
+    padding: 0 5%;
 }
 
 .section-header {
@@ -137,4 +139,304 @@
 .category-items {
     color: #777;
     font-size: 0.9rem;
+}
+
+/* Модальное окно быстрого просмотра */
+.quick-view-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2001;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.quick-view-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.quick-view-content {
+    background-color: #fff;
+    padding: 2rem;
+    border-radius: 8px;
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh;
+    overflow: auto;
+    position: relative;
+    transform: translateY(50px);
+    transition: transform 0.3s ease;
+}
+
+.quick-view-modal.active .quick-view-content {
+    transform: translateY(0);
+}
+
+.quick-view-close {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    font-size: 1.5rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--primary-color);
+    transition: color 0.3s ease;
+}
+
+.quick-view-close:hover {
+    color: var(--accent-color);
+}
+
+.quick-view-products {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.quick-product {
+    border-radius: 8px;
+    overflow: hidden;
+    background-color: #fff;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.quick-product:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+}
+
+.product-img-placeholder {
+    height: 200px;
+    background-color: #f5f5f5;
+    margin-bottom: 1rem;
+    border-radius: 4px;
+}
+
+/* Адаптивность категорий */
+@media (max-width: 1200px) {
+    .categories-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+
+    .category-image-container {
+        height: 320px;
+    }
+}
+
+@media (max-width: 992px) {
+    .popular-categories {
+        margin-top: 3rem;
+        padding: 0 4%;
+    }
+
+    .categories-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1.8rem;
+    }
+
+    .category-image-container {
+        height: 300px;
+    }
+
+    .section-title {
+        font-size: 2rem;
+    }
+
+    .section-subtitle {
+        font-size: 0.95rem;
+        max-width: 500px;
+    }
+
+    .action-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.1rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .popular-categories {
+        margin-top: 2.5rem;
+        padding: 0 3%;
+    }
+
+    .section-header {
+        margin-bottom: 2rem;
+    }
+
+    .section-title {
+        font-size: 1.8rem;
+    }
+
+    .section-subtitle {
+        font-size: 0.9rem;
+        max-width: 90%;
+    }
+
+    .category-image-container {
+        height: 280px;
+    }
+
+    .categories-grid {
+        gap: 1.5rem;
+    }
+
+    .category-title {
+        font-size: 1rem;
+    }
+
+    .category-items {
+        font-size: 0.85rem;
+    }
+
+    /* Изменения для модального окна на планшетах */
+    .quick-view-content {
+        padding: 1.5rem;
+    }
+
+    .quick-view-products {
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        gap: 1.2rem;
+    }
+
+    .product-img-placeholder {
+        height: 180px;
+    }
+}
+
+@media (max-width: 576px) {
+    .popular-categories {
+        margin-top: 2rem;
+        padding: 0 15px;
+    }
+
+    .section-header {
+        margin-bottom: 1.5rem;
+    }
+
+    .section-title {
+        font-size: 1.6rem;
+    }
+
+    .section-title::after {
+        width: 30px;
+        bottom: -8px;
+    }
+
+    .section-subtitle {
+        font-size: 0.85rem;
+        line-height: 1.4;
+    }
+
+    .categories-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+
+    .category-image-container {
+        height: 220px;
+    }
+
+    .category-card {
+        /* На мобильных устройствах делаем оверлей видимым всегда */
+        position: relative;
+    }
+
+    .category-overlay {
+        opacity: 1;
+        background-color: rgba(0, 0, 0, 0.2);
+    }
+
+    .action-icon {
+        width: 38px;
+        height: 38px;
+        font-size: 1rem;
+        transform: translateY(0);
+        opacity: 1;
+    }
+
+    /* Изменение модального окна для мобильных */
+    .quick-view-content {
+        padding: 1.2rem;
+        width: 95%;
+    }
+
+    .quick-view-products {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 1rem;
+    }
+
+    .product-img-placeholder {
+        height: 150px;
+    }
+
+    .quick-view-close {
+        top: 10px;
+        right: 10px;
+        font-size: 1.3rem;
+    }
+}
+
+@media (max-width: 400px) {
+    .category-image-container {
+        height: 200px;
+    }
+
+    .action-icon {
+        width: 35px;
+        height: 35px;
+    }
+
+    .overlay-actions {
+        gap: 0.7rem;
+    }
+
+    /* Одна колонка товаров в модальном окне для очень маленьких экранов */
+    .quick-view-products {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Для устройств с поддержкой hover */
+@media (hover: hover) {
+    .category-overlay {
+        opacity: 0;
+    }
+
+    .category-card:hover .category-overlay {
+        opacity: 1;
+    }
+
+    .action-icon {
+        transform: translateY(20px);
+        opacity: 0;
+    }
+
+    .category-card:hover .action-icon {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+/* Для устройств без поддержки hover (сенсорные) */
+@media (hover: none) {
+    .category-overlay {
+        opacity: 1;
+        background-color: rgba(0, 0, 0, 0.2);
+    }
+
+    .action-icon {
+        transform: translateY(0);
+        opacity: 1;
+    }
 }

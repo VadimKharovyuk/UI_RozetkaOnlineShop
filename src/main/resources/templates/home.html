@@ -43,6 +43,7 @@
 </head>
 <body>
 <!-- Navigation bar -->
+<!-- Navigation bar -->
 <nav class="navbar">
     <div class="nav-left">
         <!-- Menu button that opens aside sidebar -->
@@ -62,7 +63,8 @@
     </div>
 
     <div class="user-actions">
-        <button id="searchToggle" class="action-btn d-md-none" style="display: none;">
+        <!-- Кнопка поиска на мобильных устройствах -->
+        <button id="searchToggle" class="action-btn d-md-none">
             <i class="fas fa-search"></i>
         </button>
 
@@ -78,12 +80,44 @@
             <span class="badge">0</span>
         </button>
 
-        <button class="action-btn">
+        <a th:href="@{/auth/register}" class="action-btn">
             <i class="far fa-user"></i>
             <span>Войти</span>
-        </button>
+        </a>
     </div>
 </nav>
+
+<!-- Дополнительный JavaScript для мобильного меню -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const searchToggle = document.getElementById('searchToggle');
+        const searchContainer = document.getElementById('searchContainer');
+
+        if (searchToggle && searchContainer) {
+            searchToggle.addEventListener('click', function() {
+                searchContainer.classList.toggle('active');
+            });
+        }
+
+        // При клике вне поля поиска - скрываем его на мобильных устройствах
+        document.addEventListener('click', function(event) {
+            if (window.innerWidth <= 768 &&
+                searchContainer &&
+                searchContainer.classList.contains('active') &&
+                !searchContainer.contains(event.target) &&
+                event.target !== searchToggle) {
+                searchContainer.classList.remove('active');
+            }
+        });
+
+        // При изменении размера окна
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768 && searchContainer) {
+                searchContainer.classList.remove('active');
+            }
+        });
+    });
+</script>
 
 <!-- Header section for future promotional content -->
 <header class="header">

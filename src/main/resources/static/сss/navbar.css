@@ -125,6 +125,7 @@
     font-size: 0.75rem;
     color: var(--text-color);
     transition: var(--transition);
+    text-decoration: none;
 }
 
 .action-btn:hover {
@@ -150,4 +151,115 @@
     justify-content: center;
     font-size: 0.7rem;
     font-weight: 600;
+}
+
+/* Mobile menu toggle button */
+#searchToggle {
+    display: none;
+}
+
+/* Media Queries for Responsive Design */
+@media (max-width: 992px) {
+    .navbar {
+        padding: 1rem 4%;
+    }
+
+    .search-container {
+        width: 35%;
+    }
+
+    .action-btn span:not(.badge) {
+        font-size: 0.7rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .navbar {
+        padding: 0.8rem 3%;
+        height: 70px;
+    }
+
+    .menu-button span {
+        display: none;
+    }
+
+    .nav-left {
+        gap: 1rem;
+    }
+
+    .logo {
+        font-size: 1.4rem;
+    }
+
+    /* Hide desktop search on mobile */
+    .search-container {
+        display: none;
+        position: absolute;
+        top: 70px;
+        left: 0;
+        width: 100%;
+        max-width: 100%;
+        background: #fff;
+        padding: 0.8rem;
+        box-shadow: var(--shadow);
+        z-index: 999;
+    }
+
+    /* Show search when active */
+    .search-container.active {
+        display: block;
+    }
+
+    /* Show search toggle button */
+    #searchToggle {
+        display: flex !important;
+    }
+
+    .user-actions {
+        gap: 1rem;
+    }
+
+    .action-btn i {
+        font-size: 1.2rem;
+        margin-bottom: 0.2rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .navbar {
+        padding: 0.6rem 2%;
+        height: 60px;
+    }
+
+    .logo {
+        font-size: 1.2rem;
+    }
+
+    /* Hide text on mobile */
+    .action-btn span:not(.badge) {
+        display: none;
+    }
+
+    .user-actions {
+        gap: 0.7rem;
+    }
+
+    .badge {
+        width: 16px;
+        height: 16px;
+        font-size: 0.6rem;
+        right: -5px;
+        top: -3px;
+    }
+}
+
+/* Utility classes */
+.d-md-none {
+    display: none;
+}
+
+@media (max-width: 768px) {
+    .d-md-none {
+        display: flex !important;
+    }
 }
