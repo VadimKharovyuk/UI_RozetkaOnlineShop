@@ -13,10 +13,10 @@
 
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title" th:text="${user.username}"></h5>
+          <h5 class="card-title" th:text="${user.getEmail()}"></h5>
           <p class="card-text">
             <strong>Email:</strong> <span th:text="${user.email}"></span><br>
-            <strong>Role:</strong> <span th:text="${user.role}"></span>
+            <strong>Role:</strong> <span th:text="${user.getRoles()}"></span>
           </p>
           <a th:href="@{/auth/logout}" class="btn btn-danger">Logout</a>
         </div>

@@ -19,6 +19,8 @@ public class AuthMvcController {
     @GetMapping("/register")
     public String showRegistrationForm(Model model) {
         model.addAttribute("registerRequest", new RegisterRequest());
+        model.addAttribute("authRequest", new AuthRequest());
+
         return "client/auth/register";
     }
 
