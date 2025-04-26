@@ -49,20 +49,10 @@ public class AuthMvcController {
         AuthResponse response = authService.authenticateUser(authRequest);
         session.setAttribute("token", response.getToken());
         redirectAttributes.addFlashAttribute("message", "Login successful!");
-        return "redirect:/";
+        return "redirect:/profile";
     }
 
-    @GetMapping("/profile")
-    public String showProfile(HttpServletRequest request, Model model) {
-        String token = (String) request.getSession().getAttribute("token");
-        if (token == null) {
-            return "redirect:/auth/login";
-        }
 
-        UserDto userDto = authService.getCurrentUser(token);
-        model.addAttribute("user", userDto);
-        return "client/auth/profile";
-    }
 
     @GetMapping("/logout")
     public String logout(HttpSession session) {
