@@ -15,6 +15,7 @@ public class ProfileController {
     private final AuthService authService;
 
 
+
     @GetMapping()
     public String showProfile(HttpServletRequest request, Model model) {
         String token = (String) request.getSession().getAttribute("token");
