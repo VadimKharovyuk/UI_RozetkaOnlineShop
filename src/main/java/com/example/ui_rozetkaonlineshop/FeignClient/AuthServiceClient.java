@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 
 
 @FeignClient(
-        name = "auth-service",  // Имя должно соответствовать spring.application.name
+        name = "auth-service",
         configuration = FeignConfig.class
 )
 

@@ -40,7 +40,7 @@ public class AuthMvcController {
         return "client/auth/login";
     }
 
-    @PostMapping("/login")
+    @PostMapping("/authenticateUser")
     public String loginUser(
             @ModelAttribute AuthRequest authRequest,
             HttpSession session,

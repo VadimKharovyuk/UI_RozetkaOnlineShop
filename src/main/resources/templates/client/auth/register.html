@@ -550,599 +550,599 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Вход и регистрация</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
-  <style>
-    :root {
-      --primary-color: #6366f1;
-      --primary-hover: #4f46e5;
-      --secondary-color: #f9fafb;
-      --text-color: #1f2937;
-      --light-text: #6b7280;
-      --border-color: #e5e7eb;
-      --error-color: #ef4444;
-      --success-color: #10b981;
-      --white: #ffffff;
-      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-      --transition: all 0.4s ease;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Вход и регистрация</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #6366f1;
+            --primary-hover: #4f46e5;
+            --secondary-color: #f9fafb;
+            --text-color: #1f2937;
+            --light-text: #6b7280;
+            --border-color: #e5e7eb;
+            --error-color: #ef4444;
+            --success-color: #10b981;
+            --white: #ffffff;
+            --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --transition: all 0.4s ease;
+        }
 
-    /* Bootstrap-подобные классы */
-    .mb-3 {
-      margin-bottom: 1rem;
-    }
+        /* Bootstrap-подобные классы */
+        .mb-3 {
+            margin-bottom: 1rem;
+        }
 
-    .mt-3 {
-      margin-top: 1rem;
-    }
+        .mt-3 {
+            margin-top: 1rem;
+        }
 
-    .form-label {
-      display: block;
-      margin-bottom: 0.5rem;
-      font-size: 14px;
-      color: var(--text-color);
-      text-align: left;
-      width: 100%;
-    }
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-size: 14px;
+            color: var(--text-color);
+            text-align: left;
+            width: 100%;
+        }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    body {
-      font-family: 'Roboto', sans-serif;
-      background-color: var(--secondary-color);
-      color: var(--text-color);
-      height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      overflow: hidden;
-    }
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: var(--secondary-color);
+            color: var(--text-color);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
 
-    .container {
-      width: 100%;
-      max-width: 900px;
-      height: 600px; /* Увеличил высоту для лучшего размещения элементов */
-      background-color: var(--white);
-      border-radius: 10px;
-      box-shadow: var(--shadow);
-      position: relative;
-      overflow: hidden;
-    }
+        .container {
+            width: 100%;
+            max-width: 900px;
+            height: 600px; /* Увеличил высоту для лучшего размещения элементов */
+            background-color: var(--white);
+            border-radius: 10px;
+            box-shadow: var(--shadow);
+            position: relative;
+            overflow: hidden;
+        }
 
-    .form-container {
-      position: absolute;
-      top: 0;
-      height: 100%;
-      transition: var(--transition);
-    }
+        .form-container {
+            position: absolute;
+            top: 0;
+            height: 100%;
+            transition: var(--transition);
+        }
 
-    .sign-in-container {
-      left: 0;
-      width: 50%;
-      z-index: 2;
-    }
+        .sign-in-container {
+            left: 0;
+            width: 50%;
+            z-index: 2;
+        }
 
-    .container.right-panel-active .sign-in-container {
-      transform: translateX(100%);
-      opacity: 0;
-    }
+        .container.right-panel-active .sign-in-container {
+            transform: translateX(100%);
+            opacity: 0;
+        }
 
-    .sign-up-container {
-      left: 0;
-      width: 50%;
-      opacity: 0;
-      z-index: 1;
-    }
+        .sign-up-container {
+            left: 0;
+            width: 50%;
+            opacity: 0;
+            z-index: 1;
+        }
 
-    .container.right-panel-active .sign-up-container {
-      transform: translateX(100%);
-      opacity: 1;
-      z-index: 5;
-      animation: show 0.6s;
-    }
+        .container.right-panel-active .sign-up-container {
+            transform: translateX(100%);
+            opacity: 1;
+            z-index: 5;
+            animation: show 0.6s;
+        }
 
-    @keyframes show {
-      0%, 49.99% {
-        opacity: 0;
-        z-index: 1;
-      }
+        @keyframes show {
+            0%, 49.99% {
+                opacity: 0;
+                z-index: 1;
+            }
 
-      50%, 100% {
-        opacity: 1;
-        z-index: 5;
-      }
-    }
+            50%, 100% {
+                opacity: 1;
+                z-index: 5;
+            }
+        }
 
-    .overlay-container {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      width: 50%;
-      height: 100%;
-      overflow: hidden;
-      transition: transform 0.6s ease-in-out;
-      z-index: 100;
-    }
+        .overlay-container {
+            position: absolute;
+            top: 0;
+            left: 50%;
+            width: 50%;
+            height: 100%;
+            overflow: hidden;
+            transition: transform 0.6s ease-in-out;
+            z-index: 100;
+        }
 
-    .container.right-panel-active .overlay-container {
-      transform: translateX(-100%);
-    }
+        .container.right-panel-active .overlay-container {
+            transform: translateX(-100%);
+        }
 
-    .overlay {
-      background: linear-gradient(to right, var(--primary-color), var(--primary-hover));
-      background-repeat: no-repeat;
-      background-position: 0 0;
-      background-size: cover;
-      color: var(--white);
-      position: relative;
-      left: -100%;
-      height: 100%;
-      width: 200%;
-      transform: translateX(0);
-      transition: transform 0.6s ease-in-out;
-    }
+        .overlay {
+            background: linear-gradient(to right, var(--primary-color), var(--primary-hover));
+            background-repeat: no-repeat;
+            background-position: 0 0;
+            background-size: cover;
+            color: var(--white);
+            position: relative;
+            left: -100%;
+            height: 100%;
+            width: 200%;
+            transform: translateX(0);
+            transition: transform 0.6s ease-in-out;
+        }
 
-    .container.right-panel-active .overlay {
-      transform: translateX(50%);
-    }
+        .container.right-panel-active .overlay {
+            transform: translateX(50%);
+        }
 
-    .overlay-panel {
-      position: absolute;
-      top: 0;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 0 40px;
-      text-align: center;
-      height: 100%;
-      width: 50%;
-      transform: translateX(0);
-      transition: transform 0.6s ease-in-out;
-    }
+        .overlay-panel {
+            position: absolute;
+            top: 0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 0 40px;
+            text-align: center;
+            height: 100%;
+            width: 50%;
+            transform: translateX(0);
+            transition: transform 0.6s ease-in-out;
+        }
 
-    .overlay-left {
-      transform: translateX(-20%);
-    }
+        .overlay-left {
+            transform: translateX(-20%);
+        }
 
-    .container.right-panel-active .overlay-left {
-      transform: translateX(0);
-    }
+        .container.right-panel-active .overlay-left {
+            transform: translateX(0);
+        }
 
-    .overlay-right {
-      right: 0;
-      transform: translateX(0);
-    }
+        .overlay-right {
+            right: 0;
+            transform: translateX(0);
+        }
 
-    .container.right-panel-active .overlay-right {
-      transform: translateX(20%);
-    }
+        .container.right-panel-active .overlay-right {
+            transform: translateX(20%);
+        }
 
-    form {
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      padding: 0 50px;
-      height: 100%;
-      text-align: center;
-      width: 100%; /* Добавлено для лучшего выравнивания */
-    }
+        form {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 0 50px;
+            height: 100%;
+            text-align: center;
+            width: 100%; /* Добавлено для лучшего выравнивания */
+        }
 
-    h1 {
-      font-weight: 700;
-      margin-bottom: 15px;
-      font-size: 28px;
-    }
+        h1 {
+            font-weight: 700;
+            margin-bottom: 15px;
+            font-size: 28px;
+        }
 
-    p {
-      font-size: 14px;
-      line-height: 1.5;
-      letter-spacing: 0.5px;
-      margin: 15px 0 20px; /* Уменьшен нижний отступ */
-      color: var(--light-text);
-    }
+        p {
+            font-size: 14px;
+            line-height: 1.5;
+            letter-spacing: 0.5px;
+            margin: 15px 0 20px; /* Уменьшен нижний отступ */
+            color: var(--light-text);
+        }
 
-    .form-input {
-      background-color: var(--secondary-color);
-      border: 1px solid var(--border-color);
-      border-radius: 5px;
-      padding: 12px 15px;
-      margin: 8px 0;
-      width: 100%;
-      font-size: 14px;
-      transition: var(--transition);
-    }
+        .form-input {
+            background-color: var(--secondary-color);
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            padding: 12px 15px;
+            margin: 8px 0;
+            width: 100%;
+            font-size: 14px;
+            transition: var(--transition);
+        }
 
-    .form-input:focus {
-      outline: none;
-      border-color: var(--primary-color);
-      box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.1);
-    }
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.1);
+        }
 
-    /* Базовые стили для всех кнопок */
-    .btn {
-      background-color: var(--primary-color);
-      color: var(--white);
-      border: none;
-      border-radius: 5px;
-      padding: 12px 45px;
-      font-size: 14px;
-      font-weight: 500;
-      letter-spacing: 1px;
-      text-transform: uppercase;
-      cursor: pointer;
-      transition: var(--transition);
-      margin-top: 15px;
-    }
+        /* Базовые стили для всех кнопок */
+        .btn {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            border-radius: 5px;
+            padding: 12px 45px;
+            font-size: 14px;
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: var(--transition);
+            margin-top: 15px;
+        }
 
-    .btn:hover {
-      background-color: var(--primary-hover);
-      transform: translateY(-2px);
-      box-shadow: 0 7px 14px rgba(0, 0, 0, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
-    }
+        .btn:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 7px 14px rgba(0, 0, 0, 0.1), 0 3px 6px rgba(0, 0, 0, 0.08);
+        }
 
-    .btn:active {
-      transform: translateY(0);
-      box-shadow: none;
-    }
+        .btn:active {
+            transform: translateY(0);
+            box-shadow: none;
+        }
 
-    /* Кастомные классы для кнопок */
-    .btn-ghost {
-      background-color: transparent;
-      border: 1px solid var(--white);
-    }
+        /* Кастомные классы для кнопок */
+        .btn-ghost {
+            background-color: transparent;
+            border: 1px solid var(--white);
+        }
 
-    .btn-ghost:hover {
-      background-color: var(--white);
-      color: var(--primary-color);
-    }
+        .btn-ghost:hover {
+            background-color: var(--white);
+            color: var(--primary-color);
+        }
 
-    /* Новые кастомные классы кнопок */
-    .btn-primary {
-      background-color: var(--primary-color);
-      color: var(--white);
-      border: none;
-      width: 100%; /* Кнопка на всю ширину формы */
-    }
+        /* Новые кастомные классы кнопок */
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: var(--white);
+            border: none;
+            width: 100%; /* Кнопка на всю ширину формы */
+        }
 
-    .btn-primary:hover {
-      background-color: var(--primary-hover);
-    }
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+        }
 
-    .btn-outline {
-      background-color: transparent;
-      color: var(--primary-color);
-      border: 1px solid var(--primary-color);
-    }
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary-color);
+            border: 1px solid var(--primary-color);
+        }
 
-    .btn-outline:hover {
-      background-color: var(--primary-color);
-      color: var(--white);
-    }
+        .btn-outline:hover {
+            background-color: var(--primary-color);
+            color: var(--white);
+        }
 
-    .btn-rounded {
-      border-radius: 30px;
-    }
+        .btn-rounded {
+            border-radius: 30px;
+        }
 
-    .btn-sm {
-      padding: 8px 20px;
-      font-size: 12px;
-    }
+        .btn-sm {
+            padding: 8px 20px;
+            font-size: 12px;
+        }
 
-    .btn-lg {
-      padding: 16px 60px;
-      font-size: 16px;
-    }
+        .btn-lg {
+            padding: 16px 60px;
+            font-size: 16px;
+        }
 
-    .social-container {
-      margin: 15px 0;
-      display: flex;
-      justify-content: center;
-      gap: 15px; /* Увеличен отступ между иконками */
-    }
+        .social-container {
+            margin: 15px 0;
+            display: flex;
+            justify-content: center;
+            gap: 15px; /* Увеличен отступ между иконками */
+        }
 
-    .social-container a {
-      width: 40px;
-      height: 40px;
-      border: 1px solid var(--border-color);
-      border-radius: 50%;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      color: var(--light-text);
-      font-size: 16px; /* Увеличен размер иконок */
-      transition: var(--transition);
-      background-color: var(--white); /* Добавлен фон для лучшего отображения */
-    }
+        .social-container a {
+            width: 40px;
+            height: 40px;
+            border: 1px solid var(--border-color);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: var(--light-text);
+            font-size: 16px; /* Увеличен размер иконок */
+            transition: var(--transition);
+            background-color: var(--white); /* Добавлен фон для лучшего отображения */
+        }
 
-    .social-container a:hover {
-      border-color: var(--primary-color);
-      color: var(--primary-color);
-      transform: translateY(-2px);
-    }
+        .social-container a:hover {
+            border-color: var(--primary-color);
+            color: var(--primary-color);
+            transform: translateY(-2px);
+        }
 
-    .forgot-password {
-      color: var(--light-text);
-      font-size: 14px;
-      text-decoration: none;
-      margin: 15px 0;
-      transition: var(--transition);
-      align-self: flex-end; /* Выравнивание по правому краю */
-    }
+        .forgot-password {
+            color: var(--light-text);
+            font-size: 14px;
+            text-decoration: none;
+            margin: 15px 0;
+            transition: var(--transition);
+            align-self: flex-end; /* Выравнивание по правому краю */
+        }
 
-    .forgot-password:hover {
-      color: var(--primary-color);
-      text-decoration: underline;
-    }
+        .forgot-password:hover {
+            color: var(--primary-color);
+            text-decoration: underline;
+        }
 
-    .message {
-      margin-top: 15px;
-      font-size: 14px;
-      display: none;
-      width: 100%; /* Сообщение на всю ширину */
-      padding: 8px;
-      border-radius: 4px;
-    }
+        .message {
+            margin-top: 15px;
+            font-size: 14px;
+            display: none;
+            width: 100%; /* Сообщение на всю ширину */
+            padding: 8px;
+            border-radius: 4px;
+        }
 
-    .message.error {
-      color: var(--error-color);
-      background-color: rgba(239, 68, 68, 0.1);
-      border: 1px solid rgba(239, 68, 68, 0.2);
-    }
+        .message.error {
+            color: var(--error-color);
+            background-color: rgba(239, 68, 68, 0.1);
+            border: 1px solid rgba(239, 68, 68, 0.2);
+        }
 
-    .message.success {
-      color: var(--success-color);
-      background-color: rgba(16, 185, 129, 0.1);
-      border: 1px solid rgba(16, 185, 129, 0.2);
-    }
+        .message.success {
+            color: var(--success-color);
+            background-color: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.2);
+        }
 
-    /* Исправление для мобильных устройств */
-    @media screen and (max-width: 768px) {
-      .container {
-        max-width: 400px;
-        height: auto;
-        min-height: 580px; /* Увеличен минимальный размер */
-      }
+        /* Исправление для мобильных устройств */
+        @media screen and (max-width: 768px) {
+            .container {
+                max-width: 400px;
+                height: auto;
+                min-height: 580px; /* Увеличен минимальный размер */
+            }
 
-      .form-container {
-        width: 100%;
-        position: relative;
-        height: auto;
-        min-height: 580px;
-      }
+            .form-container {
+                width: 100%;
+                position: relative;
+                height: auto;
+                min-height: 580px;
+            }
 
-      .sign-in-container {
-        width: 100%;
-      }
+            .sign-in-container {
+                width: 100%;
+            }
 
-      .sign-up-container {
-        position: absolute;
-        width: 100%;
-        left: 0;
-        top: 0;
-      }
+            .sign-up-container {
+                position: absolute;
+                width: 100%;
+                left: 0;
+                top: 0;
+            }
 
-      .overlay-container {
-        display: none;
-      }
+            .overlay-container {
+                display: none;
+            }
 
-      .mobile-toggle {
-        display: flex;
-        justify-content: center;
-        margin-top: 25px; /* Увеличен отступ сверху */
-        gap: 10px;
-        width: 100%;
-        padding-top: 15px;
-        border-top: 1px solid var(--border-color); /* Добавлена разделительная линия */
-      }
+            .mobile-toggle {
+                display: flex;
+                justify-content: center;
+                margin-top: 25px; /* Увеличен отступ сверху */
+                gap: 10px;
+                width: 100%;
+                padding-top: 15px;
+                border-top: 1px solid var(--border-color); /* Добавлена разделительная линия */
+            }
 
-      .mobile-toggle p {
-        margin: 0;
-        color: var(--light-text);
-      }
+            .mobile-toggle p {
+                margin: 0;
+                color: var(--light-text);
+            }
 
-      .mobile-toggle-btn {
-        background: none;
-        border: none;
-        color: var(--primary-color);
-        font-weight: 500;
-        cursor: pointer;
-        text-decoration: underline;
-      }
+            .mobile-toggle-btn {
+                background: none;
+                border: none;
+                color: var(--primary-color);
+                font-weight: 500;
+                cursor: pointer;
+                text-decoration: underline;
+            }
 
-      .mobile-toggle-btn:hover {
-        color: var(--primary-hover);
-      }
-    }
+            .mobile-toggle-btn:hover {
+                color: var(--primary-hover);
+            }
+        }
 
-    /* Фиксы для других браузеров */
-    @-webkit-keyframes show {
-      0%, 49.99% {
-        opacity: 0;
-        z-index: 1;
-      }
+        /* Фиксы для других браузеров */
+        @-webkit-keyframes show {
+            0%, 49.99% {
+                opacity: 0;
+                z-index: 1;
+            }
 
-      50%, 100% {
-        opacity: 1;
-        z-index: 5;
-      }
-    }
+            50%, 100% {
+                opacity: 1;
+                z-index: 5;
+            }
+        }
 
-    @-moz-keyframes show {
-      0%, 49.99% {
-        opacity: 0;
-        z-index: 1;
-      }
+        @-moz-keyframes show {
+            0%, 49.99% {
+                opacity: 0;
+                z-index: 1;
+            }
 
-      50%, 100% {
-        opacity: 1;
-        z-index: 5;
-      }
-    }
-  </style>
+            50%, 100% {
+                opacity: 1;
+                z-index: 5;
+            }
+        }
+    </style>
 </head>
 <body>
 <div class="container" id="container">
-  <!-- Контейнер для входа -->
-  <div class="form-container sign-in-container">
-    <form id="signInForm" th:action="@{/auth/login}" th:object="${authRequest}" method="post">
-      <h1>Вход в аккаунт</h1>
-      <div class="social-container">
-        <a href="#"><i class="fab fa-facebook-f"></i></a>
-        <a href="#"><i class="fab fa-google"></i></a>
-        <a href="#"><i class="fab fa-vk"></i></a>
-      </div>
-      <p>или используйте свой аккаунт</p>
-      <div class="mb-3">
-        <label for="email" class="form-label">Email</label>
-        <input type="email" class="form-input" id="email" th:field="*{email}" placeholder="Введите email" required>
-      </div>
-      <div class="mb-3">
-        <label for="password" class="form-label">Password</label>
-        <input type="password" class="form-input" id="password" th:field="*{password}" placeholder="Введите пароль" required>
-      </div>
-      <a href="#" class="forgot-password">Забыли пароль?</a>
-      <button type="submit" class="btn btn-primary btn-rounded">Войти</button>
-      <div class="message" id="signInMessage"></div>
+    <!-- Контейнер для входа -->
+    <div class="form-container sign-in-container">
+        <form id="signInForm" th:action="@{/auth/authenticateUser}" th:object="${authRequest}" method="post">
+            <h1>Вход в аккаунт</h1>
+            <div class="social-container">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-google"></i></a>
+                <a href="#"><i class="fab fa-vk"></i></a>
+            </div>
+            <p>или используйте свой аккаунт</p>
+            <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <input type="email" class="form-input" id="email" th:field="*{email}" placeholder="Введите email" required>
+            </div>
+            <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <input type="password" class="form-input" id="password" th:field="*{password}" placeholder="Введите пароль" required>
+            </div>
+            <a href="#" class="forgot-password">Забыли пароль?</a>
+            <button type="submit" class="btn btn-primary btn-rounded">Войти</button>
+            <div class="message" id="signInMessage"></div>
 
-      <!-- Кнопки для мобильной версии -->
-      <div class="mobile-toggle">
-        <p>Don't have an account?</p>
-        <button type="button" class="mobile-toggle-btn" id="mobileSignUp">Register here</button>
-      </div>
-    </form>
-  </div>
-
-  <!-- Контейнер для регистрации -->
-  <div class="form-container sign-up-container">
-    <form id="signUpForm" th:action="@{/auth/register}" th:object="${registerRequest}" method="post">
-      <h1>Создать аккаунт</h1>
-      <div class="social-container">
-        <a href="#"><i class="fab fa-facebook-f"></i></a>
-        <a href="#"><i class="fab fa-google"></i></a>
-        <a href="#"><i class="fab fa-vk"></i></a>
-      </div>
-      <p>или используйте email для регистрации</p>
-      <div class="mb-3">
-        <label for="registerEmail" class="form-label">Email</label>
-        <input type="email" class="form-input" id="registerEmail" th:field="*{email}" placeholder="Введите email" required>
-      </div>
-      <div class="mb-3">
-        <label for="registerPassword" class="form-label">Password</label>
-        <input type="password" class="form-input" id="registerPassword" th:field="*{password}" placeholder="Введите пароль" required>
-      </div>
-      <button type="submit" class="btn btn-primary btn-rounded">Регистрация</button>
-      <div class="message" id="signUpMessage"></div>
-
-      <!-- Кнопки для мобильной версии -->
-      <div class="mobile-toggle">
-        <p>Already have an account?</p>
-        <button type="button" class="mobile-toggle-btn" id="mobileSignIn">Login here</button>
-      </div>
-    </form>
-  </div>
-
-  <!-- Наложение -->
-  <div class="overlay-container">
-    <div class="overlay">
-      <div class="overlay-panel overlay-left">
-        <h1>С возвращением!</h1>
-        <p>Already have an account? Login here</p>
-        <button class="btn btn-ghost btn-rounded" id="signIn">Войти</button>
-      </div>
-      <div class="overlay-panel overlay-right">
-        <h1>Привет, друг!</h1>
-        <p>Don't have an account? Register here</p>
-        <button class="btn btn-ghost btn-rounded" id="signUp">Регистрация</button>
-      </div>
+            <!-- Кнопки для мобильной версии -->
+            <div class="mobile-toggle">
+                <p>Don't have an account?</p>
+                <button type="button" class="mobile-toggle-btn" id="mobileSignUp">Register here</button>
+            </div>
+        </form>
     </div>
-  </div>
+
+    <!-- Контейнер для регистрации -->
+    <div class="form-container sign-up-container">
+        <form id="signUpForm" th:action="@{/auth/register}" th:object="${registerRequest}" method="post">
+            <h1>Создать аккаунт</h1>
+            <div class="social-container">
+                <a href="#"><i class="fab fa-facebook-f"></i></a>
+                <a href="#"><i class="fab fa-google"></i></a>
+                <a href="#"><i class="fab fa-vk"></i></a>
+            </div>
+            <p>или используйте email для регистрации</p>
+            <div class="mb-3">
+                <label for="registerEmail" class="form-label">Email</label>
+                <input type="email" class="form-input" id="registerEmail" th:field="*{email}" placeholder="Введите email" required>
+            </div>
+            <div class="mb-3">
+                <label for="registerPassword" class="form-label">Password</label>
+                <input type="password" class="form-input" id="registerPassword" th:field="*{password}" placeholder="Введите пароль" required>
+            </div>
+            <button type="submit" class="btn btn-primary btn-rounded">Регистрация</button>
+            <div class="message" id="signUpMessage"></div>
+
+            <!-- Кнопки для мобильной версии -->
+            <div class="mobile-toggle">
+                <p>Already have an account?</p>
+                <button type="button" class="mobile-toggle-btn" id="mobileSignIn">Login here</button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Наложение -->
+    <div class="overlay-container">
+        <div class="overlay">
+            <div class="overlay-panel overlay-left">
+                <h1>С возвращением!</h1>
+                <p>Already have an account? Login here</p>
+                <button class="btn btn-ghost btn-rounded" id="signIn">Войти</button>
+            </div>
+            <div class="overlay-panel overlay-right">
+                <h1>Привет, друг!</h1>
+                <p>Don't have an account? Register here</p>
+                <button class="btn btn-ghost btn-rounded" id="signUp">Регистрация</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
-    // Переменные
-    const container = document.getElementById('container');
-    const signUpButton = document.getElementById('signUp');
-    const signInButton = document.getElementById('signIn');
-    const mobileSignUpButton = document.getElementById('mobileSignUp');
-    const mobileSignInButton = document.getElementById('mobileSignIn');
-    const signInForm = document.getElementById('signInForm');
-    const signUpForm = document.getElementById('signUpForm');
-    const signInMessage = document.getElementById('signInMessage');
-    const signUpMessage = document.getElementById('signUpMessage');
+    document.addEventListener('DOMContentLoaded', function() {
+        // Переменные
+        const container = document.getElementById('container');
+        const signUpButton = document.getElementById('signUp');
+        const signInButton = document.getElementById('signIn');
+        const mobileSignUpButton = document.getElementById('mobileSignUp');
+        const mobileSignInButton = document.getElementById('mobileSignIn');
+        const signInForm = document.getElementById('signInForm');
+        const signUpForm = document.getElementById('signUpForm');
+        const signInMessage = document.getElementById('signInMessage');
+        const signUpMessage = document.getElementById('signUpMessage');
 
-    // Переключение между панелями
-    signUpButton.addEventListener('click', () => {
-      container.classList.add('right-panel-active');
+        // Переключение между панелями
+        signUpButton.addEventListener('click', () => {
+            container.classList.add('right-panel-active');
+        });
+
+        signInButton.addEventListener('click', () => {
+            container.classList.remove('right-panel-active');
+        });
+
+        // Переключение для мобильной версии
+        mobileSignUpButton.addEventListener('click', () => {
+            container.classList.add('right-panel-active');
+        });
+
+        mobileSignInButton.addEventListener('click', () => {
+            container.classList.remove('right-panel-active');
+        });
+
+        // Для форм теперь используется нативная отправка с Thymeleaf
+        // Мы убираем preventDefault() для реальной отправки данных на сервер
+
+        // Обработка формы входа - только валидация на клиенте
+        signInForm.addEventListener('submit', function(e) {
+            const email = this.querySelector('#email').value;
+            const password = this.querySelector('#password').value;
+
+            // Простая клиентская валидация перед отправкой на сервер
+            if (!email || !password) {
+                e.preventDefault(); // Предотвращаем отправку только если данные неверны
+                signInMessage.textContent = 'Пожалуйста, заполните все поля';
+                signInMessage.classList.remove('success');
+                signInMessage.classList.add('error');
+                signInMessage.style.display = 'block';
+            }
+        });
+
+        // Обработка формы регистрации - только валидация на клиенте
+        signUpForm.addEventListener('submit', function(e) {
+            const email = this.querySelector('#registerEmail').value;
+            const password = this.querySelector('#registerPassword').value;
+
+            // Простая клиентская валидация перед отправкой на сервер
+            if (!email || !password) {
+                e.preventDefault(); // Предотвращаем отправку только если данные неверны
+                signUpMessage.textContent = 'Пожалуйста, заполните все поля';
+                signUpMessage.classList.remove('success');
+                signUpMessage.classList.add('error');
+                signUpMessage.style.display = 'block';
+            }
+        });
+
+        // Очистка сообщений при фокусе на поле ввода
+        const inputs = document.querySelectorAll('.form-input');
+
+        inputs.forEach(input => {
+            input.addEventListener('focus', function() {
+                signInMessage.style.display = 'none';
+                signUpMessage.style.display = 'none';
+            });
+        });
     });
-
-    signInButton.addEventListener('click', () => {
-      container.classList.remove('right-panel-active');
-    });
-
-    // Переключение для мобильной версии
-    mobileSignUpButton.addEventListener('click', () => {
-      container.classList.add('right-panel-active');
-    });
-
-    mobileSignInButton.addEventListener('click', () => {
-      container.classList.remove('right-panel-active');
-    });
-
-    // Для форм теперь используется нативная отправка с Thymeleaf
-    // Мы убираем preventDefault() для реальной отправки данных на сервер
-
-    // Обработка формы входа - только валидация на клиенте
-    signInForm.addEventListener('submit', function(e) {
-      const email = this.querySelector('#email').value;
-      const password = this.querySelector('#password').value;
-
-      // Простая клиентская валидация перед отправкой на сервер
-      if (!email || !password) {
-        e.preventDefault(); // Предотвращаем отправку только если данные неверны
-        signInMessage.textContent = 'Пожалуйста, заполните все поля';
-        signInMessage.classList.remove('success');
-        signInMessage.classList.add('error');
-        signInMessage.style.display = 'block';
-      }
-    });
-
-    // Обработка формы регистрации - только валидация на клиенте
-    signUpForm.addEventListener('submit', function(e) {
-      const email = this.querySelector('#registerEmail').value;
-      const password = this.querySelector('#registerPassword').value;
-
-      // Простая клиентская валидация перед отправкой на сервер
-      if (!email || !password) {
-        e.preventDefault(); // Предотвращаем отправку только если данные неверны
-        signUpMessage.textContent = 'Пожалуйста, заполните все поля';
-        signUpMessage.classList.remove('success');
-        signUpMessage.classList.add('error');
-        signUpMessage.style.display = 'block';
-      }
-    });
-
-    // Очистка сообщений при фокусе на поле ввода
-    const inputs = document.querySelectorAll('.form-input');
-
-    inputs.forEach(input => {
-      input.addEventListener('focus', function() {
-        signInMessage.style.display = 'none';
-        signUpMessage.style.display = 'none';
-      });
-    });
-  });
 </script>
 </body>
 </html>
