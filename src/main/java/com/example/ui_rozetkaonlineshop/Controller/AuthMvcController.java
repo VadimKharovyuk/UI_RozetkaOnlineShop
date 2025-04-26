@@ -57,6 +57,6 @@ public class AuthMvcController {
     @GetMapping("/logout")
     public String logout(HttpSession session) {
         session.removeAttribute("token");
-        return "redirect:/auth/login";
+        return "redirect:/auth/register";
     }
 }
