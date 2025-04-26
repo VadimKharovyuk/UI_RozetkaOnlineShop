@@ -39,6 +39,7 @@
     <link rel="stylesheet" href="/сss/header.css">
     <link rel="stylesheet" href="/сss/Sidebar.css">
     <link rel="stylesheet" href="/сss/popular-categories.css">
+    <link rel="stylesheet" href="/сss/featured-products.css">
 </head>
 <body>
 <!-- Navigation bar -->
@@ -106,7 +107,7 @@
         <div class="categories-grid">
             <div class="category-card">
                 <div class="category-image-container">
-                    <img src="/api/placeholder/600/800" alt="Женская одежда" class="category-image">
+                    <img src="/luda.jpg" alt="Женская одежда" class="category-image">
                     <div class="category-overlay">
                         <div class="overlay-actions">
                             <button class="action-icon"><i class="far fa-heart"></i></button>
@@ -120,7 +121,7 @@
 
             <div class="category-card">
                 <div class="category-image-container">
-                    <img src="/api/placeholder/600/800" alt="Мужская одежда" class="category-image">
+                    <img src="/luda.jpg" alt="Мужская одежда" class="category-image">
                     <div class="category-overlay">
                         <div class="overlay-actions">
                             <button class="action-icon"><i class="far fa-heart"></i></button>
@@ -134,7 +135,7 @@
 
             <div class="category-card">
                 <div class="category-image-container">
-                    <img src="/api/placeholder/600/800" alt="Аксессуары" class="category-image">
+                    <img src="/luda.jpg" alt="Аксессуары" class="category-image">
                     <div class="category-overlay">
                         <div class="overlay-actions">
                             <button class="action-icon"><i class="far fa-heart"></i></button>
@@ -148,7 +149,7 @@
 
             <div class="category-card">
                 <div class="category-image-container">
-                    <img src="/api/placeholder/600/800" alt="Обувь" class="category-image">
+                    <img src="/luda.jpg" alt="Обувь" class="category-image">
                     <div class="category-overlay">
                         <div class="overlay-actions">
                             <button class="action-icon"><i class="far fa-heart"></i></button>
@@ -293,7 +294,7 @@
                 <div class="product-card">
                     <div class="product-image-container">
                         <span class="product-tag">Новинка</span>
-                        <img src="/api/placeholder/600/800" alt="Кашемировый свитер" class="product-image">
+                        <img src="/luda.jpg" alt="Кашемировый свитер" class="product-image">
                         <div class="product-overlay">
                             <div class="overlay-actions">
                                 <button class="action-icon"><i class="far fa-heart"></i></button>
@@ -318,7 +319,7 @@
                 <div class="product-card">
                     <div class="product-image-container">
                         <span class="product-tag">Бестселлер</span>
-                        <img src="/api/placeholder/600/800" alt="Кожаная сумка" class="product-image">
+                        <img src="/luda.jpg" alt="Кожаная сумка" class="product-image">
                         <div class="product-overlay">
                             <div class="overlay-actions">
                                 <button class="action-icon"><i class="far fa-heart"></i></button>
@@ -341,7 +342,7 @@
             <div class="product-slide">
                 <div class="product-card">
                     <div class="product-image-container">
-                        <img src="/api/placeholder/600/800" alt="Льняное платье" class="product-image">
+                        <img src="/luda.jpg" alt="Льняное платье" class="product-image">
                         <div class="product-overlay">
                             <div class="overlay-actions">
                                 <button class="action-icon"><i class="far fa-heart"></i></button>
@@ -366,7 +367,7 @@
                 <div class="product-card">
                     <div class="product-image-container">
                         <span class="product-tag product-tag-sale">-20%</span>
-                        <img src="/api/placeholder/600/800" alt="Кожаные ботинки" class="product-image">
+                        <img src="/luda.jpg" alt="Кожаные ботинки" class="product-image">
                         <div class="product-overlay">
                             <div class="overlay-actions">
                                 <button class="action-icon"><i class="far fa-heart"></i></button>
@@ -392,7 +393,7 @@
             <div class="product-slide">
                 <div class="product-card">
                     <div class="product-image-container">
-                        <img src="/api/placeholder/600/800" alt="Шелковый шарф" class="product-image">
+                        <img src="/luda.jpg" alt="Шелковый шарф" class="product-image">
                         <div class="product-overlay">
                             <div class="overlay-actions">
                                 <button class="action-icon"><i class="far fa-heart"></i></button>
@@ -429,449 +430,7 @@
         <a href="#" class="view-all-btn">Смотреть все товары</a>
     </div>
 </section>
-
-
-<style>
-    /* Стили для секции "Избранные товары" */
-    .featured-products {
-        margin-top: 4rem;
-        padding: 0 5%;
-    }
-
-    /* Контейнер карусели */
-    .carousel-container {
-        position: relative;
-        margin: 2rem 0;
-        overflow: hidden;
-    }
-
-    /* Стили для карусели */
-    .products-carousel {
-        display: flex;
-        transition: transform 0.5s ease;
-    }
-
-    .product-slide {
-        padding: 0 15px;
-        flex-shrink: 0;
-    }
-
-    /* Стили для карточки товара */
-    .product-card {
-        background-color: #fff;
-        border-radius: 8px;
-        overflow: hidden;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .product-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
-    }
-
-    .product-image-container {
-        position: relative;
-        overflow: hidden;
-        height: 350px;
-    }
-
-    .product-image {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-        transition: transform 0.5s ease;
-    }
-
-    .product-card:hover .product-image {
-        transform: scale(1.05);
-    }
-
-    /* Теги на товарах */
-    .product-tag {
-        position: absolute;
-        top: 15px;
-        left: 15px;
-        background-color: var(--primary-color);
-        color: #fff;
-        padding: 5px 12px;
-        font-size: 0.75rem;
-        font-weight: 500;
-        border-radius: 4px;
-        z-index: 10;
-    }
-
-    .product-tag-sale {
-        background-color: #d9534f;
-    }
-
-    /* Оверлей и кнопки действий */
-    .product-overlay {
-        position: absolute;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        padding: 15px;
-        background: linear-gradient(to top, rgba(0, 0, 0, 0.4), transparent);
-        opacity: 0;
-        transform: translateY(20px);
-        transition: all 0.3s ease;
-    }
-
-    .product-card:hover .product-overlay {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    .overlay-actions {
-        display: flex;
-        justify-content: center;
-        gap: 15px;
-    }
-
-    .product-overlay .action-icon {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background-color: white;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border: none;
-        cursor: pointer;
-        font-size: 1rem;
-        color: var(--primary-color);
-        transition: all 0.3s ease;
-        transform: translateY(20px);
-        opacity: 0;
-    }
-
-    .product-card:hover .product-overlay .action-icon {
-        transform: translateY(0);
-        opacity: 1;
-    }
-
-    .product-overlay .action-icon:nth-child(1) {
-        transition-delay: 0.1s;
-    }
-
-    .product-overlay .action-icon:nth-child(2) {
-        transition-delay: 0.2s;
-    }
-
-    .product-overlay .action-icon:nth-child(3) {
-        transition-delay: 0.3s;
-    }
-
-    .product-overlay .action-icon:hover {
-        background-color: var(--accent-color);
-        color: white;
-    }
-
-    /* Информация о товаре */
-    .product-info {
-        padding: 15px;
-    }
-
-    .product-title {
-        font-size: 1rem;
-        font-weight: 500;
-        margin-bottom: 5px;
-        color: var(--primary-color);
-    }
-
-    .product-price {
-        font-size: 1.1rem;
-        font-weight: 600;
-        color: var(--primary-color);
-        margin-bottom: 10px;
-    }
-
-    .price-container {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        margin-bottom: 10px;
-    }
-
-    .product-price-old {
-        font-size: 0.9rem;
-        color: #999;
-        text-decoration: line-through;
-    }
-
-    /* Варианты цветов товара */
-    .product-colors {
-        display: flex;
-        gap: 8px;
-    }
-
-    .color-option {
-        width: 18px;
-        height: 18px;
-        border-radius: 50%;
-        cursor: pointer;
-        transition: transform 0.2s ease;
-    }
-
-    .color-option:hover {
-        transform: scale(1.2);
-    }
-
-    /* Стрелки карусели */
-    .carousel-arrow {
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50%);
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background-color: white;
-        border: none;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        cursor: pointer;
-        z-index: 10;
-        transition: all 0.3s ease;
-    }
-
-    .carousel-prev {
-        left: 10px;
-    }
-
-    .carousel-next {
-        right: 10px;
-    }
-
-    .carousel-arrow:hover {
-        background-color: var(--accent-color);
-        color: white;
-    }
-
-    /* Точки навигации */
-    .carousel-dots {
-        display: flex;
-        justify-content: center;
-        gap: 8px;
-        margin-top: 1.5rem;
-    }
-
-    .dot {
-        width: 8px;
-        height: 8px;
-        border-radius: 50%;
-        background-color: #ccc;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-
-    .dot.active {
-        background-color: var(--accent-color);
-        width: 25px;
-        border-radius: 10px;
-    }
-
-    /* Кнопка "Смотреть все" */
-    .view-all-container {
-        text-align: center;
-        margin-top: 2rem;
-    }
-
-    .view-all-btn {
-        display: inline-block;
-        padding: 0.8rem 2rem;
-        background-color: transparent;
-        color: var(--primary-color);
-        border: 1px solid var(--primary-color);
-        border-radius: 50px;
-        font-size: 0.9rem;
-        font-weight: 500;
-        text-decoration: none;
-        transition: all 0.3s ease;
-    }
-
-    .view-all-btn:hover {
-        background-color: var(--primary-color);
-        color: white;
-    }
-
-    /* Адаптивность */
-    @media (max-width: 992px) {
-        .product-image-container {
-            height: 300px;
-        }
-    }
-
-    @media (max-width: 768px) {
-        .product-image-container {
-            height: 280px;
-        }
-
-        .carousel-arrow {
-            width: 35px;
-            height: 35px;
-        }
-    }
-
-    @media (max-width: 576px) {
-        .product-image-container {
-            height: 350px;
-        }
-
-        .product-slide {
-            padding: 0 10px;
-        }
-    }
-</style>
-
-<!-- JavaScript для карусели (вставьте перед закрывающим тегом body) -->
-<script>
-    document.addEventListener('DOMContentLoaded', function() {
-        // Элементы карусели
-        const carousel = document.querySelector('.products-carousel');
-        const slides = document.querySelectorAll('.product-slide');
-        const prevButton = document.querySelector('.carousel-prev');
-        const nextButton = document.querySelector('.carousel-next');
-        const dots = document.querySelectorAll('.carousel-dots .dot');
-
-        let currentIndex = 0;
-        let slideWidth = 0;
-        let visibleSlides = 4;
-
-        // Функция для обновления карусели
-        function updateCarousel() {
-            // Определение количества видимых слайдов в зависимости от ширины экрана
-            if (window.innerWidth < 576) {
-                visibleSlides = 1;
-            } else if (window.innerWidth < 768) {
-                visibleSlides = 2;
-            } else if (window.innerWidth < 992) {
-                visibleSlides = 3;
-            } else {
-                visibleSlides = 4;
-            }
-
-            // Обновление размеров и позиции
-            slideWidth = carousel.clientWidth / visibleSlides;
-            slides.forEach(slide => {
-                slide.style.minWidth = `${slideWidth}px`;
-            });
-
-            moveToSlide(currentIndex);
-        }
-
-        // Функция для перемещения к определенному слайду
-        function moveToSlide(index) {
-            if (index < 0) {
-                index = 0;
-            } else if (index > slides.length - visibleSlides) {
-                index = slides.length - visibleSlides;
-            }
-
-            currentIndex = index;
-            carousel.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
-
-            // Обновление активной точки
-            const activeDotIndex = Math.floor(currentIndex / visibleSlides);
-            dots.forEach((dot, i) => {
-                dot.classList.toggle('active', i === activeDotIndex);
-            });
-
-            // Скрытие/отображение кнопок при достижении границ
-            prevButton.style.opacity = currentIndex === 0 ? '0.5' : '1';
-            nextButton.style.opacity = currentIndex >= slides.length - visibleSlides ? '0.5' : '1';
-        }
-
-        // Обработчики событий для кнопок
-        prevButton.addEventListener('click', () => {
-            moveToSlide(currentIndex - 1);
-        });
-
-        nextButton.addEventListener('click', () => {
-            moveToSlide(currentIndex + 1);
-        });
-
-        // Обработчики событий для точек
-        dots.forEach((dot, i) => {
-            dot.addEventListener('click', () => {
-                moveToSlide(i * visibleSlides);
-            });
-        });
-
-        // Инициализация карусели и обновление при изменении размера окна
-        updateCarousel();
-        window.addEventListener('resize', updateCarousel);
-
-        // Обработчики для кнопок действий товаров
-        document.querySelectorAll('.product-overlay .action-icon').forEach(button => {
-            button.addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-
-                const icon = button.querySelector('i');
-
-                if (icon.classList.contains('fa-heart')) {
-                    // Избранное
-                    if (icon.classList.contains('far')) {
-                        icon.classList.remove('far');
-                        icon.classList.add('fas');
-                        showNotification('Добавлено в избранное');
-                    } else {
-                        icon.classList.remove('fas');
-                        icon.classList.add('far');
-                        showNotification('Удалено из избранного');
-                    }
-                } else if (icon.classList.contains('fa-shopping-cart')) {
-                    // Корзина
-                    showNotification('Товар добавлен в корзину');
-                } else if (icon.classList.contains('fa-eye')) {
-                    // Быстрый просмотр
-                    const productTitle = button.closest('.product-card').querySelector('.product-title').textContent;
-                    showNotification(`Быстрый просмотр: ${productTitle}`);
-                }
-            });
-        });
-
-        // Функция для отображения уведомлений (используется та же, что и в категориях)
-        if (typeof showNotification !== 'function') {
-            window.showNotification = function(message) {
-                const notification = document.createElement('div');
-                notification.className = 'notification';
-                notification.textContent = message;
-
-                notification.style.position = 'fixed';
-                notification.style.bottom = '20px';
-                notification.style.right = '20px';
-                notification.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
-                notification.style.color = 'white';
-                notification.style.padding = '12px 20px';
-                notification.style.borderRadius = '4px';
-                notification.style.zIndex = '9999';
-                notification.style.transform = 'translateY(100px)';
-                notification.style.opacity = '0';
-                notification.style.transition = 'all 0.3s ease';
-
-                document.body.appendChild(notification);
-
-                setTimeout(() => {
-                    notification.style.transform = 'translateY(0)';
-                    notification.style.opacity = '1';
-                }, 10);
-
-                setTimeout(() => {
-                    notification.style.opacity = '0';
-                    notification.style.transform = 'translateY(100px)';
-
-                    setTimeout(() => {
-                        document.body.removeChild(notification);
-                    }, 300);
-                }, 3000);
-            };
-        }
-    });
-</script>
-
+<script src="/js/carousel.js"></script>
 
 
 
@@ -974,292 +533,9 @@
 <!-- Dark overlay when sidebar is open -->
 <div class="overlay" id="overlay"></div>
 
-<script>
-    // DOM Elements
-    const menuButton = document.getElementById('menuButton');
-    const sidebar = document.getElementById('sidebar');
-    const closeSidebar = document.getElementById('closeSidebar');
-    const overlay = document.getElementById('overlay');
-    const menuItems = document.querySelectorAll('.menu-item');
-    const searchToggle = document.getElementById('searchToggle');
-    const searchContainer = document.getElementById('searchContainer');
-    const favoriteButtons = document.querySelectorAll('.action-icon .fa-heart');
-    const viewButtons = document.querySelectorAll('.action-icon .fa-eye');
-
-    // Open sidebar
-    menuButton.addEventListener('click', () => {
-        sidebar.classList.add('active');
-        overlay.classList.add('active');
-        document.body.style.overflow = 'hidden'; // Prevent scrolling when sidebar is open
-    });
-
-    // Close sidebar
-    function closeSidebarMenu() {
-        sidebar.classList.remove('active');
-        overlay.classList.remove('active');
-        document.body.style.overflow = ''; // Enable scrolling again
-    }
-
-    closeSidebar.addEventListener('click', closeSidebarMenu);
-    overlay.addEventListener('click', closeSidebarMenu);
-
-    // Toggle submenus
-    menuItems.forEach(item => {
-        const toggle = item.querySelector('.menu-toggle');
-        if (toggle) {
-            item.addEventListener('click', () => {
-                const submenu = item.nextElementSibling;
-                if (submenu && submenu.classList.contains('submenu')) {
-                    // Close all other submenus
-                    document.querySelectorAll('.submenu.active').forEach(menu => {
-                        if (menu !== submenu) {
-                            menu.classList.remove('active');
-                            const toggleIcon = menu.previousElementSibling.querySelector('.menu-toggle');
-                            if (toggleIcon) toggleIcon.classList.remove('active');
-                        }
-                    });
-
-                    // Toggle current submenu
-                    submenu.classList.toggle('active');
-                    toggle.classList.toggle('active');
-                }
-            });
-        }
-    });
-
-    // Mobile search toggle
-    if (searchToggle) {
-        searchToggle.addEventListener('click', () => {
-            searchContainer.classList.toggle('active');
-        });
-    }
-
-    // Handle category card actions (heart and eye icons)
-    document.querySelectorAll('.action-icon').forEach(button => {
-        button.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
-
-            const icon = button.querySelector('i');
-
-            if (icon.classList.contains('fa-heart')) {
-                // Toggle favorite
-                if (icon.classList.contains('far')) {
-                    icon.classList.remove('far');
-                    icon.classList.add('fas');
-                    showNotification('Добавлено в избранное');
-                } else {
-                    icon.classList.remove('fas');
-                    icon.classList.add('far');
-                    showNotification('Удалено из избранного');
-                }
-            } else if (icon.classList.contains('fa-eye')) {
-                // Quick view functionality
-                const categoryName = button.closest('.category-card').querySelector('.category-title').textContent;
-                showQuickView(categoryName);
-            }
-        });
-    });
-
-    // Notification function
-    function showNotification(message) {
-        // Create notification element
-        const notification = document.createElement('div');
-        notification.className = 'notification';
-        notification.textContent = message;
-
-        // Add styles
-        notification.style.position = 'fixed';
-        notification.style.bottom = '20px';
-        notification.style.right = '20px';
-        notification.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
-        notification.style.color = 'white';
-        notification.style.padding = '12px 20px';
-        notification.style.borderRadius = '4px';
-        notification.style.zIndex = '9999';
-        notification.style.transform = 'translateY(100px)';
-        notification.style.opacity = '0';
-        notification.style.transition = 'all 0.3s ease';
-
-        // Add to body
-        document.body.appendChild(notification);
-
-        // Show notification
-        setTimeout(() => {
-            notification.style.transform = 'translateY(0)';
-            notification.style.opacity = '1';
-        }, 10);
-
-        // Remove after 3 seconds
-        setTimeout(() => {
-            notification.style.opacity = '0';
-            notification.style.transform = 'translateY(100px)';
-
-            setTimeout(() => {
-                document.body.removeChild(notification);
-            }, 300);
-        }, 3000);
-    }
-
-    // Quick view modal function
-    function showQuickView(categoryName) {
-        // Create modal elements
-        const modal = document.createElement('div');
-        modal.className = 'quick-view-modal';
-
-        const modalContent = document.createElement('div');
-        modalContent.className = 'quick-view-content';
-
-        const closeBtn = document.createElement('button');
-        closeBtn.className = 'quick-view-close';
-        closeBtn.innerHTML = '&times;';
-
-        const title = document.createElement('h2');
-        title.textContent = categoryName;
-
-        const description = document.createElement('p');
-        description.textContent = `Быстрый просмотр популярных товаров из категории "${categoryName}"`;
-
-        const productsGrid = document.createElement('div');
-        productsGrid.className = 'quick-view-products';
-
-        // Add sample products (placeholders)
-        for (let i = 0; i < 3; i++) {
-            const product = document.createElement('div');
-            product.className = 'quick-product';
-
-            product.innerHTML = `
-                    <div class="product-img-placeholder"></div>
-                    <h4>Товар ${i+1}</h4>
-                    <p class="product-price">₽${Math.floor(Math.random() * 10000) + 1000}</p>
-                `;
-
-            productsGrid.appendChild(product);
-        }
-
-        const viewAllBtn = document.createElement('a');
-        viewAllBtn.href = '#';
-        viewAllBtn.className = 'view-all-btn';
-        viewAllBtn.textContent = 'Смотреть все товары';
-
-        // Assemble modal
-        modalContent.appendChild(closeBtn);
-        modalContent.appendChild(title);
-        modalContent.appendChild(description);
-        modalContent.appendChild(productsGrid);
-        modalContent.appendChild(viewAllBtn);
-        modal.appendChild(modalContent);
-
-        // Add styles
-        modal.style.position = 'fixed';
-        modal.style.top = '0';
-        modal.style.left = '0';
-        modal.style.width = '100%';
-        modal.style.height = '100%';
-        modal.style.backgroundColor = 'rgba(0,0,0,0.7)';
-        modal.style.display = 'flex';
-        modal.style.alignItems = 'center';
-        modal.style.justifyContent = 'center';
-        modal.style.zIndex = '2001';
-        modal.style.opacity = '0';
-        modal.style.transition = 'opacity 0.3s ease';
-
-        modalContent.style.backgroundColor = '#fff';
-        modalContent.style.padding = '2rem';
-        modalContent.style.borderRadius = '8px';
-        modalContent.style.width = '90%';
-        modalContent.style.maxWidth = '800px';
-        modalContent.style.maxHeight = '90vh';
-        modalContent.style.overflow = 'auto';
-        modalContent.style.position = 'relative';
-        modalContent.style.transform = 'translateY(50px)';
-        modalContent.style.transition = 'transform 0.3s ease';
-
-        closeBtn.style.position = 'absolute';
-        closeBtn.style.top = '15px';
-        closeBtn.style.right = '15px';
-        closeBtn.style.fontSize = '1.5rem';
-        closeBtn.style.background = 'none';
-        closeBtn.style.border = 'none';
-        closeBtn.style.cursor = 'pointer';
-
-        title.style.marginBottom = '1rem';
-        title.style.fontSize = '1.8rem';
-
-        description.style.marginBottom = '2rem';
-        description.style.color = '#777';
-
-        productsGrid.style.display = 'grid';
-        productsGrid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(200px, 1fr))';
-        productsGrid.style.gap = '1.5rem';
-        productsGrid.style.marginBottom = '2rem';
-
-        document.querySelectorAll('.product-img-placeholder').forEach(placeholder => {
-            placeholder.style.height = '200px';
-            placeholder.style.backgroundColor = '#f5f5f5';
-            placeholder.style.marginBottom = '1rem';
-            placeholder.style.borderRadius = '4px';
-        });
-
-        viewAllBtn.style.display = 'inline-block';
-        viewAllBtn.style.padding = '0.8rem 1.5rem';
-        viewAllBtn.style.backgroundColor = '#1a1a1a';
-        viewAllBtn.style.color = '#fff';
-        viewAllBtn.style.textDecoration = 'none';
-        viewAllBtn.style.borderRadius = '4px';
-        viewAllBtn.style.fontWeight = '500';
-        viewAllBtn.style.transition = 'background-color 0.3s ease';
-
-        // Add to body
-        document.body.appendChild(modal);
-        document.body.style.overflow = 'hidden';
-
-        // Show modal with animation
-        setTimeout(() => {
-            modal.style.opacity = '1';
-            modalContent.style.transform = 'translateY(0)';
-        }, 10);
-
-        // Close modal on button click
-        closeBtn.addEventListener('click', () => {
-            closeQuickView(modal);
-        });
-
-        // Close modal on click outside
-        modal.addEventListener('click', (e) => {
-            if (e.target === modal) {
-                closeQuickView(modal);
-            }
-        });
-
-        // Close modal on ESC key
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'Escape') {
-                closeQuickView(modal);
-            }
-        });
-    }
-
-    // Close quick view modal
-    function closeQuickView(modal) {
-        const modalContent = modal.querySelector('.quick-view-content');
-        modal.style.opacity = '0';
-        modalContent.style.transform = 'translateY(50px)';
-
-        setTimeout(() => {
-            document.body.removeChild(modal);
-            document.body.style.overflow = '';
-        }, 300);
-    }
-
-    // Handle window resize
-    function handleResize() {
-        if (window.innerWidth > 768) {
-            searchContainer.classList.remove('active');
-        }
-    }
-
-    window.addEventListener('resize', handleResize);
-</script>
+<script src="/js/notification.js"></script>
+<script src="/js/modal-windows.js"></script>
+<script src="/js/CardActions.js"></script>
+<script src="/js/siteInterface.js"></script>
 </body>
 </html>

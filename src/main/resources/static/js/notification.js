@@ -1,181 +1,136 @@
-// notification.js - Функции для работы с уведомлениями и модальными окнами
+/**
+ * Модуль для отображения всплывающих уведомлений
+ *
+ * Позволяет показывать информационные сообщения
+ * с автоматическим исчезновением
+ */
 
-document.addEventListener('DOMContentLoaded', function() {
-    // Обработчики для кнопок категорий
-    document.querySelectorAll('.category-card .action-icon').forEach(button => {
-        button.addEventListener('click', (e) => {
-            e.preventDefault();
-            e.stopPropagation();
+// Публичный объект для доступа к функциям модуля
+window.Notifications = {};
 
-            const icon = button.querySelector('i');
+/**
+ * Показывает всплывающее уведомление
+ * @param {string} message - Текст уведомления
+ * @param {Object} options - Опции уведомления (необязательно)
+ * @param {number} options.duration - Длительность показа в мс (по умолчанию 3000)
+ * @param {string} options.position - Позиция (bottomRight, bottomLeft, topRight, topLeft)
+ * @param {string} options.type - Тип уведомления (info, success, warning, error)
+ */
+Notifications.show = function(message, options = {}) {
+    // Настройки по умолчанию
+    const settings = {
+        duration: options.duration || 3000,
+        position: options.position || 'bottomRight',
+        type: options.type || 'info'
+    };
 
-            if (icon.classList.contains('fa-heart')) {
-                // Переключение избранного
-                if (icon.classList.contains('far')) {
-                    icon.classList.remove('far');
-                    icon.classList.add('fas');
-                    showNotification('Добавлено в избранное');
-                } else {
-                    icon.classList.remove('fas');
-                    icon.classList.add('far');
-                    showNotification('Удалено из избранного');
-                }
-            } else if (icon.classList.contains('fa-eye')) {
-                // Функция быстрого просмотра
-                const categoryName = button.closest('.category-card').querySelector('.category-title').textContent;
-                showQuickView(categoryName);
-            }
-        });
-    });
-});
+    // Создаем элемент уведомления
+    const notification = document.createElement('div');
+    notification.className = 'notification';
+    notification.textContent = message;
 
-// Функция для отображения модального окна быстрого просмотра
-function showQuickView(categoryName) {
-    // Создаем элементы модального окна
-    const modal = document.createElement('div');
-    modal.className = 'quick-view-modal';
-
-    const modalContent = document.createElement('div');
-    modalContent.className = 'quick-view-content';
-
-    const closeBtn = document.createElement('button');
-    closeBtn.className = 'quick-view-close';
-    closeBtn.innerHTML = '&times;';
-
-    const title = document.createElement('h2');
-    title.textContent = categoryName;
-
-    const description = document.createElement('p');
-    description.textContent = `Быстрый просмотр популярных товаров из категории "${categoryName}"`;
-
-    const productsGrid = document.createElement('div');
-    productsGrid.className = 'quick-view-products';
-
-    // Добавляем примеры товаров (заглушки)
-    for (let i = 0; i < 3; i++) {
-        const product = document.createElement('div');
-        product.className = 'quick-product';
-
-        product.innerHTML = `
-            <div class="product-img-placeholder"></div>
-            <h4>Товар ${i+1}</h4>
-            <p class="product-price">₽${Math.floor(Math.random() * 10000) + 1000}</p>
-        `;
-
-        productsGrid.appendChild(product);
+    // Добавляем класс типа уведомления, если он указан
+    if (settings.type) {
+        notification.classList.add(`notification-${settings.type}`);
     }
 
-    const viewAllBtn = document.createElement('a');
-    viewAllBtn.href = '#';
-    viewAllBtn.className = 'view-all-btn';
-    viewAllBtn.textContent = 'Смотреть все товары';
+    // Базовые стили
+    notification.style.position = 'fixed';
+    notification.style.padding = '12px 20px';
+    notification.style.borderRadius = '4px';
+    notification.style.zIndex = '9999';
+    notification.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+    notification.style.color = 'white';
+    notification.style.boxShadow = '0 2px 10px rgba(0, 0, 0, 0.2)';
+    notification.style.transform = 'translateY(20px)';
+    notification.style.opacity = '0';
+    notification.style.transition = 'all 0.3s ease';
 
-    // Собираем модальное окно
-    modalContent.appendChild(closeBtn);
-    modalContent.appendChild(title);
-    modalContent.appendChild(description);
-    modalContent.appendChild(productsGrid);
-    modalContent.appendChild(viewAllBtn);
-    modal.appendChild(modalContent);
+    // Применяем стили в зависимости от типа
+    switch (settings.type) {
+        case 'success':
+            notification.style.backgroundColor = 'rgba(40, 167, 69, 0.9)';
+            break;
+        case 'warning':
+            notification.style.backgroundColor = 'rgba(255, 193, 7, 0.9)';
+            notification.style.color = '#212529';
+            break;
+        case 'error':
+            notification.style.backgroundColor = 'rgba(220, 53, 69, 0.9)';
+            break;
+    }
 
-    // Добавляем стили
-    modal.style.position = 'fixed';
-    modal.style.top = '0';
-    modal.style.left = '0';
-    modal.style.width = '100%';
-    modal.style.height = '100%';
-    modal.style.backgroundColor = 'rgba(0,0,0,0.7)';
-    modal.style.display = 'flex';
-    modal.style.alignItems = 'center';
-    modal.style.justifyContent = 'center';
-    modal.style.zIndex = '2001';
-    modal.style.opacity = '0';
-    modal.style.transition = 'opacity 0.3s ease';
+    // Устанавливаем позицию
+    switch (settings.position) {
+        case 'bottomRight':
+            notification.style.bottom = '20px';
+            notification.style.right = '20px';
+            break;
+        case 'bottomLeft':
+            notification.style.bottom = '20px';
+            notification.style.left = '20px';
+            break;
+        case 'topRight':
+            notification.style.top = '20px';
+            notification.style.right = '20px';
+            break;
+        case 'topLeft':
+            notification.style.top = '20px';
+            notification.style.left = '20px';
+            break;
+    }
 
-    modalContent.style.backgroundColor = '#fff';
-    modalContent.style.padding = '2rem';
-    modalContent.style.borderRadius = '8px';
-    modalContent.style.width = '90%';
-    modalContent.style.maxWidth = '800px';
-    modalContent.style.maxHeight = '90vh';
-    modalContent.style.overflow = 'auto';
-    modalContent.style.position = 'relative';
-    modalContent.style.transform = 'translateY(50px)';
-    modalContent.style.transition = 'transform 0.3s ease';
+    // Добавляем в DOM
+    document.body.appendChild(notification);
 
-    closeBtn.style.position = 'absolute';
-    closeBtn.style.top = '15px';
-    closeBtn.style.right = '15px';
-    closeBtn.style.fontSize = '1.5rem';
-    closeBtn.style.background = 'none';
-    closeBtn.style.border = 'none';
-    closeBtn.style.cursor = 'pointer';
-
-    title.style.marginBottom = '1rem';
-    title.style.fontSize = '1.8rem';
-
-    description.style.marginBottom = '2rem';
-    description.style.color = '#777';
-
-    productsGrid.style.display = 'grid';
-    productsGrid.style.gridTemplateColumns = 'repeat(auto-fill, minmax(200px, 1fr))';
-    productsGrid.style.gap = '1.5rem';
-    productsGrid.style.marginBottom = '2rem';
-
-    document.querySelectorAll('.product-img-placeholder').forEach(placeholder => {
-        placeholder.style.height = '200px';
-        placeholder.style.backgroundColor = '#f5f5f5';
-        placeholder.style.marginBottom = '1rem';
-        placeholder.style.borderRadius = '4px';
-    });
-
-    viewAllBtn.style.display = 'inline-block';
-    viewAllBtn.style.padding = '0.8rem 1.5rem';
-    viewAllBtn.style.backgroundColor = '#1a1a1a';
-    viewAllBtn.style.color = '#fff';
-    viewAllBtn.style.textDecoration = 'none';
-    viewAllBtn.style.borderRadius = '4px';
-    viewAllBtn.style.fontWeight = '500';
-    viewAllBtn.style.transition = 'background-color 0.3s ease';
-
-    // Добавляем на страницу
-    document.body.appendChild(modal);
-    document.body.style.overflow = 'hidden';
-
-    // Показываем модальное окно с анимацией
+    // Показываем с анимацией
     setTimeout(() => {
-        modal.style.opacity = '1';
-        modalContent.style.transform = 'translateY(0)';
+        notification.style.transform = 'translateY(0)';
+        notification.style.opacity = '1';
     }, 10);
 
-    // Закрытие по клику на кнопку
-    closeBtn.addEventListener('click', () => {
-        closeQuickView(modal);
-    });
-
-    // Закрытие по клику вне контента
-    modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
-            closeQuickView(modal);
-        }
-    });
-
-    // Закрытие по клавише ESC
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape') {
-            closeQuickView(modal);
-        }
-    });
-}
-
-// Функция закрытия модального окна
-function closeQuickView(modal) {
-    const modalContent = modal.querySelector('.quick-view-content');
-    modal.style.opacity = '0';
-    modalContent.style.transform = 'translateY(50px)';
-
+    // Скрываем и удаляем через указанное время
     setTimeout(() => {
-        document.body.removeChild(modal);
-        document.body.style.overflow = '';
-    }, 300);
-}
+        notification.style.opacity = '0';
+        notification.style.transform = 'translateY(20px)';
+
+        setTimeout(() => {
+            if (notification.parentNode) {
+                document.body.removeChild(notification);
+            }
+        }, 300); // Время на завершение анимации
+    }, settings.duration);
+
+    // Возвращаем ссылку на элемент для возможности управления извне
+    return notification;
+};
+
+/**
+ * Показывает уведомление успеха
+ * @param {string} message - Текст уведомления
+ * @param {Object} options - Дополнительные опции
+ */
+Notifications.success = function(message, options = {}) {
+    options.type = 'success';
+    return Notifications.show(message, options);
+};
+
+/**
+ * Показывает уведомление с предупреждением
+ * @param {string} message - Текст уведомления
+ * @param {Object} options - Дополнительные опции
+ */
+Notifications.warning = function(message, options = {}) {
+    options.type = 'warning';
+    return Notifications.show(message, options);
+};
+
+/**
+ * Показывает уведомление об ошибке
+ * @param {string} message - Текст уведомления
+ * @param {Object} options - Дополнительные опции
+ */
+Notifications.error = function(message, options = {}) {
+    options.type = 'error';
+    return Notifications.show(message, options);
+};

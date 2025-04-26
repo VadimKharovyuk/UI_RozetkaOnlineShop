@@ -1,6 +1,14 @@
-// carousel.js - Функции для работы с каруселью товаров
+/**
+ * Скрипт для управления каруселью товаров
+ *
+ * Функции:
+ * - Адаптивное отображение слайдов в зависимости от ширины экрана
+ * - Управление карусельной навигацией (кнопки, точки)
+ * - Обработка действий с товарами (добавление в избранное, корзину и т.д.)
+ */
 
-document.addEventListener('DOMContentLoaded', function() {
+// Инициализация карусели при загрузке страницы
+function initProductCarousel() {
     // Элементы карусели
     const carousel = document.querySelector('.products-carousel');
     const slides = document.querySelectorAll('.product-slide');
@@ -8,8 +16,10 @@ document.addEventListener('DOMContentLoaded', function() {
     const nextButton = document.querySelector('.carousel-next');
     const dots = document.querySelectorAll('.carousel-dots .dot');
 
-    // Если на странице нет карусели, выходим
-    if (!carousel || !slides.length) return;
+    // Если элементы карусели не найдены, выход из функции
+    if (!carousel || !slides.length) {
+        return;
+    }
 
     let currentIndex = 0;
     let slideWidth = 0;
@@ -49,33 +59,86 @@ document.addEventListener('DOMContentLoaded', function() {
         carousel.style.transform = `translateX(-${currentIndex * slideWidth}px)`;
 
         // Обновление активной точки
-        const activeDotIndex = Math.floor(currentIndex / visibleSlides);
-        dots.forEach((dot, i) => {
-            dot.classList.toggle('active', i === activeDotIndex);
-        });
+        if (dots && dots.length) {
+            const activeDotIndex = Math.floor(currentIndex / visibleSlides);
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === activeDotIndex);
+            });
+        }
 
         // Скрытие/отображение кнопок при достижении границ
-        prevButton.style.opacity = currentIndex === 0 ? '0.5' : '1';
-        nextButton.style.opacity = currentIndex >= slides.length - visibleSlides ? '0.5' : '1';
+        if (prevButton) {
+            prevButton.style.opacity = currentIndex === 0 ? '0.5' : '1';
+        }
+        if (nextButton) {
+            nextButton.style.opacity = currentIndex >= slides.length - visibleSlides ? '0.5' : '1';
+        }
     }
 
     // Обработчики событий для кнопок
-    prevButton.addEventListener('click', () => {
-        moveToSlide(currentIndex - 1);
-    });
+    if (prevButton) {
+        prevButton.addEventListener('click', () => {
+            moveToSlide(currentIndex - 1);
+        });
+    }
 
-    nextButton.addEventListener('click', () => {
-        moveToSlide(currentIndex + 1);
-    });
+    if (nextButton) {
+        nextButton.addEventListener('click', () => {
+            moveToSlide(currentIndex + 1);
+        });
+    }
 
     // Обработчики событий для точек
-    dots.forEach((dot, i) => {
-        dot.addEventListener('click', () => {
-            moveToSlide(i * visibleSlides);
+    if (dots && dots.length) {
+        dots.forEach((dot, i) => {
+            dot.addEventListener('click', () => {
+                moveToSlide(i * visibleSlides);
+            });
         });
-    });
+    }
 
-    // Обработчики для кнопок действий товаров
+    // Инициализация карусели и обновление при изменении размера окна
+    updateCarousel();
+    window.addEventListener('resize', updateCarousel);
+}
+
+// Функция для отображения уведомлений
+function showNotification(message) {
+    const notification = document.createElement('div');
+    notification.className = 'notification';
+    notification.textContent = message;
+
+    notification.style.position = 'fixed';
+    notification.style.bottom = '20px';
+    notification.style.right = '20px';
+    notification.style.backgroundColor = 'rgba(0, 0, 0, 0.8)';
+    notification.style.color = 'white';
+    notification.style.padding = '12px 20px';
+    notification.style.borderRadius = '4px';
+    notification.style.zIndex = '9999';
+    notification.style.transform = 'translateY(100px)';
+    notification.style.opacity = '0';
+    notification.style.transition = 'all 0.3s ease';
+
+    document.body.appendChild(notification);
+
+    setTimeout(() => {
+        notification.style.transform = 'translateY(0)';
+        notification.style.opacity = '1';
+    }, 10);
+
+    setTimeout(() => {
+        notification.style.opacity = '0';
+        notification.style.transform = 'translateY(100px)';
+
+        setTimeout(() => {
+            document.body.removeChild(notification);
+        }, 300);
+    }, 3000);
+}
+
+// Инициализация обработчиков для кнопок действий товаров
+function initProductActions() {
     document.querySelectorAll('.product-overlay .action-icon').forEach(button => {
         button.addEventListener('click', (e) => {
             e.preventDefault();
@@ -104,8 +167,19 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     });
+}
 
-    // Инициализация карусели и обновление при изменении размера окна
-    updateCarousel();
-    window.addEventListener('resize', updateCarousel);
-});
+// Функция для инициализации всех компонентов
+function initProductComponents() {
+    initProductCarousel();
+    initProductActions();
+}
+
+// Экспорт функций для внешнего использования
+window.ProductCarousel = {
+    init: initProductComponents,
+    showNotification: showNotification
+};
+
+// Автоматическая инициализация при загрузке страницы
+document.addEventListener('DOMContentLoaded', initProductComponents);
