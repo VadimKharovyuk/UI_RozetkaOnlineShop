@@ -25,6 +25,6 @@ public class ProfileController {
 
         UserDto userDto = authService.getCurrentUser(token);
         model.addAttribute("user", userDto);
-        return "client/auth/profile";
+        return "client/profile/profile";
     }
 }
