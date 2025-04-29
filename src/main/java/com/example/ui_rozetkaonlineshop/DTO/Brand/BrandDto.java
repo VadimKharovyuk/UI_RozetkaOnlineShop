@@ -67,7 +67,7 @@ public class BrandDto {
         private Integer foundedYear;
         private Integer sortOrder;
 
-        // Добавьте поле MultipartFile
+
         @JsonIgnore // Чтобы это поле не сериализовалось при отправке через Feign
         private transient MultipartFile banner;
     }
