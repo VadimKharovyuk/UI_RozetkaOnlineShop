@@ -4,10 +4,13 @@ package com.example.ui_rozetkaonlineshop.service;
 
 import com.example.ui_rozetkaonlineshop.DTO.user.*;
 import com.example.ui_rozetkaonlineshop.FeignClient.AuthServiceClient;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -47,5 +50,34 @@ public class AuthService {
     public UserDto getCurrentUser(String token) {
         ResponseEntity<UserDto> response = authServiceClient.getCurrentUser("Bearer " + token);
         return response.getBody();
+    }
+
+    public String checkAdminAccess(HttpServletRequest request, Model model) {
+        // Получаем токен из сессии
+        String token = (String) request.getSession().getAttribute("token");
+        if (token == null) {
+            log.warn("Токен отсутствует, перенаправление на страницу регистрации");
+            return "redirect:/auth/register";
+        }
+
+        try {
+            // Используем токен для получения данных пользователя
+            UserDto userDto = getCurrentUser(token);
+
+            // Проверяем роль ADMIN
+            if (userDto == null || !userDto.getRoles().contains("ROLE_ADMIN")) {
+                log.warn("Пользователь не имеет роли ADMIN, доступ запрещен");
+                return "redirect:/auth/register";
+            }
+
+            // Добавляем пользователя в модель
+            model.addAttribute("user", userDto);
+
+            // Возвращаем null, что означает успешную проверку
+            return null;
+        } catch (Exception e) {
+            log.error("Ошибка при проверке доступа администратора: {}", e.getMessage(), e);
+            return "redirect:/auth/error";
+        }
     }
 }

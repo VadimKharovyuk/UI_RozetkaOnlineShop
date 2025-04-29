@@ -1,0 +1,227 @@
+<!-- admin/brands/edit.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- Использование базового шаблона админки -->
+<div th:replace="~{fragments/admin-layout :: adminLayout('Редактирование бренда', ~{::section})}">
+
+    <section>
+        <div class="container-fluid">
+            <!-- Заголовок и навигация -->
+            <nav aria-label="breadcrumb" class="mb-4">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a th:href="@{/admin}">Панель управления</a></li>
+                    <li class="breadcrumb-item"><a th:href="@{/admin/brands}">Бренды</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Редактирование</li>
+                </ol>
+            </nav>
+
+            <!-- Сообщения об успехе/ошибке -->
+            <div class="alert alert-success alert-dismissible fade show" role="alert" th:if="${success}" th:text="${success}">
+                Бренд успешно обновлен!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Закрыть"></button>
+            </div>
+
+            <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${error}" th:text="${error}">
+                Произошла ошибка!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Закрыть"></button>
+            </div>
+
+            <div class="card">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h5 class="card-title mb-0">Редактирование бренда</h5>
+                    <div>
+                        <a th:href="@{'/brands/' + ${brandId}}" target="_blank" class="btn btn-sm btn-outline-info">
+                            <i class="fas fa-eye me-1"></i> Просмотр на сайте
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <!-- Форма редактирования бренда -->
+                    <form th:action="@{'/admin/brands/edit/' + ${brandId}}" method="post" enctype="multipart/form-data" th:object="${brandForm}">
+                        <div class="row g-4">
+                            <!-- Основная информация -->
+                            <div class="col-md-8">
+                                <div class="card h-100">
+                                    <div class="card-header">
+                                        <h6 class="mb-0">Основная информация</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <!-- Название бренда -->
+                                        <div class="mb-3">
+                                            <label for="name" class="form-label">Название *</label>
+                                            <input type="text" class="form-control" id="name" th:field="*{name}" required>
+                                            <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
+                                                Пожалуйста, укажите название бренда.
+                                            </div>
+                                        </div>
+
+                                        <!-- Описание -->
+                                        <div class="mb-3">
+                                            <label for="description" class="form-label">Описание</label>
+                                            <textarea class="form-control" id="description" th:field="*{description}" rows="4"></textarea>
+                                        </div>
+
+                                        <!-- URL-slug -->
+                                        <div class="mb-3">
+                                            <label for="slug" class="form-label">URL-путь (slug)</label>
+                                            <input type="text" class="form-control" id="slug" th:field="*{slug}">
+                                            <div class="form-text">Если изменить, все существующие ссылки на бренд станут недействительными.</div>
+                                        </div>
+
+                                        <!-- Meta Keywords -->
+                                        <div class="mb-3">
+                                            <label for="metaKeywords" class="form-label">Мета-ключевые слова</label>
+                                            <input type="text" class="form-control" id="metaKeywords" th:field="*{metaKeywords}">
+                                            <div class="form-text">Через запятую, для SEO</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Дополнительные настройки -->
+                            <div class="col-md-4">
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <h6 class="mb-0">Баннер</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <!-- Текущий баннер -->
+                                        <div class="mb-3" th:if="${currentBannerUrl}">
+                                            <label class="form-label">Текущий баннер</label>
+                                            <div class="text-center p-3 border rounded">
+                                                <img th:src="${currentBannerUrl}" alt="Текущий баннер" class="img-fluid">
+                                            </div>
+                                            <div class="mt-2 d-flex justify-content-end">
+                                                <form th:action="@{'/admin/brands/' + ${brandId} + '/banner/delete'}" method="post">
+                                                    <button type="submit" class="btn btn-sm btn-danger"
+                                                            onclick="return confirm('Вы уверены, что хотите удалить баннер?')">
+                                                        <i class="fas fa-trash me-1"></i> Удалить баннер
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+
+                                        <!-- Загрузка нового баннера -->
+                                        <div class="mb-3">
+                                            <label for="banner" class="form-label">
+                                                <span th:if="${currentBannerUrl}">Заменить баннер</span>
+                                                <span th:unless="${currentBannerUrl}">Загрузить баннер</span>
+                                            </label>
+                                            <input class="form-control" type="file" id="banner" name="banner" accept="image/*">
+                                            <div class="form-text">Рекомендуемый размер: 800x200px, формат: JPEG, PNG</div>
+                                        </div>
+
+                                        <!-- Предпросмотр нового баннера -->
+                                        <div class="mt-3">
+                                            <div id="bannerPreview" class="text-center p-3 border rounded d-none">
+                                                <label class="form-label">Предпросмотр нового баннера</label>
+                                                <img id="bannerPreviewImage" src="#" alt="Предпросмотр" class="img-fluid">
+                                            </div>
+                                        </div>
+
+                                        <!-- Форма для загрузки баннера -->
+                                        <div class="mt-3" th:if="${!currentBannerUrl}">
+                                            <form th:action="@{'/admin/brands/' + ${brandId} + '/banner'}" method="post" enctype="multipart/form-data" id="bannerUploadForm" class="d-none">
+                                                <input type="file" name="file" id="bannerUpload" accept="image/*">
+                                                <button type="submit" class="btn btn-primary">Загрузить</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card mb-4">
+                                    <div class="card-header">
+                                        <h6 class="mb-0">Настройки</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <!-- Статус -->
+                                        <div class="form-check form-switch mb-3">
+                                            <input class="form-check-input" type="checkbox" id="active" th:field="*{active}">
+                                            <label class="form-check-label" for="active">Активен</label>
+                                        </div>
+
+                                        <!-- Премиум -->
+                                        <div class="form-check form-switch mb-3">
+                                            <input class="form-check-input" type="checkbox" id="premium" th:field="*{premium}">
+                                            <label class="form-check-label" for="premium">Премиум бренд</label>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h6 class="mb-0">Дополнительная информация</h6>
+                                    </div>
+                                    <div class="card-body">
+                                        <!-- Страна -->
+                                        <div class="mb-3">
+                                            <label for="country" class="form-label">Страна происхождения</label>
+                                            <input type="text" class="form-control" id="country" th:field="*{country}">
+                                        </div>
+
+                                        <!-- Год основания -->
+                                        <div class="mb-3">
+                                            <label for="foundedYear" class="form-label">Год основания</label>
+                                            <input type="number" class="form-control" id="foundedYear" th:field="*{foundedYear}" min="1800" max="2030">
+                                        </div>
+
+                                        <!-- Порядок сортировки -->
+                                        <div class="mb-3">
+                                            <label for="sortOrder" class="form-label">Порядок сортировки</label>
+                                            <input type="number" class="form-control" id="sortOrder" th:field="*{sortOrder}" min="0">
+                                            <div class="form-text">Чем меньше число, тем выше будет отображаться бренд</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Кнопки действий -->
+                            <div class="col-12 d-flex justify-content-between gap-2 mt-4">
+                                <form th:action="@{'/admin/brands/delete/' + ${brandId}}" method="post" onsubmit="return confirm('Вы уверены, что хотите удалить этот бренд?');">
+                                    <button type="submit" class="btn btn-danger">
+                                        <i class="fas fa-trash me-1"></i> Удалить бренд
+                                    </button>
+                                </form>
+
+                                <div>
+                                    <a th:href="@{/admin/brands}" class="btn btn-secondary">Отмена</a>
+                                    <button type="submit" class="btn btn-primary">Сохранить изменения</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</div>
+
+<!-- JavaScript для предпросмотра изображения -->
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const bannerInput = document.getElementById('banner');
+        const bannerPreview = document.getElementById('bannerPreview');
+        const bannerPreviewImage = document.getElementById('bannerPreviewImage');
+
+        bannerInput.addEventListener('change', function() {
+            if (this.files && this.files[0]) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    bannerPreviewImage.src = e.target.result;
+                    bannerPreview.classList.remove('d-none');
+                };
+
+                reader.readAsDataURL(this.files[0]);
+            } else {
+                bannerPreview.classList.add('d-none');
+            }
+        });
+    });
+</script>
+
+</body>
+</html>

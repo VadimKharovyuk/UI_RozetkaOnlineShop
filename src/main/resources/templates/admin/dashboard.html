@@ -1,0 +1,190 @@
+<!-- src/main/resources/templates/admin/dashboard.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+
+<div th:replace="~{admin/fragments/admin-layout :: adminLayout('Панель управления', ~{::section})}">
+    <section>
+        <div class="container-fluid">
+            <!-- Заголовок -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2>Панель управления</h2>
+                <div>
+                    <span class="text-muted" th:text="${#temporals.format(#temporals.createNow(), 'dd MMMM yyyy')}">01 января 2023</span>
+                </div>
+            </div>
+
+            <!-- Сообщение об ошибке -->
+            <div class="alert alert-danger alert-dismissible fade show" role="alert" th:if="${error}" th:text="${error}">
+                Произошла ошибка!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Закрыть"></button>
+            </div>
+
+            <!-- Основные показатели -->
+            <div class="row">
+                <!-- Карточка - Товары -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="dashboard-card primary">
+                        <div class="content">
+                            <h3 th:text="${stats != null ? stats.totalProducts : 0}">0</h3>
+                            <p>Товаров</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-box"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Карточка - Заказы -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="dashboard-card success">
+                        <div class="content">
+                            <h3 th:text="${stats != null ? stats.totalOrders : 0}">0</h3>
+                            <p>Заказов</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-shopping-cart"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Карточка - Клиенты -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="dashboard-card info">
+                        <div class="content">
+                            <h3 th:text="${stats != null ? stats.totalCustomers : 0}">0</h3>
+                            <p>Клиентов</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Карточка - Доход -->
+                <div class="col-xl-3 col-md-6 mb-4">
+                    <div class="dashboard-card warning">
+                        <div class="content">
+                            <h3>₴<span th:text="${stats != null ? stats.totalRevenue : 0}">0</span></h3>
+                            <p>Общий доход</p>
+                        </div>
+                        <div class="icon">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Секция с графиками и таблицами -->
+            <div class="row">
+                <!-- Статистика по категориям -->
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="card-title mb-0">Каталог</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-borderless">
+                                    <tbody>
+                                    <tr>
+                                        <td>Категории</td>
+                                        <td class="text-end fw-bold" th:text="${stats != null ? stats.totalCategories : 0}">0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Бренды</td>
+                                        <td class="text-end fw-bold" th:text="${stats != null ? stats.totalBrands : 0}">0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Активные бренды</td>
+                                        <td class="text-end fw-bold" th:text="${stats != null ? stats.activeBrands : 0}">0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Товаров</td>
+                                        <td class="text-end fw-bold" th:text="${stats != null ? stats.totalProducts : 0}">0</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="text-center mt-3">
+                                <a th:href="@{/admin/products}" class="btn btn-outline-primary btn-sm">Управление каталогом</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Статистика по заказам -->
+                <div class="col-lg-6 mb-4">
+                    <div class="card h-100">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h5 class="card-title mb-0">Заказы</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table table-borderless">
+                                    <tbody>
+                                    <tr>
+                                        <td>Всего заказов</td>
+                                        <td class="text-end fw-bold" th:text="${stats != null ? stats.totalOrders : 0}">0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Ожидающие обработки</td>
+                                        <td class="text-end fw-bold text-warning" th:text="${stats != null ? stats.pendingOrders : 0}">0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Заказов за месяц</td>
+                                        <td class="text-end fw-bold" th:text="${stats != null ? stats.monthlyOrders : 0}">0</td>
+                                    </tr>
+                                    <tr>
+                                        <td>Доход за месяц</td>
+                                        <td class="text-end fw-bold text-success">₴<span th:text="${stats != null ? stats.monthlyRevenue : 0}">0</span></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="text-center mt-3">
+                                <a th:href="@{/admin/orders}" class="btn btn-outline-primary btn-sm">Управление заказами</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Секция с быстрыми действиями -->
+            <div class="row">
+                <div class="col-lg-12 mb-4">
+                    <div class="card">
+                        <div class="card-header">
+                            <h5 class="card-title mb-0">Быстрые действия</h5>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-3">
+                                    <a th:href="@{/admin/products/create}" class="btn btn-outline-primary w-100">
+                                        <i class="fas fa-plus me-2"></i> Добавить товар
+                                    </a>
+                                </div>
+                                <div class="col-md-3">
+                                    <a th:href="@{/admin/categories/create}" class="btn btn-outline-primary w-100">
+                                        <i class="fas fa-folder-plus me-2"></i> Добавить категорию
+                                    </a>
+                                </div>
+                                <div class="col-md-3">
+                                    <a th:href="@{/admin/brands/create}" class="btn btn-outline-primary w-100">
+                                        <i class="fas fa-tag me-2"></i> Добавить бренд
+                                    </a>
+                                </div>
+                                <div class="col-md-3">
+                                    <a th:href="@{/admin/promotions/create}" class="btn btn-outline-primary w-100">
+                                        <i class="fas fa-percent me-2"></i> Создать акцию
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+
+</html>

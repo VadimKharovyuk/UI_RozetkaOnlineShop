@@ -20,11 +20,12 @@ public class ProfileController {
     public String showProfile(HttpServletRequest request, Model model) {
         String token = (String) request.getSession().getAttribute("token");
         if (token == null) {
-            return "redirect:/auth/login";
+            return "redirect:/auth/register";
         }
 
         UserDto userDto = authService.getCurrentUser(token);
         model.addAttribute("user", userDto);
+        System.out.println(userDto.getRoles() +" зашел в аканут ");
         return "client/profile/profile";
     }
 }

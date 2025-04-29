@@ -19,12 +19,13 @@ import java.util.Optional;
 @Slf4j
 @Controller
 @RequiredArgsConstructor
+@RequestMapping("/admin/brand")
 public class BrandAdminController {
     private final BrandService brandService;
 
     // Административные страницы
 
-    @GetMapping("/admin")
+    @GetMapping()
     @PreAuthorize("hasRole('ADMIN')")
     public String getAdminBrandList(Model model) {
         List<BrandDto.BrandListDTO> brands = brandService.getAllAdminBrands(null);

@@ -1,0 +1,187 @@
+<!-- admin/brands/create.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- Использование базового шаблона админки -->
+<div th:replace="~{fragments/admin-layout :: adminLayout('Создание бренда', ~{::section})}">
+
+  <section>
+    <div class="container-fluid">
+      <!-- Заголовок и навигация -->
+      <nav aria-label="breadcrumb" class="mb-4">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a th:href="@{/admin}">Панель управления</a></li>
+          <li class="breadcrumb-item"><a th:href="@{/admin/brands}">Бренды</a></li>
+          <li class="breadcrumb-item active" aria-current="page">Создание бренда</li>
+        </ol>
+      </nav>
+
+      <div class="card">
+        <div class="card-header">
+          <h5 class="card-title mb-0">Создание нового бренда</h5>
+        </div>
+        <div class="card-body">
+          <!-- Форма создания бренда -->
+          <form th:action="@{/admin/brands/create}" method="post" enctype="multipart/form-data" th:object="${brandForm}">
+            <div class="row g-4">
+              <!-- Основная информация -->
+              <div class="col-md-8">
+                <div class="card h-100">
+                  <div class="card-header">
+                    <h6 class="mb-0">Основная информация</h6>
+                  </div>
+                  <div class="card-body">
+                    <!-- Название бренда -->
+                    <div class="mb-3">
+                      <label for="name" class="form-label">Название *</label>
+                      <input type="text" class="form-control" id="name" th:field="*{name}" required>
+                      <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}" th:errors="*{name}">
+                        Пожалуйста, укажите название бренда.
+                      </div>
+                    </div>
+
+                    <!-- Описание -->
+                    <div class="mb-3">
+                      <label for="description" class="form-label">Описание</label>
+                      <textarea class="form-control" id="description" th:field="*{description}" rows="4"></textarea>
+                    </div>
+
+                    <!-- URL-slug -->
+                    <div class="mb-3">
+                      <label for="slug" class="form-label">URL-путь (slug)</label>
+                      <input type="text" class="form-control" id="slug" th:field="*{slug}" placeholder="Автоматически сгенерируется из названия">
+                      <div class="form-text">Если оставить пустым, будет автоматически сгенерирован из названия.</div>
+                    </div>
+
+                    <!-- Meta Keywords -->
+                    <div class="mb-3">
+                      <label for="metaKeywords" class="form-label">Мета-ключевые слова</label>
+                      <input type="text" class="form-control" id="metaKeywords" th:field="*{metaKeywords}">
+                      <div class="form-text">Через запятую, для SEO</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Дополнительные настройки -->
+              <div class="col-md-4">
+                <div class="card mb-4">
+                  <div class="card-header">
+                    <h6 class="mb-0">Баннер</h6>
+                  </div>
+                  <div class="card-body">
+                    <div class="mb-3">
+                      <label for="banner" class="form-label">Изображение баннера</label>
+                      <input class="form-control" type="file" id="banner" name="banner" accept="image/*">
+                      <div class="form-text">Рекомендуемый размер: 800x200px, формат: JPEG, PNG</div>
+                    </div>
+                    <div class="mt-3">
+                      <div id="bannerPreview" class="text-center p-3 border rounded d-none">
+                        <img id="bannerPreviewImage" src="#" alt="Предпросмотр" class="img-fluid">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card mb-4">
+                  <div class="card-header">
+                    <h6 class="mb-0">Настройки</h6>
+                  </div>
+                  <div class="card-body">
+                    <!-- Статус -->
+                    <div class="form-check form-switch mb-3">
+                      <input class="form-check-input" type="checkbox" id="active" th:field="*{active}" checked>
+                      <label class="form-check-label" for="active">Активен</label>
+                    </div>
+
+                    <!-- Премиум -->
+                    <div class="form-check form-switch mb-3">
+                      <input class="form-check-input" type="checkbox" id="premium" th:field="*{premium}">
+                      <label class="form-check-label" for="premium">Премиум бренд</label>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="card">
+                  <div class="card-header">
+                    <h6 class="mb-0">Дополнительная информация</h6>
+                  </div>
+                  <div class="card-body">
+                    <!-- Страна -->
+                    <div class="mb-3">
+                      <label for="country" class="form-label">Страна происхождения</label>
+                      <input type="text" class="form-control" id="country" th:field="*{country}">
+                    </div>
+
+                    <!-- Год основания -->
+                    <div class="mb-3">
+                      <label for="foundedYear" class="form-label">Год основания</label>
+                      <input type="number" class="form-control" id="foundedYear" th:field="*{foundedYear}" min="1800" max="2030">
+                    </div>
+
+                    <!-- Порядок сортировки -->
+                    <div class="mb-3">
+                      <label for="sortOrder" class="form-label">Порядок сортировки</label>
+                      <input type="number" class="form-control" id="sortOrder" th:field="*{sortOrder}" min="0">
+                      <div class="form-text">Чем меньше число, тем выше будет отображаться бренд</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Кнопки действий -->
+              <div class="col-12 d-flex justify-content-end gap-2 mt-4">
+                <a th:href="@{/admin/brands}" class="btn btn-secondary">Отмена</a>
+                <button type="submit" class="btn btn-primary">Создать бренд</button>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- JavaScript для предпросмотра изображения -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const bannerInput = document.getElementById('banner');
+    const bannerPreview = document.getElementById('bannerPreview');
+    const bannerPreviewImage = document.getElementById('bannerPreviewImage');
+
+    bannerInput.addEventListener('change', function() {
+      if (this.files && this.files[0]) {
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+          bannerPreviewImage.src = e.target.result;
+          bannerPreview.classList.remove('d-none');
+        };
+
+        reader.readAsDataURL(this.files[0]);
+      } else {
+        bannerPreview.classList.add('d-none');
+      }
+    });
+
+    // Автоматическая генерация slug из названия
+    const nameInput = document.getElementById('name');
+    const slugInput = document.getElementById('slug');
+
+    nameInput.addEventListener('input', function() {
+      if (!slugInput.value) {
+        slugInput.value = nameInput.value
+                .toLowerCase()
+                .replace(/[^\w\s-]/g, '')
+                .replace(/\s+/g, '-')
+                .replace(/-+/g, '-')
+                .trim();
+      }
+    });
+  });
+</script>
+
+</body>
+</html>
