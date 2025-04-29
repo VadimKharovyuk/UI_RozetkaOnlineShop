@@ -19,7 +19,8 @@ public class SecurityConfig {
 //                        .requestMatchers("/admin/**").hasRole("ROLE_ADMIN")
                         .requestMatchers("/**",
                                 "/login/**",
-                                "/auth/**", "/static/**",
+                                "/auth/**",
+                                "/static/**",
                                 "/css/**",
                                 "/profile/**",
                                 "/brands/**",

@@ -20,6 +20,7 @@ import java.util.Optional;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/admin/brand")
+@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 public class BrandAdminController {
     private final BrandService brandService;
 
@@ -30,14 +31,16 @@ public class BrandAdminController {
     public String getAdminBrandList(Model model) {
         List<BrandDto.BrandListDTO> brands = brandService.getAllAdminBrands(null);
         model.addAttribute("brands", brands);
-        return "admin/brands/list";
+        return "admin/brand/list";
     }
+
+
 
     @GetMapping("/create")
     @PreAuthorize("hasRole('ADMIN')")
     public String showCreateBrandForm(Model model) {
         model.addAttribute("brandForm", new BrandDto.BrandCreateRequest());
-        return "admin/brands/create";
+        return "admin/brand/create";
     }
 
     @PostMapping("/create")
@@ -48,16 +51,16 @@ public class BrandAdminController {
             RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
-            return "admin/brands/create";
+            return "admin/brand/create";
         }
 
         try {
             BrandDto.BrandDTO createdBrand = brandService.createBrand(request);
             redirectAttributes.addFlashAttribute("success", "Бренд успешно создан");
-            return "redirect:/brands/admin";
+            return "redirect:/admin/brand";
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Ошибка при создании бренда: " + e.getMessage());
-            return "redirect:/brands/admin/create";
+            return "redirect:/admin/brand/create";
         }
     }
 
@@ -87,7 +90,7 @@ public class BrandAdminController {
         model.addAttribute("brandForm", updateForm);
         model.addAttribute("currentBannerUrl", brand.getBannerUrl());
 
-        return "admin/brands/edit";
+        return "admin/brand/edit";
     }
 
     @PostMapping("/edit/{id}")
@@ -99,7 +102,7 @@ public class BrandAdminController {
             RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
-            return "admin/brands/edit";
+            return "admin/brand/edit";
         }
 
         try {
@@ -108,7 +111,7 @@ public class BrandAdminController {
             return "redirect:/brands/admin";
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Ошибка при обновлении бренда: " + e.getMessage());
-            return "redirect:/brands/admin/edit/" + id;
+            return "redirect:/brand/admin/edit/" + id;
         }
     }
 
