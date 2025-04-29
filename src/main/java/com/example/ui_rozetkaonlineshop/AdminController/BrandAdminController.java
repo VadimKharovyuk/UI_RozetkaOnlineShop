@@ -33,14 +33,14 @@ public class BrandAdminController {
         return "admin/brands/list";
     }
 
-    @GetMapping("/admin/create")
+    @GetMapping("/create")
     @PreAuthorize("hasRole('ADMIN')")
     public String showCreateBrandForm(Model model) {
         model.addAttribute("brandForm", new BrandDto.BrandCreateRequest());
         return "admin/brands/create";
     }
 
-    @PostMapping("/admin/create")
+    @PostMapping("/create")
     @PreAuthorize("hasRole('ADMIN')")
     public String createBrand(
             @Valid @ModelAttribute("brandForm") BrandDto.BrandCreateRequest request,
@@ -61,7 +61,7 @@ public class BrandAdminController {
         }
     }
 
-    @GetMapping("/admin/edit/{id}")
+    @GetMapping("/edit/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public String showEditBrandForm(@PathVariable Long id, Model model) {
         Optional<BrandDto.BrandDTO> brandOpt = brandService.getPublicBrandById(id);
@@ -90,7 +90,7 @@ public class BrandAdminController {
         return "admin/brands/edit";
     }
 
-    @PostMapping("/admin/edit/{id}")
+    @PostMapping("/edit/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public String updateBrand(
             @PathVariable Long id,
@@ -112,7 +112,7 @@ public class BrandAdminController {
         }
     }
 
-    @PostMapping("/admin/delete/{id}")
+    @PostMapping("/delete/{id}")
     @PreAuthorize("hasRole('ADMIN')")
     public String deleteBrand(
             @PathVariable Long id,
@@ -128,7 +128,7 @@ public class BrandAdminController {
         return "redirect:/brands/admin";
     }
 
-    @PostMapping("/admin/{id}/banner")
+    @PostMapping("/{id}/banner")
     @PreAuthorize("hasRole('ADMIN')")
     public String uploadBannerImage(
             @PathVariable Long id,
@@ -150,7 +150,7 @@ public class BrandAdminController {
         return "redirect:/brands/admin/edit/" + id;
     }
 
-    @PostMapping("/admin/{id}/banner/delete")
+    @PostMapping("/{id}/banner/delete")
     @PreAuthorize("hasRole('ADMIN')")
     public String deleteBannerImage(
             @PathVariable Long id,
