@@ -96,17 +96,14 @@ public class BrandService {
     }
 
     public BrandDto.BrandDTO createBrand(BrandDto.BrandCreateRequest request) {
-        try {
-            ResponseEntity<BrandDto.BrandDTO> response = productServiceClient.createBrand(request);
-            if (response.getBody() == null) {
-                throw new RuntimeException("Не удалось создать бренд: пустой ответ от сервера");
-            }
-            return response.getBody();
-        } catch (Exception e) {
-            log.error("Ошибка при создании бренда: {}", e.getMessage());
-            throw new RuntimeException("Не удалось создать бренд: " + e.getMessage());
+        ResponseEntity<BrandDto.BrandDTO> response = productServiceClient.createBrand(request);
+        if (response.getBody() == null) {
+            throw new RuntimeException("Пустой ответ от сервиса");
         }
+        return response.getBody();
     }
+
+
 
     public BrandDto.BrandDTO updateBrand(Long id, BrandDto.BrandUpdateRequest request) {
         try {
@@ -132,6 +129,7 @@ public class BrandService {
             throw new RuntimeException("Не удалось удалить бренд: " + e.getMessage());
         }
     }
+
 
     public BrandDto.BrandDTO uploadBannerImage(Long id, MultipartFile file) {
         try {

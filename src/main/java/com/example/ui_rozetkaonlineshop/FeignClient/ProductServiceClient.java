@@ -18,6 +18,38 @@ import java.util.List;
 )
 public interface ProductServiceClient {
 
+    // Административные эндпоинты для брендов
+
+
+    @PostMapping("/api/products/admin/brands")
+    ResponseEntity<BrandDto.BrandDTO> createBrand(
+            @Valid @RequestBody BrandDto.BrandCreateRequest request);
+
+    @PostMapping(value = "/api/products/admin/brands/{id}/banner", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    ResponseEntity<BrandDto.BrandDTO> uploadBannerImage(
+            @PathVariable Long id,
+            @RequestPart("file") MultipartFile file);
+
+
+
+    @GetMapping("/api/products/admin/brands")
+    ResponseEntity<List<BrandDto.BrandListDTO>> getAllAdminBrands(
+            @RequestParam(required = false) Boolean active);
+
+
+    @PutMapping("/api/products/admin/brands/{id}")
+    ResponseEntity<BrandDto.BrandDTO> updateBrand(
+            @PathVariable Long id,
+            @Valid @RequestBody BrandDto.BrandUpdateRequest request);
+
+    @DeleteMapping("/api/products/admin/brands/{id}")
+    ResponseEntity<Void> deleteBrand(@PathVariable Long id);
+
+
+    @DeleteMapping("/api/products/admin/brands/{id}/banner")
+    ResponseEntity<Void> deleteBannerImage(@PathVariable Long id);
+
+
     // Публичные эндпоинты для брендов
 
     @GetMapping("/api/products/public/brands")
@@ -44,29 +76,5 @@ public interface ProductServiceClient {
     @GetMapping("/api/products/public/brands/slug/{slug}")
     ResponseEntity<BrandDto.BrandDTO> getPublicBrandBySlug(@PathVariable String slug);
 
-    // Административные эндпоинты для брендов
 
-    @GetMapping("/api/products/admin/brands")
-    ResponseEntity<List<BrandDto.BrandListDTO>> getAllAdminBrands(
-            @RequestParam(required = false) Boolean active);
-
-    @PostMapping("/api/products/admin/brands")
-    ResponseEntity<BrandDto.BrandDTO> createBrand(
-            @Valid @RequestBody BrandDto.BrandCreateRequest request);
-
-    @PutMapping("/api/products/admin/brands/{id}")
-    ResponseEntity<BrandDto.BrandDTO> updateBrand(
-            @PathVariable Long id,
-            @Valid @RequestBody BrandDto.BrandUpdateRequest request);
-
-    @DeleteMapping("/api/products/admin/brands/{id}")
-    ResponseEntity<Void> deleteBrand(@PathVariable Long id);
-
-    @PostMapping(value = "/api/products/admin/brands/{id}/banner", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-    ResponseEntity<BrandDto.BrandDTO> uploadBannerImage(
-            @PathVariable Long id,
-            @RequestPart("file") MultipartFile file);
-
-    @DeleteMapping("/api/products/admin/brands/{id}/banner")
-    ResponseEntity<Void> deleteBannerImage(@PathVariable Long id);
 }

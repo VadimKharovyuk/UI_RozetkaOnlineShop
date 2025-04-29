@@ -20,14 +20,13 @@ import java.util.Optional;
 @Controller
 @RequiredArgsConstructor
 @RequestMapping("/admin/brand")
-@PreAuthorize("hasAuthority('ROLE_ADMIN')")
+//@PreAuthorize("hasAuthority('ROLE_ADMIN')")
 public class BrandAdminController {
     private final BrandService brandService;
 
     // Административные страницы
 
     @GetMapping()
-    @PreAuthorize("hasRole('ADMIN')")
     public String getAdminBrandList(Model model) {
         List<BrandDto.BrandListDTO> brands = brandService.getAllAdminBrands(null);
         model.addAttribute("brands", brands);
@@ -37,16 +36,15 @@ public class BrandAdminController {
 
 
     @GetMapping("/create")
-    @PreAuthorize("hasRole('ADMIN')")
     public String showCreateBrandForm(Model model) {
         model.addAttribute("brandForm", new BrandDto.BrandCreateRequest());
         return "admin/brand/create";
     }
 
     @PostMapping("/create")
-    @PreAuthorize("hasRole('ADMIN')")
     public String createBrand(
             @Valid @ModelAttribute("brandForm") BrandDto.BrandCreateRequest request,
+            @RequestParam(value = "banner", required = false) MultipartFile banner,
             BindingResult bindingResult,
             RedirectAttributes redirectAttributes) {
 
@@ -55,17 +53,45 @@ public class BrandAdminController {
         }
 
         try {
+            // Сначала создать бренд
             BrandDto.BrandDTO createdBrand = brandService.createBrand(request);
+
+            // Затем загрузить баннер, если он есть
+            if (banner != null && !banner.isEmpty()) {
+                brandService.uploadBannerImage(createdBrand.getId(), banner);
+            }
+
             redirectAttributes.addFlashAttribute("success", "Бренд успешно создан");
             return "redirect:/admin/brand";
+
         } catch (Exception e) {
             redirectAttributes.addFlashAttribute("error", "Ошибка при создании бренда: " + e.getMessage());
             return "redirect:/admin/brand/create";
         }
     }
+    @PostMapping("/{id}/banner")
+    public String uploadBannerImage(
+            @PathVariable Long id,
+            @RequestParam("file") MultipartFile file,
+            RedirectAttributes redirectAttributes) {
+
+        try {
+            if (file.isEmpty()) {
+                redirectAttributes.addFlashAttribute("error", "Пожалуйста, выберите файл для загрузки");
+                return "redirect:/brands/admin/edit/" + id;
+            }
+
+            brandService.uploadBannerImage(id, file);
+            redirectAttributes.addFlashAttribute("success", "Баннер успешно загружен");
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("error", "Ошибка при загрузке баннера: " + e.getMessage());
+        }
+
+        return "redirect:/brands/admin/edit/" + id;
+    }
 
     @GetMapping("/edit/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     public String showEditBrandForm(@PathVariable Long id, Model model) {
         Optional<BrandDto.BrandDTO> brandOpt = brandService.getPublicBrandById(id);
 
@@ -94,7 +120,7 @@ public class BrandAdminController {
     }
 
     @PostMapping("/edit/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     public String updateBrand(
             @PathVariable Long id,
             @Valid @ModelAttribute("brandForm") BrandDto.BrandUpdateRequest request,
@@ -116,7 +142,7 @@ public class BrandAdminController {
     }
 
     @PostMapping("/delete/{id}")
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     public String deleteBrand(
             @PathVariable Long id,
             RedirectAttributes redirectAttributes) {
@@ -131,30 +157,9 @@ public class BrandAdminController {
         return "redirect:/brands/admin";
     }
 
-    @PostMapping("/{id}/banner")
-    @PreAuthorize("hasRole('ADMIN')")
-    public String uploadBannerImage(
-            @PathVariable Long id,
-            @RequestParam("file") MultipartFile file,
-            RedirectAttributes redirectAttributes) {
-
-        try {
-            if (file.isEmpty()) {
-                redirectAttributes.addFlashAttribute("error", "Пожалуйста, выберите файл для загрузки");
-                return "redirect:/brands/admin/edit/" + id;
-            }
-
-            brandService.uploadBannerImage(id, file);
-            redirectAttributes.addFlashAttribute("success", "Баннер успешно загружен");
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("error", "Ошибка при загрузке баннера: " + e.getMessage());
-        }
-
-        return "redirect:/brands/admin/edit/" + id;
-    }
 
     @PostMapping("/{id}/banner/delete")
-    @PreAuthorize("hasRole('ADMIN')")
+//    @PreAuthorize("hasRole('ADMIN')")
     public String deleteBannerImage(
             @PathVariable Long id,
             RedirectAttributes redirectAttributes) {

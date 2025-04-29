@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 
 public class BrandDto {
 
+
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
@@ -56,9 +57,7 @@ public class BrandDto {
     public static class BrandCreateRequest {
         @NotBlank(message = "Название бренда не может быть пустым")
         private String name;
-
         private String description;
-        private MultipartFile banner; // Для загрузки баннера
         private String slug;
         private String metaKeywords;
         private boolean active = true;
@@ -75,7 +74,6 @@ public class BrandDto {
     public static class BrandUpdateRequest {
         private String name;
         private String description;
-        private MultipartFile banner; // Для загрузки баннера
         private String slug;
         private String metaKeywords;
         private Boolean active;
