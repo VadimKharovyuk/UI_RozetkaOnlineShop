@@ -44,7 +44,6 @@ public class BrandAdminController {
     @PostMapping("/create")
     public String createBrand(
             @Valid @ModelAttribute("brandForm") BrandDto.BrandCreateRequest request,
-            @RequestParam(value = "banner", required = false) MultipartFile banner,
             BindingResult bindingResult,
             RedirectAttributes redirectAttributes) {
 
@@ -53,10 +52,16 @@ public class BrandAdminController {
         }
 
         try {
-            // Сначала создать бренд
+            // Получаем файл из запроса
+            MultipartFile banner = request.getBanner();
+
+            // Временно обнуляем поле banner перед отправкой через Feign
+            request.setBanner(null);
+
+            // Создаем бренд
             BrandDto.BrandDTO createdBrand = brandService.createBrand(request);
 
-            // Затем загрузить баннер, если он есть
+            // Затем загружаем баннер, если он есть
             if (banner != null && !banner.isEmpty()) {
                 brandService.uploadBannerImage(createdBrand.getId(), banner);
             }

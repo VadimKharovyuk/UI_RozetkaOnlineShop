@@ -72,9 +72,8 @@
                   </div>
                   <div class="card-body">
                     <div class="mb-3">
-                      <label for="banner" class="form-label">Изображение баннера</label>
-                      <input class="form-control" type="file" id="banner" name="banner" accept="image/*">
-                      <div class="form-text">Рекомендуемый размер: 800x200px, формат: JPEG, PNG</div>
+                      <label for="banner" class="form-label">Баннер бренда</label>
+                      <input type="file" class="form-control" id="banner" th:field="*{banner}" accept="image/*">
                     </div>
                     <div class="mt-3">
                       <div id="bannerPreview" class="text-center p-3 border rounded d-none">

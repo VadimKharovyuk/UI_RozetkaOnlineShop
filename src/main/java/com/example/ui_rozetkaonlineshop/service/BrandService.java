@@ -104,6 +104,18 @@ public class BrandService {
     }
 
 
+    public BrandDto.BrandDTO uploadBannerImage(Long id, MultipartFile file) {
+        try {
+            ResponseEntity<BrandDto.BrandDTO> response = productServiceClient.uploadBannerImage(id, file);
+            if (response.getBody() == null) {
+                throw new RuntimeException("Не удалось загрузить баннер: пустой ответ от сервера");
+            }
+            return response.getBody();
+        } catch (Exception e) {
+            log.error("Ошибка при загрузке баннера для бренда {}: {}", id, e.getMessage());
+            throw new RuntimeException("Не удалось загрузить баннер: " + e.getMessage());
+        }
+    }
 
     public BrandDto.BrandDTO updateBrand(Long id, BrandDto.BrandUpdateRequest request) {
         try {
@@ -131,18 +143,6 @@ public class BrandService {
     }
 
 
-    public BrandDto.BrandDTO uploadBannerImage(Long id, MultipartFile file) {
-        try {
-            ResponseEntity<BrandDto.BrandDTO> response = productServiceClient.uploadBannerImage(id, file);
-            if (response.getBody() == null) {
-                throw new RuntimeException("Не удалось загрузить баннер: пустой ответ от сервера");
-            }
-            return response.getBody();
-        } catch (Exception e) {
-            log.error("Ошибка при загрузке баннера для бренда {}: {}", id, e.getMessage());
-            throw new RuntimeException("Не удалось загрузить баннер: " + e.getMessage());
-        }
-    }
 
     public void deleteBannerImage(Long id) {
         try {

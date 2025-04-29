@@ -1,5 +1,6 @@
 package com.example.ui_rozetkaonlineshop.DTO.Brand;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -65,6 +66,10 @@ public class BrandDto {
         private String country;
         private Integer foundedYear;
         private Integer sortOrder;
+
+        // Добавьте поле MultipartFile
+        @JsonIgnore // Чтобы это поле не сериализовалось при отправке через Feign
+        private transient MultipartFile banner;
     }
 
     @Data
