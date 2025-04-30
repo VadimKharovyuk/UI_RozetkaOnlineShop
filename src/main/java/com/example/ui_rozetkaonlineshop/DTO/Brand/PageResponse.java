@@ -1,4 +1,4 @@
-package com.example.ui_rozetkaonlineshop.dto;
+package com.example.ui_rozetkaonlineshop.DTO.Brand;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -10,6 +10,7 @@ import java.util.List;
  * Класс, заменяющий Page из Spring Data для использования в Feign клиенте
  * @param <T> тип элементов в списке
  */
+
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

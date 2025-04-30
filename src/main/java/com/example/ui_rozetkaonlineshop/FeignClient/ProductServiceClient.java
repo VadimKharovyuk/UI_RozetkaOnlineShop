@@ -1,8 +1,9 @@
 package com.example.ui_rozetkaonlineshop.FeignClient;
 
 import com.example.ui_rozetkaonlineshop.DTO.Brand.BrandDto;
+import com.example.ui_rozetkaonlineshop.DTO.Brand.PageResponse;
 import com.example.ui_rozetkaonlineshop.config.FeignConfig;
-import com.example.ui_rozetkaonlineshop.dto.PageResponse;
+
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
