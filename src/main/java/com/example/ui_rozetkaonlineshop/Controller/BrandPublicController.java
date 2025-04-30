@@ -2,7 +2,9 @@ package com.example.ui_rozetkaonlineshop.Controller;
 
 
 import com.example.ui_rozetkaonlineshop.DTO.Brand.BrandDto;
-import com.example.ui_rozetkaonlineshop.dto.PageResponse;
+
+
+import com.example.ui_rozetkaonlineshop.DTO.Brand.PageResponse;
 import com.example.ui_rozetkaonlineshop.service.BrandService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -22,12 +24,13 @@ public class BrandPublicController {
 
     private final BrandService brandService;
 
+
     // Публичная страница со списком брендов
     @GetMapping
     public String getAllBrands(Model model) {
         List<BrandDto.BrandListDTO> brands = brandService.getAllPublicBrands(true);
         model.addAttribute("brands", brands);
-        return "brands/list";
+        return "client/brands/list";
     }
 
     // Публичная страница с постраничным списком брендов
@@ -43,7 +46,7 @@ public class BrandPublicController {
                 brandService.getPaginatedPublicBrands(page, size, sortBy, sortDirection);
 
         model.addAttribute("brandsPage", brandsPage);
-        return "brands/paginated";
+        return "client/brands/paginated";
     }
 
     // Публичная страница с премиальными брендами
@@ -52,7 +55,7 @@ public class BrandPublicController {
         List<BrandDto.BrandListDTO> premiumBrands = brandService.getPublicPremiumBrands();
         model.addAttribute("brands", premiumBrands);
         model.addAttribute("isPremium", true);
-        return "brands/list";
+        return "client/brands/list";
     }
 
     // Публичная страница поиска брендов
@@ -61,7 +64,7 @@ public class BrandPublicController {
         List<BrandDto.BrandListDTO> brands = brandService.searchPublicBrands(query);
         model.addAttribute("brands", brands);
         model.addAttribute("searchQuery", query);
-        return "brands/list";
+        return "client/brands/list";
     }
 
     // Публичная страница с детальной информацией о бренде по ID
@@ -74,7 +77,7 @@ public class BrandPublicController {
         }
 
         model.addAttribute("brand", brandOpt.get());
-        return "brands/detail";
+        return "client/brands/detail";
     }
 
     // Публичная страница с детальной информацией о бренде по slug
@@ -87,7 +90,7 @@ public class BrandPublicController {
         }
 
         model.addAttribute("brand", brandOpt.get());
-        return "brands/detail";
+        return "client/brands/detail";
     }
 
     // Публичные API эндпоинты для AJAX запросов

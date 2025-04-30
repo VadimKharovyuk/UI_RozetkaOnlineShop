@@ -1,8 +1,9 @@
 package com.example.ui_rozetkaonlineshop.service;
 
 import com.example.ui_rozetkaonlineshop.DTO.Brand.BrandDto;
+import com.example.ui_rozetkaonlineshop.DTO.Brand.PageResponse;
 import com.example.ui_rozetkaonlineshop.FeignClient.ProductServiceClient;
-import com.example.ui_rozetkaonlineshop.dto.PageResponse;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
