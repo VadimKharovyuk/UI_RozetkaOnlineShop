@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Бренды | Rozetka Online Shop</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Roboto:wght@300;400;500&display=swap">
+  <link rel="stylesheet" th:href="@{/css/styles.css}">
+  <style>
+    /* Премиальный минималистический стиль */
+    :root {
+      --primary-color: #111111;
+      --secondary-color: #f8f8f8;
+      --accent-color: #d4af37;
+      --text-color: #333333;
+      --light-text: #666666;
+      --border-color: #e0e0e0;
+    }
+
+    body {
+      font-family: 'Roboto', sans-serif;
+      color: var(--text-color);
+      background-color: var(--secondary-color);
+      line-height: 1.6;
+      margin: 0;
+      padding: 0;
+    }
+
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    h1, h2, h3, h4 {
+      font-family: 'Playfair Display', serif;
+      font-weight: 500;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+      letter-spacing: -0.5px;
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      color: var(--light-text);
+      margin-bottom: 2.5rem;
+    }
+
+    /* Секция с брендами */
+    .brands-section {
+      display: flex;
+      flex-wrap: wrap;
+      margin: 2rem 0;
+    }
+
+    .brands-sidebar {
+      width: 250px;
+      padding-right: 2rem;
+    }
+
+    .brands-content {
+      flex: 1;
+    }
+
+    /* Алфавитная навигация */
+    .alphabet-nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .alphabet-nav a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      text-decoration: none;
+      color: var(--text-color);
+      font-weight: 500;
+      transition: all 0.2s ease;
+    }
+
+    .alphabet-nav a:hover {
+      background-color: var(--primary-color);
+      color: white;
+    }
+
+    .alphabet-nav .active {
+      background-color: var(--primary-color);
+      color: white;
+    }
+
+    /* Карточки брендов */
+    .brands-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 2rem;
+      opacity: 0;
+      animation: fadeIn 0.8s forwards;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .brand-card {
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+      overflow: hidden;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      position: relative;
+      height: 240px;
+      opacity: 0;
+      animation: fadeIn 0.5s forwards;
+      animation-delay: calc(var(--order) * 0.1s);
+    }
+
+    .brand-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    .brand-image {
+      height: 180px;
+      width: 100%;
+      object-fit: cover;
+      background-color: #f5f5f5;
+    }
+
+    .brand-img-placeholder {
+      height: 180px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: #f5f5f5;
+      font-family: 'Playfair Display', serif;
+      font-size: 3rem;
+      color: #cccccc;
+    }
+
+    .brand-info {
+      padding: 1rem;
+    }
+
+    .brand-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      margin: 0;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .brand-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      color: var(--light-text);
+      margin-top: 0.5rem;
+    }
+
+    .premium-badge {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background-color: var(--accent-color);
+      color: white;
+      padding: 0.25rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 500;
+    }
+
+    /* Категории и фильтры */
+    .brands-filter {
+      margin-bottom: 2rem;
+    }
+
+    .filter-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem;
+      margin-bottom: 1rem;
+    }
+
+    .filter-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .filter-list li {
+      margin-bottom: 0.5rem;
+    }
+
+    .filter-list a {
+      text-decoration: none;
+      color: var(--text-color);
+      transition: color 0.2s;
+      display: flex;
+      align-items: center;
+    }
+
+    .filter-list a:hover {
+      color: var(--accent-color);
+    }
+
+    .filter-count {
+      margin-left: auto;
+      color: var(--light-text);
+      font-size: 0.9rem;
+    }
+
+    .premium-filter {
+      margin-top: 1rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--border-color);
+    }
+
+    .premium-filter a {
+      display: flex;
+      align-items: center;
+      text-decoration: none;
+      color: var(--accent-color);
+      font-weight: 500;
+    }
+
+    .premium-icon {
+      margin-right: 0.5rem;
+      font-size: 1.2rem;
+    }
+
+    /* Пустые результаты */
+    .empty-results {
+      text-align: center;
+      padding: 3rem;
+      background: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+    }
+
+    .empty-results p {
+      font-size: 1.1rem;
+      color: var(--light-text);
+    }
+
+    /* Адаптивный дизайн */
+    @media (max-width: 992px) {
+      .brands-section {
+        flex-direction: column;
+      }
+
+      .brands-sidebar {
+        width: 100%;
+        padding-right: 0;
+        margin-bottom: 2rem;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .brands-grid {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      }
+
+      .alphabet-nav {
+        justify-content: center;
+      }
+
+      h1 {
+        font-size: 2rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .brands-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+<!-- Хедер (предполагается, что он включен из фрагмента) -->
+<!--<div th:replace="~{fragments/header :: header}"></div>-->
+
+<div class="container">
+  <h1 th:text="${isPremium != null && isPremium} ? 'Премиальные бренды' : 'Все бренды'">Все бренды</h1>
+  <p class="subtitle" th:if="${searchQuery != null}">
+    Результаты поиска для: <strong th:text="${searchQuery}">запрос</strong>
+  </p>
+
+  <div class="brands-section">
+    <!-- Сайдбар -->
+    <aside class="brands-sidebar">
+      <!-- Фильтры по странам -->
+      <div class="brands-filter">
+        <h3 class="filter-title">Страны</h3>
+<!--        <ul class="filter-list" th:if="${brands != null && !brands.isEmpty()}">-->
+<!--          <li th:each="country : ${#lists.sort(#sets.toSet(#lists.collect(brands, brand -> brand.country != null ? brand.country : 'Не указано')))}">-->
+<!--            <a href="#" th:href="@{/brands(country=${country})}">-->
+<!--              <span th:text="${country}">Страна</span>-->
+<!--              <span class="filter-count" th:text="${#lists.size(#lists.select(brands, brand -> (brand.country != null && brand.country == country) || (brand.country == null && country == 'Не указано')))}">10</span>-->
+<!--            </a>-->
+<!--          </li>-->
+<!--        </ul>-->
+      </div>
+
+      <!-- Премиальные бренды -->
+      <div class="premium-filter">
+        <a th:href="@{/brands/premium}">
+          <span class="premium-icon">⭐</span> Премиальные бренды
+        </a>
+      </div>
+    </aside>
+
+    <!-- Основной контент -->
+    <div class="brands-content">
+      <!-- Алфавитная навигация -->
+      <div class="alphabet-nav">
+        <a href="#" th:each="letter : ${'АБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ'.toCharArray()}"
+           th:text="${letter}">А</a>
+      </div>
+
+      <!-- Сетка брендов -->
+      <div class="brands-grid">
+        <div th:each="brand, stat : ${brands}" class="brand-card" th:style="'--order: ' + ${stat.index}">
+          <a th:href="@{/brands/slug/{slug}(slug=${brand.slug})}">
+            <!-- Премиальный бейдж, если применимо -->
+            <span th:if="${brand.premium}" class="premium-badge">Премиум</span>
+
+            <!-- Изображение бренда -->
+            <img th:if="${brand.bannerUrl != null && !brand.bannerUrl.isEmpty()}"
+                 th:src="${brand.bannerUrl}"
+                 alt="Логотип бренда"
+                 class="brand-image">
+            <div th:unless="${brand.bannerUrl != null && !brand.bannerUrl.isEmpty()}"
+                 class="brand-img-placeholder">
+              <span th:text="${brand.name.substring(0, 1).toUpperCase()}">B</span>
+            </div>
+
+            <div class="brand-info">
+              <h3 class="brand-name" th:text="${brand.name}">Название бренда</h3>
+              <div class="brand-meta">
+                                    <span th:if="${brand.country != null && !brand.country.isEmpty()}"
+                                          th:text="${brand.country}">Страна</span>
+                <span th:if="${brand.productCount != null && brand.productCount > 0}">
+                                        <span th:text="${brand.productCount}">42</span> товаров
+                                    </span>
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+
+      <!-- Если нет брендов -->
+      <div th:if="${brands == null || brands.isEmpty()}" class="empty-results">
+        <p>Брендов не найдено. Попробуйте изменить параметры поиска или вернитесь позже.</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Футер (предполагается, что он включен из фрагмента) -->
+<div th:replace="~{fragments/footer :: footer}"></div>
+
+<script>
+  // Скрипт для микровзаимодействий и алфавитной навигации
+  document.addEventListener('DOMContentLoaded', function() {
+    // Алфавитная навигация
+    const letters = document.querySelectorAll('.alphabet-nav a');
+    letters.forEach(letter => {
+      letter.addEventListener('click', function(e) {
+        e.preventDefault();
+
+        // Получаем текст буквы
+        const letterText = this.textContent.trim().toUpperCase();
+
+        // Ищем первый бренд, начинающийся с этой буквы
+        const brands = document.querySelectorAll('.brand-name');
+        let targetBrand = null;
+
+        brands.forEach(brand => {
+          const brandFirstLetter = brand.textContent.trim().charAt(0).toUpperCase();
+          if (brandFirstLetter === letterText && !targetBrand) {
+            targetBrand = brand;
+          }
+        });
+
+        // Если нашли бренд, прокручиваем к нему
+        if (targetBrand) {
+          targetBrand.closest('.brand-card').scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+          });
+
+          // Добавляем выделение
+          letters.forEach(l => l.classList.remove('active'));
+          this.classList.add('active');
+        }
+      });
+    });
+
+    // Анимация появления карточек
+    const brandCards = document.querySelectorAll('.brand-card');
+    brandCards.forEach((card, index) => {
+      card.style.animationDelay = `${index * 0.05}s`;
+    });
+  });
+</script>
+</body>
+</html>
