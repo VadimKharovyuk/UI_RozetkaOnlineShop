@@ -155,4 +155,9 @@ public class BrandService {
             throw new RuntimeException("Не удалось удалить баннер: " + e.getMessage());
         }
     }
+
+    public Long brandCount() {
+     Long count = productServiceClient.getPublicBrandsCount();
+     return count;
+    }
 }

@@ -76,5 +76,7 @@ public interface ProductServiceClient {
     @GetMapping("/api/products/public/brands/slug/{slug}")
     ResponseEntity<BrandDto.BrandDTO> getPublicBrandBySlug(@PathVariable String slug);
 
+    @GetMapping("/api/products/public/brands/count")
+    Long getPublicBrandsCount();
 
 }
