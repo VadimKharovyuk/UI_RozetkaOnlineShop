@@ -1,0 +1,171 @@
+
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div>
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <h1 class="h2">Создание новой категории</h1>
+    <div class="btn-toolbar mb-2 mb-md-0">
+      <a href="/admin/categories" class="btn btn-sm btn-outline-secondary">
+        <i class="bi bi-arrow-left me-1"></i>Назад к списку
+      </a>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-body">
+          <form th:action="@{/admin/categories/create}" method="post"
+                th:object="${categoryDto}" enctype="multipart/form-data">
+
+
+            <div class="mb-3">
+              <label for="name" class="form-label">Название категории *</label>
+              <input type="text" class="form-control" id="name"
+                     th:field="*{name}" required>
+              <div class="invalid-feedback" th:if="${#fields.hasErrors('name')}"
+                   th:errors="*{name}"></div>
+            </div>
+
+            <div class="mb-3">
+              <label for="description" class="form-label">Описание</label>
+              <textarea class="form-control" id="description" rows="3"
+                        th:field="*{description}"></textarea>
+            </div>
+
+            <div class="mb-3">
+              <label for="slug" class="form-label">Slug (URL)</label>
+              <input type="text" class="form-control" id="slug"
+                     th:field="*{slug}" placeholder="Автоматически из названия, если не указан">
+              <div class="form-text">Оставьте пустым для автоматической генерации из названия</div>
+            </div>
+
+            <div class="mb-3">
+              <label for="parentId" class="form-label">Родительская категория</label>
+              <select class="form-select" id="parentId" th:field="*{parentId}">
+                <option value="">-- Корневая категория --</option>
+                <option th:each="parent : ${parentCategories}"
+                        th:value="${parent.id}"
+                        th:text="${parent.name}"></option>
+              </select>
+            </div>
+
+            <div class="mb-3">
+              <label for="imageFile" class="form-label">Изображение категории</label>
+              <input type="file" class="form-control" id="imageFile"
+                     name="imageFile" accept="image/*">
+              <div class="form-text">Рекомендуемый размер: 600x400px, макс. 2MB</div>
+            </div>
+
+
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+              <a href="/admin/categories" class="btn btn-secondary me-md-2">Отмена</a>
+              <button type="submit" class="btn btn-primary">Создать категорию</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="card">
+        <div class="card-header">
+          Подсказка
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">Создание категории</h5>
+          <p class="card-text">Заполните форму для создания новой категории товаров. Обязательные поля отмечены звездочкой (*).</p>
+          <ul>
+            <li>Название должно быть уникальным и содержать от 2 до 100 символов</li>
+            <li>Slug - это часть URL категории (например: electronics, smartphones)</li>
+            <li>Если категория является подкатегорией, выберите родительскую категорию</li>
+            <li>Популярные категории отображаются на главной странице</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const imageInput = document.getElementById('imageFile');
+    const previewContainer = document.getElementById('imagePreviewContainer');
+    const imagePreview = document.getElementById('imagePreview');
+    const currentImage = document.getElementById('currentImage');
+
+    // Отображаем предпросмотр при выборе файла
+    imageInput.addEventListener('change', function() {
+      if (this.files && this.files[0]) {
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+          imagePreview.setAttribute('src', e.target.result);
+          previewContainer.classList.remove('d-none');
+
+          // Скрываем текущее изображение, если оно есть
+          if (currentImage) {
+            currentImage.parentElement.classList.add('d-none');
+          }
+        }
+
+        reader.readAsDataURL(this.files[0]);
+      } else {
+        previewContainer.classList.add('d-none');
+
+        // Показываем текущее изображение, если оно есть
+        if (currentImage) {
+          currentImage.parentElement.classList.remove('d-none');
+        }
+      }
+    });
+  });
+</script>
+<!-- Добавьте этот скрипт в конец шаблонов create.html и edit.html -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    const nameInput = document.getElementById('name');
+    const slugInput = document.getElementById('slug');
+
+    // Функция для генерации slug из названия
+    function generateSlug(text) {
+      return text.toString().toLowerCase()
+              .replace(/\s+/g, '-')           // Заменяем пробелы на дефисы
+              .replace(/[^\w\-]+/g, '')       // Удаляем все не-слова
+              .replace(/\-\-+/g, '-')         // Заменяем множественные дефисы на один
+              .replace(/^-+/, '')             // Удаляем начальные дефисы
+              .replace(/-+$/, '')             // Удаляем конечные дефисы
+              .replace(/[а-яА-Я]/g, function(match) {  // Транслитерация кириллицы
+                const translitMap = {
+                  'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 'е': 'e', 'ё': 'yo',
+                  'ж': 'zh', 'з': 'z', 'и': 'i', 'й': 'y', 'к': 'k', 'л': 'l', 'м': 'm',
+                  'н': 'n', 'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't', 'у': 'u',
+                  'ф': 'f', 'х': 'h', 'ц': 'ts', 'ч': 'ch', 'ш': 'sh', 'щ': 'sch', 'ъ': '',
+                  'ы': 'y', 'ь': '', 'э': 'e', 'ю': 'yu', 'я': 'ya',
+                  'А': 'A', 'Б': 'B', 'В': 'V', 'Г': 'G', 'Д': 'D', 'Е': 'E', 'Ё': 'Yo',
+                  'Ж': 'Zh', 'З': 'Z', 'И': 'I', 'Й': 'Y', 'К': 'K', 'Л': 'L', 'М': 'M',
+                  'Н': 'N', 'О': 'O', 'П': 'P', 'Р': 'R', 'С': 'S', 'Т': 'T', 'У': 'U',
+                  'Ф': 'F', 'Х': 'H', 'Ц': 'Ts', 'Ч': 'Ch', 'Ш': 'Sh', 'Щ': 'Sch', 'Ъ': '',
+                  'Ы': 'Y', 'Ь': '', 'Э': 'E', 'Ю': 'Yu', 'Я': 'Ya'
+                };
+                return translitMap[match] || match;
+              });
+    }
+
+    // Генерация slug при изменении названия, если slug пуст
+    nameInput.addEventListener('input', function() {
+      if (!slugInput.value || slugInput.dataset.autoGenerated === 'true') {
+        slugInput.value = generateSlug(nameInput.value);
+        slugInput.dataset.autoGenerated = 'true';
+      }
+    });
+
+    // Если пользователь вручную изменяет slug, отключаем автогенерацию
+    slugInput.addEventListener('input', function() {
+      slugInput.dataset.autoGenerated = 'false';
+    });
+  });
+</script>
+</body>
+</html>

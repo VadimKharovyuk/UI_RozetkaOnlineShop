@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div>
+    <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+        <h1 class="h2">Ошибка</h1>
+        <div class="btn-toolbar mb-2 mb-md-0">
+            <a href="/admin/categories" class="btn btn-sm btn-outline-secondary">
+                <i class="bi bi-arrow-left me-1"></i>К списку категорий
+            </a>
+        </div>
+    </div>
+
+    <div class="alert alert-danger" role="alert">
+        <h4 class="alert-heading">Категория не найдена!</h4>
+        <p>Запрашиваемая категория не существует или была удалена.</p>
+        <hr>
+        <p class="mb-0">Вернитесь к <a href="/admin/categories" class="alert-link">списку категорий</a>.</p>
+    </div>
+</div>
+</body>
+</html>

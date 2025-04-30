@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+<div>
+  <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+    <div>
+      <h1 class="h2">Подкатегории</h1>
+      <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/admin/categories">Категории</a></li>
+          <li class="breadcrumb-item active" aria-current="page" th:text="${parentCategory.name}"></li>
+        </ol>
+      </nav>
+    </div>
+    <div class="btn-toolbar mb-2 mb-md-0">
+      <a href="/admin/categories/create" class="btn btn-sm btn-outline-primary">
+        <i class="bi bi-plus-circle me-1"></i>Новая подкатегория
+      </a>
+      <a href="/admin/categories" class="btn btn-sm btn-outline-secondary ms-2">
+        <i class="bi bi-arrow-left me-1"></i>К списку категорий
+      </a>
+    </div>
+  </div>
+
+  <!-- Информация о родительской категории -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-2" th:if="${parentCategory.imageUrl}">
+          <img th:src="${parentCategory.imageUrl}" alt="Category image"
+               class="img-fluid rounded">
+        </div>
+        <div th:class="${parentCategory.imageUrl ? 'col-md-10' : 'col-md-12'}">
+          <h3 th:text="${parentCategory.name}"></h3>
+          <p th:text="${parentCategory.description}" class="text-muted"></p>
+          <div class="d-flex align-items-center mt-2">
+            <span class="badge bg-success me-2" th:if="${parentCategory.popular}">Популярная</span>
+            <small class="text-muted">
+              Slug: <code th:text="${parentCategory.slug}"></code>
+            </small>
+          </div>
+          <div class="mt-3">
+            <a th:href="@{/admin/categories/edit/{id}(id=${parentCategory.id})}" class="btn btn-sm btn-outline-primary">
+              <i class="bi bi-pencil me-1"></i>Редактировать
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Список подкатегорий -->
+  <div class="card">
+    <div class="card-header">
+      <h5 class="mb-0">Подкатегории</h5>
+    </div>
+    <div class="card-body">
+      <div class="table-responsive" th:if="${!subcategories.empty}">
+        <table class="table table-hover">
+          <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Изображение</th>
+            <th scope="col">Название</th>
+            <th scope="col">Slug</th>
+            <th scope="col">Популярная</th>
+            <th scope="col">Действия</th>
+          </tr>
+          </thead>
+          <tbody>
+          <tr th:each="category : ${subcategories}">
+            <td th:text="${category.id}"></td>
+            <td>
+              <img th:if="${category.imageUrl}" th:src="${category.imageUrl}" alt="Category image"
+                   class="img-thumbnail" style="width: 50px; height: 50px; object-fit: cover;">
+              <span th:unless="${category.imageUrl}" class="badge bg-secondary">Нет изображения</span>
+            </td>
+            <td th:text="${category.name}"></td>
+            <td th:text="${category.slug}"></td>
+            <td>
+                                    <span class="badge" th:classappend="${category.popular ? 'bg-success' : 'bg-secondary'}"
+                                          th:text="${category.popular ? 'Да' : 'Нет'}"></span>
+            </td>
+            <td>
+              <div class="btn-group btn-group-sm">
+                <a th:href="@{/admin/categories/edit/{id}(id=${category.id})}" class="btn btn-outline-primary">
+                  <i class="bi bi-pencil"></i>
+                </a>
+                <a th:href="@{/admin/categories/{id}/subcategories(id=${category.id})}"
+                   class="btn btn-outline-info" th:if="${category.subcategoriesCount > 0}">
+                  <i class="bi bi-folder"></i>
+                  <span class="badge bg-info text-dark" th:text="${category.subcategoriesCount}"></span>
+                </a>
+                <button type="button" class="btn btn-outline-danger" data-bs-toggle="modal"
+                        th:data-bs-target="'#deleteModal' + ${category.id}">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+
+              <!-- Модальное окно подтверждения удаления -->
+              <div class="modal fade" th:id="'deleteModal' + ${category.id}" tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h5 class="modal-title">Подтверждение удаления</h5>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                      Вы уверены, что хотите удалить подкатегорию "<span th:text="${category.name}"></span>"?
+                    </div>
+                    <div class="modal-footer">
+                      <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                      <form th:action="@{/admin/categories/delete/{id}(id=${category.id})}" method="post">
+                        <button type="submit" class="btn btn-danger">Удалить</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </td>
+          </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="text-center py-5" th:if="${subcategories.empty}">
+        <div class="mb-3">
+          <i class="bi bi-folder2-open" style="font-size: 3rem;"></i>
+        </div>
+        <h5>У этой категории нет подкатегорий</h5>
+        <p class="text-muted">Вы можете создать новую подкатегорию</p>
+        <a href="/admin/categories/create" class="btn btn-primary">
+          <i class="bi bi-plus-circle me-1"></i>Создать подкатегорию
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
