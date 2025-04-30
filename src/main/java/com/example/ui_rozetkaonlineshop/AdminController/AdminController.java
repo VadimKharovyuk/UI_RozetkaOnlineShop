@@ -25,6 +25,7 @@ import java.util.Map;
 public class AdminController {
 
     private final AuthService authService ;
+    private final BrandService brandService;
 
 
     @GetMapping
