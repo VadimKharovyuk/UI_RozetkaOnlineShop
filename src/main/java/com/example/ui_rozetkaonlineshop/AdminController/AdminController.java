@@ -29,6 +29,7 @@ import java.util.Map;
 public class AdminController {
 
     private final AuthService authService ;
+    private final BrandService brandService;
 
 
     @GetMapping
@@ -83,7 +84,7 @@ public class AdminController {
         try {
             // Получаем информацию о брендах
             stats.put("totalBrands", 0); // Временно заглушка
-            stats.put("activeBrands", 0); // Временно заглушка
+            stats.put("activeBrands", brandService.brandCount());
 
             // Заглушки для других показателей, которые будут реализованы позже
             stats.put("totalProducts", 0);
