@@ -21,12 +21,14 @@ public class AdminCategoryController {
 
     private final CategoryService categoryService;
 
+
     @GetMapping
     public String listCategories(Model model) {
         log.info("Запрос на отображение списка категорий в админ-панели");
         List<CategoryDto.CategoryListDto> rootCategories = categoryService.getRootCategories();
         model.addAttribute("categories", rootCategories);
         return "admin/categories/list";
+
     }
 
     @GetMapping("/create")
