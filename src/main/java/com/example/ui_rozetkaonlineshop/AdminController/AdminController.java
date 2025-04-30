@@ -17,10 +17,6 @@ import java.security.Principal;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Контроллер для основных страниц административной панели.
- * Обрабатывает запросы к главной странице админки и другим общим разделам.
- */
 @Slf4j
 @Controller
 @RequestMapping("/admin")
