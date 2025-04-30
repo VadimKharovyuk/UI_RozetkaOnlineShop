@@ -22,6 +22,7 @@ public class AdminCategoryController {
     private final CategoryService categoryService;
 
 
+
     @GetMapping
     public String listCategories(Model model) {
         log.info("Запрос на отображение списка категорий в админ-панели");
