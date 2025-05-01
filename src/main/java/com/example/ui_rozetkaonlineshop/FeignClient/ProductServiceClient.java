@@ -1,7 +1,7 @@
 package com.example.ui_rozetkaonlineshop.FeignClient;
 
 import com.example.ui_rozetkaonlineshop.DTO.Brand.BrandDto;
-import com.example.ui_rozetkaonlineshop.DTO.Brand.PageResponse;
+import com.example.ui_rozetkaonlineshop.DTO.PageResponse;
 import com.example.ui_rozetkaonlineshop.DTO.category.CategoryDto;
 import com.example.ui_rozetkaonlineshop.config.FeignConfig;
 
@@ -131,7 +131,7 @@ public interface ProductServiceClient {
     ///
 
 
-
+/// нужно реализовать
 
     @GetMapping("/api/categories/public/by-slug/{slug}")
     ResponseEntity<CategoryDto.CategoryDetailsDto> getCategoryBySlug(@PathVariable String slug);
@@ -144,6 +144,19 @@ public interface ProductServiceClient {
 
     @GetMapping("/api/categories/public/tree")
     ResponseEntity<List<CategoryDto.CategoryTreeDto>> getCategoryTree();
+
+
+
+
+
+    /// продуктовый крнтролер
+
+    /**
+     * Получить все продукты
+     */
+    @GetMapping("/api/products")
+    public ResponseEntity<>
+
 
 
 }
