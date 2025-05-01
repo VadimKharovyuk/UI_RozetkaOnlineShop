@@ -145,6 +145,7 @@ public interface ProductServiceClient {
     /// продуктовый крнтролер
 
 
+
     /**
      * Обновить существующий продукт
      */
@@ -158,12 +159,8 @@ public interface ProductServiceClient {
     @GetMapping("/api/products")
     ResponseEntity<List<ProductDto.ProductListDTO>> getAllProducts();
 
-    /**
-     * Создать новый продукт
-     */
     @PostMapping("/api/products")
-    ResponseEntity<ProductDto.ProductDTO> createProduct(@Valid RequestBody ProductCreateRequest);
-
+    ResponseEntity<ProductDto.ProductDTO> createProduct(@Valid @RequestBody ProductDto.ProductCreateRequest request);
     /**
      * Обновить существующий продукт
      */
