@@ -1,4 +1,4 @@
-package com.example.ui_rozetkaonlineshop.DTO.Brand;
+package com.example.ui_rozetkaonlineshop.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
