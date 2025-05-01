@@ -16,7 +16,11 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Optional;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/admin/products")
@@ -68,6 +72,7 @@ public class AdminProductController {
 
         return "admin/products/create";
     }
+
     /**
      * Обработка создания продукта
      */
@@ -90,19 +95,73 @@ public class AdminProductController {
     /**
      * Форма редактирования продукта
      */
-    @GetMapping("/{id}/edit")
-    public String editProductForm(@PathVariable Long id, Model model) {
-        productService.getProductById(id).ifPresent(product -> {
-            // Здесь нужно создать ProductUpdateRequest из полученного ProductDTO
-            ProductDto.ProductUpdateRequest updateRequest = new ProductDto.ProductUpdateRequest();
-            // Заполнение полей updateRequest из product
+    /**
+     /**
+     * Форма редактирования продукта
+     */
+//    @GetMapping("/{id}/edit")
+//    public String editProductForm(@PathVariable Long id, Model model) {
+//        Optional<ProductDto> productOptional = productService.getProductById(id);
+//
+//        if (productOptional.isPresent()) {
+//            ProductDto product = productOptional.get();
+//
+//            // Здесь мы преобразуем ProductDto в ProductDto.ProductDTO
+//            ProductDto.ProductDTO productDTO = convertToProductDTO(product);
+//
+//            // Теперь можно использовать наш существующий метод
+//            ProductDto.ProductUpdateRequest updateRequest = convertToProductDTO(productDTO);
+//
+//            model.addAttribute("product", productDTO);
+//            model.addAttribute("updateRequest", updateRequest);
+//
+//            // Получаем и добавляем список категорий
+//            List<CategoryDto.CategoryListDto> categories = categoryService.getAllCategories();
+//            model.addAttribute("categories", categories);
+//
+//            // Получаем и добавляем список брендов
+//            List<BrandDto.BrandListDTO> brands = brandService.getAllBrands();
+//            model.addAttribute("brands", brands);
+//
+//            return "admin/products/edit";
+//        } else {
+//            // Обработка случая, когда продукт не найден
+//            return "redirect:/admin/products?error=Product+not+found";
+//        }
+//    }
 
-            model.addAttribute("product", product);
-            model.addAttribute("updateRequest", updateRequest);
-        });
-
-        return "admin/products/edit";
+    /**
+     * Преобразование ProductDto в ProductDto.ProductDTO
+     */
+    private ProductDto.ProductDTO convertToProductDTO(ProductDto.ProductDTO product) {
+        // Предполагаем, что у ProductDto есть getters для всех полей
+        return ProductDto.ProductDTO.builder()
+                .id(product.getId())
+                .name(product.getName())
+                .description(product.getDescription())
+                .sku(product.getSku())
+                .slug(product.getSlug())
+                .categories(product.getCategories())
+                .images(product.getImages())
+                .attributes(product.getAttributes())
+                .brand(product.getBrand())
+                .price(product.getPrice())
+                .stockQuantity(product.getStockQuantity())
+                .weight(product.getWeight())
+                .height(product.getHeight())
+                .width(product.getWidth())
+                .depth(product.getDepth())
+                .status(product.getStatus())
+                .featured(product.isFeatured())
+                .createdAt(product.getCreatedAt())
+                .updatedAt(product.getUpdatedAt())
+                .metaTitle(product.getMetaTitle())
+                .metaDescription(product.getMetaDescription())
+                .metaKeywords(product.getMetaKeywords())
+                .mainImageUrl(product.getMainImageUrl())
+                .build();
     }
+
 
     /**
      * Обработка обновления продукта
