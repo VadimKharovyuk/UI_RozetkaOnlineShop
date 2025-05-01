@@ -131,7 +131,7 @@ public interface ProductServiceClient {
     ///
 
 
-
+/// нужно реализовать
 
     @GetMapping("/api/categories/public/by-slug/{slug}")
     ResponseEntity<CategoryDto.CategoryDetailsDto> getCategoryBySlug(@PathVariable String slug);
@@ -144,6 +144,19 @@ public interface ProductServiceClient {
 
     @GetMapping("/api/categories/public/tree")
     ResponseEntity<List<CategoryDto.CategoryTreeDto>> getCategoryTree();
+
+
+
+
+
+    /// продуктовый крнтролер
+
+    /**
+     * Получить все продукты
+     */
+    @GetMapping("/api/products")
+    public ResponseEntity<>
+
 
 
 }
