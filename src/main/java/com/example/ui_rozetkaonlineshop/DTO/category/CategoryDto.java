@@ -68,7 +68,7 @@ public class CategoryDto {
         private boolean popular;
         private int subcategoriesCount;
 
-        // Другие поля для списка категорий
+
     }
 
     @Data
