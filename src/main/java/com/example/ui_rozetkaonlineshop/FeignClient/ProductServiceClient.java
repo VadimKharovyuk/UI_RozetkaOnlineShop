@@ -85,6 +85,9 @@ public interface ProductServiceClient {
     Long getPublicBrandsCount();
 
 
+
+
+    /// Кстегории контрллер
     @PostMapping(value = "/api/categories", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     ResponseEntity<CategoryDto.CategoryDetailsDto> createCategory(
             @SpringQueryMap @Valid CategoryDto.CategoryCreateDto categoryDto,
@@ -186,7 +189,7 @@ public interface ProductServiceClient {
     /**
      * Получить продукты с пагинацией
      */
-    @PostMapping("/api/products/page")
+    @GetMapping("/api/products/page")
     ResponseEntity<PageResponse<ProductDto.ProductListDTO>> getProductsPaginated(
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "10") int size,

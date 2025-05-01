@@ -1,0 +1,55 @@
+<!-- admin/products/statistics.html -->
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Статистика товаров</title>
+</head>
+<body>
+<div th:replace="~{admin/layout :: content(~{::div.content})}">
+  <div class="content">
+    <h1 class="mb-4">Статистика товаров</h1>
+
+    <div class="row row-cols-1 row-cols-md-4 g-4 mb-4">
+      <div class="col">
+        <div class="card text-white bg-primary h-100">
+          <div class="card-body">
+            <h5 class="card-title">Всего товаров</h5>
+            <h2 class="display-4" th:text="${totalProducts}">0</h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="card text-white bg-success h-100">
+          <div class="card-body">
+            <h5 class="card-title">Активные товары</h5>
+            <h2 class="display-4" th:text="${activeProducts}">0</h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="card text-white bg-warning h-100">
+          <div class="card-body">
+            <h5 class="card-title">Неактивные товары</h5>
+            <h2 class="display-4" th:text="${inactiveProducts}">0</h2>
+          </div>
+        </div>
+      </div>
+
+      <div class="col">
+        <div class="card text-white bg-danger h-100">
+          <div class="card-body">
+            <h5 class="card-title">Нет в наличии</h5>
+            <h2 class="display-4" th:text="${outOfStockProducts}">0</h2>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Здесь можно добавить графики или дополнительную статистику -->
+  </div>
+</div>
+</body>
+</html>

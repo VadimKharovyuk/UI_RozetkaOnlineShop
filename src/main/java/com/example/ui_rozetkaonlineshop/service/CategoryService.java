@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -189,5 +190,16 @@ public class CategoryService {
             log.error("Ошибка при получении дерева категорий: {}", e.getMessage());
             throw new RuntimeException("Ошибка при получении дерева категорий: " + e.getMessage());
         }
+    }
+
+    /**
+     * Получить все категории для выбора в форме создания продукта
+     */
+    public List<CategoryDto.CategoryListDto> getAllCategories() {
+        ResponseEntity<List<CategoryDto.CategoryListDto>> response = categoryServiceClient.getRootCategories();
+        if (response.getBody() != null) {
+            return response.getBody();
+        }
+        return Collections.emptyList();
     }
 }

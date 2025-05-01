@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Collections;
@@ -160,5 +161,17 @@ public class BrandService {
     public Long brandCount() {
      Long count = productServiceClient.getPublicBrandsCount();
      return count;
+    }
+
+
+    /**
+     * Получить все бренды для выбора в форме создания продукта
+     */
+    public List<BrandDto.BrandListDTO> getAllBrands() {
+        ResponseEntity<List<BrandDto.BrandListDTO>> response = productServiceClient.getAllPublicBrands(true);
+        if (response.getBody() != null) {
+            return response.getBody();
+        }
+        return Collections.emptyList();
     }
 }

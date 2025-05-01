@@ -1,7 +1,11 @@
 package com.example.ui_rozetkaonlineshop.AdminController;
 
+import com.example.ui_rozetkaonlineshop.DTO.Brand.BrandDto;
 import com.example.ui_rozetkaonlineshop.DTO.PageResponse;
+import com.example.ui_rozetkaonlineshop.DTO.category.CategoryDto;
 import com.example.ui_rozetkaonlineshop.DTO.product.ProductDto;
+import com.example.ui_rozetkaonlineshop.service.BrandService;
+import com.example.ui_rozetkaonlineshop.service.CategoryService;
 import com.example.ui_rozetkaonlineshop.service.ProductService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +24,8 @@ import java.util.List;
 public class AdminProductController {
 
     private final ProductService productService;
+    private final CategoryService categoryService;
+    private final BrandService brandService;
 
     /**
      * Список продуктов в админке
@@ -44,12 +50,24 @@ public class AdminProductController {
     /**
      * Форма создания нового продукта
      */
+    /**
+     * Форма создания нового продукта
+     */
     @GetMapping("/create")
     public String createProductForm(Model model) {
+        // Добавляем пустой объект запроса для создания продукта
         model.addAttribute("productCreateRequest", new ProductDto.ProductCreateRequest());
+
+        // Получаем список категорий и добавляем их в модель
+        List<CategoryDto.CategoryListDto> categories = categoryService.getAllCategories();
+        model.addAttribute("categories", categories);
+
+        // Получаем список брендов и добавляем их в модель
+        List<BrandDto.BrandListDTO> brands = brandService.getAllBrands();
+        model.addAttribute("brands", brands);
+
         return "admin/products/create";
     }
-
     /**
      * Обработка создания продукта
      */

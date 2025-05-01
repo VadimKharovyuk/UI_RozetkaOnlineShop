@@ -20,6 +20,7 @@ public class SecurityConfig {
                         .requestMatchers(
                                 "/**",
                                 "/admin/**",
+                                "/admin/products/**",
                                 "/login/**",
                                 "/auth/**",
                                 "/static/**",
