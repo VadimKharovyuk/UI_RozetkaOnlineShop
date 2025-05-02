@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Изображение не найдено</title>
+</head>
+<body>
+<div th:replace="~{admin/layout :: content(~{::div.content})}">
+  <div class="content">
+    <div class="alert alert-danger">
+      <h3>Изображение не найдено</h3>
+      <p>Запрашиваемое изображение не существует или было удалено.</p>
+    </div>
+
+    <a href="/admin/products" class="btn btn-primary">Вернуться к списку продуктов</a>
+  </div>
+</div>
+</body>
+</html>

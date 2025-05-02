@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Изображения продукта</title>
+</head>
+<body>
+<div th:replace="~{admin/layout :: content(~{::div.content})}">
+  <div class="content">
+    <h2>Изображения продукта #<span th:text="${productId}"></span></h2>
+
+    <div class="mb-3">
+      <a th:href="@{/admin/product-images/upload/{id}(id=${productId})}" class="btn btn-primary">
+        <i class="bi bi-upload"></i> Загрузить изображение
+      </a>
+      <a th:href="@{/admin/product-images/reorder/{id}(id=${productId})}" class="btn btn-secondary">
+        <i class="bi bi-sort-numeric-down"></i> Изменить порядок
+      </a>
+      <a th:href="@{/admin/products/{id}(id=${productId})}" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left"></i> Вернуться к продукту
+      </a>
+    </div>
+
+    <div th:if="${productImages != null and !productImages.images.empty}" class="row row-cols-1 row-cols-md-4 g-4">
+      <div th:each="image : ${productImages.images}" class="col">
+        <div class="card h-100">
+          <img th:src="${image.imageUrl}" class="card-img-top" th:alt="${image.alt}">
+          <div class="card-body">
+            <h5 class="card-title" th:text="${image.imageType}"></h5>
+            <p class="card-text" th:text="${image.alt}"></p>
+            <p class="card-text"><small class="text-muted">ID: <span th:text="${image.id}"></span></small></p>
+          </div>
+          <div class="card-footer">
+            <div class="btn-group w-100">
+              <a th:href="@{/admin/product-images/{id}/edit(id=${image.id})}" class="btn btn-sm btn-warning">
+                <i class="bi bi-pencil"></i>
+              </a>
+              <a th:href="@{/admin/product-images/{id}/set-main(id=${image.id}, productId=${productId})}"
+                 class="btn btn-sm btn-primary"
+                 th:classappend="${image.imageType == 'MAIN' ? 'disabled' : ''}">
+                <i class="bi bi-star"></i>
+              </a>
+              <a th:href="@{/admin/product-images/{id}/delete(id=${image.id}, productId=${productId})}"
+                 class="btn btn-sm btn-danger"
+                 onclick="return confirm('Вы уверены, что хотите удалить это изображение?')">
+                <i class="bi bi-trash"></i>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div th:if="${productImages == null or productImages.images.empty}" class="alert alert-info">
+      У данного продукта нет изображений
+    </div>
+  </div>
+</div>
+</body>
+</html>
