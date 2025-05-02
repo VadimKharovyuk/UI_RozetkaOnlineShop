@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Редактирование изображения</title>
+</head>
+<body>
+<div th:replace="~{admin/layout :: content(~{::div.content})}">
+  <div class="content">
+    <h2>Редактирование изображения #<span th:text="${image.id}"></span></h2>
+
+    <div class="row mb-4">
+      <div class="col-md-4">
+        <img th:src="${image.imageUrl}" class="img-fluid rounded" th:alt="${image.alt}">
+      </div>
+    </div>
+
+    <form th:action="@{/admin/product-images/{id}/update(id=${image.id})}" method="post" enctype="multipart/form-data">
+      <div class="mb-3">
+        <label for="imageFile" class="form-label">Заменить файл изображения</label>
+        <input type="file" class="form-control" id="imageFile" name="imageFile" accept="image/*">
+        <div class="form-text">Оставьте пустым, если не хотите изменять изображение.</div>
+      </div>
+
+      <div class="mb-3">
+        <label for="imageType" class="form-label">Тип изображения</label>
+        <select class="form-select" id="imageType" name="imageType">
+          <option value="MAIN" th:selected="${image.imageType == 'MAIN'}">Главное</option>
+          <option value="GALLERY" th:selected="${image.imageType == 'GALLERY'}">Галерея</option>
+          <option value="THUMBNAIL" th:selected="${image.imageType == 'THUMBNAIL'}">Миниатюра</option>
+        </select>
+      </div>
+
+      <div class="mb-3">
+        <label for="alt" class="form-label">Alt текст</label>
+        <input type="text" class="form-control" id="alt" name="alt" th:value="${image.alt}">
+      </div>
+
+      <div class="mb-3">
+        <label for="sortOrder" class="form-label">Порядок сортировки</label>
+        <input type="number" class="form-control" id="sortOrder" name="sortOrder" th:value="${image.sortOrder}">
+      </div>
+
+      <button type="submit" class="btn btn-primary">Сохранить</button>
+      <a th:href="@{/admin/product-images/product/{id}(id=${image.productId})}" class="btn btn-secondary">Отмена</a>
+    </form>
+  </div>
+</div>
+</body>
+</html>

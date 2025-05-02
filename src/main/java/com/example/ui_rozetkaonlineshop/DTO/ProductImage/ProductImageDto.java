@@ -15,7 +15,7 @@ public class ProductImageDto {
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
-    public static class ProductImageDTO {
+    public static class Response {
         private Long id;
         private Long productId;
         private String imageType;
@@ -30,37 +30,41 @@ public class ProductImageDto {
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
-    public static class ProductImageListDTO {
+    public static class ListResponse {
         private Long productId;
-        private List<ProductImageDTO> images = new ArrayList<>();
-    }
-
-    // Для клиентского кода обычно не нужны классы для создания и обновления,
-    // так как они используются только в запросах, которые будут формироваться
-    // с использованием MultipartFile напрямую
-    // Но для полноты реализации добавим их сюда
-
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    @Builder
-    public static class ProductImageCreateRequest {
-        private Long productId;
-        private String imageType;
-        private String alt;
-        private Integer sortOrder;
-        // MultipartFile не нужен здесь, так как он будет передаваться отдельно в запросе
+        private List<Response> images = new ArrayList<>();
     }
 
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
-    public static class ProductImageUpdateRequest {
+    public static class CreateRequest {
+        private Long productId;
         private String imageType;
-        private String imageId;
         private String alt;
         private Integer sortOrder;
 
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class UpdateRequest {
+        private Long id;
+        private String imageType;
+        private String alt;
+        private Integer sortOrder;
+
+    }
+
+    @Data
+    @NoArgsConstructor
+    @AllArgsConstructor
+    @Builder
+    public static class OrderUpdateRequest {
+        private Long productId;
+        private List<Long> imageIds;
     }
 }

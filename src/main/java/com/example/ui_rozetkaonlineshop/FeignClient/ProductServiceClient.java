@@ -3,6 +3,7 @@ package com.example.ui_rozetkaonlineshop.FeignClient;
 import com.example.ui_rozetkaonlineshop.DTO.Brand.BrandDto;
 import com.example.ui_rozetkaonlineshop.DTO.PageResponse;
 import com.example.ui_rozetkaonlineshop.DTO.ProductAttribute.ProductAttributeClientDTO;
+import com.example.ui_rozetkaonlineshop.DTO.ProductImage.ProductImageDto;
 import com.example.ui_rozetkaonlineshop.DTO.category.CategoryDto;
 import com.example.ui_rozetkaonlineshop.DTO.product.ProductDto;
 import com.example.ui_rozetkaonlineshop.config.FeignConfig;
@@ -86,8 +87,6 @@ public interface ProductServiceClient {
     Long getPublicBrandsCount();
 
 
-
-
     /// Кстегории контрллер
     @PostMapping(value = "/api/categories", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     ResponseEntity<CategoryDto.CategoryDetailsDto> createCategory(
@@ -149,7 +148,6 @@ public interface ProductServiceClient {
     /// продуктовый крнтролер
 
 
-
     /**
      * Обновить существующий продукт
      */
@@ -157,6 +155,7 @@ public interface ProductServiceClient {
     ResponseEntity<ProductDto.ProductDTO> updateProduct(
             @PathVariable Long id,
             @Valid @RequestBody ProductDto.ProductUpdateRequest request);
+
     /**
      * Получить все продукты
      */
@@ -165,6 +164,7 @@ public interface ProductServiceClient {
 
     @PostMapping("/api/products")
     ResponseEntity<ProductDto.ProductDTO> createProduct(@Valid @RequestBody ProductDto.ProductCreateRequest request);
+
     /**
      * Обновить существующий продукт
      */
@@ -177,7 +177,6 @@ public interface ProductServiceClient {
      */
     @GetMapping("/api/products/slug/{slug}")
     ResponseEntity<ProductDto> getProductBySlug(@PathVariable String slug);
-
 
 
     /**
@@ -210,6 +209,7 @@ public interface ProductServiceClient {
      */
     @GetMapping("/api/products/category/{categoryId}")
     ResponseEntity<List<ProductDto.ProductListDTO>> getProductsByCategory(@PathVariable Long categoryId);
+
     /**
      * Получить продукты по статусу
      */
@@ -280,11 +280,7 @@ public interface ProductServiceClient {
             @RequestParam Integer quantity);
 
 
-
-
-
-
-    ///"Атрибуты продуктов"
+    /// "Атрибуты продуктов"
 
     @GetMapping("/api/v1/attributes/product/{productId}")
     ResponseEntity<ProductAttributeClientDTO.ListResponse> getProductAttributes(@PathVariable Long productId);
@@ -322,7 +318,40 @@ public interface ProductServiceClient {
     ResponseEntity<List<ProductAttributeClientDTO.Response>> findAttributesByMaterial(@PathVariable String material);
 
 
+    /// ProductImageClient
 
+    @GetMapping("/api/v1/product-images/product/{productId}")
+    ResponseEntity<ProductImageDto.ListResponse> getProductImages(@PathVariable Long productId);
+
+    @GetMapping("/api/v1/product-images/{imageId}")
+    ResponseEntity<ProductImageDto.Response> getImageById(@PathVariable Long imageId);
+
+    @PostMapping(value = "/api/v1/product-images", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    ResponseEntity<ProductImageDto.Response> uploadImage(
+            @RequestPart("productId") Long productId,
+            @RequestPart("imageFile") MultipartFile imageFile,
+            @RequestPart(value = "imageType", required = false) String imageType,
+            @RequestPart(value = "alt", required = false) String alt,
+            @RequestPart(value = "sortOrder", required = false) Integer sortOrder);
+
+    @PutMapping(value = "/api/v1/product-images/{imageId}", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    ResponseEntity<ProductImageDto.Response> updateImage(
+            @PathVariable Long imageId,
+            @RequestPart(value = "imageFile", required = false) MultipartFile imageFile,
+            @RequestPart(value = "imageType", required = false) String imageType,
+            @RequestPart(value = "alt", required = false) String alt,
+            @RequestPart(value = "sortOrder", required = false) Integer sortOrder);
+
+    @DeleteMapping("/api/v1/product-images/{imageId}")
+    ResponseEntity<Void> deleteImage(@PathVariable Long imageId);
+
+    @PutMapping("/api/v1/product-images/order/{productId}")
+    ResponseEntity<Void> updateImageOrder(
+            @PathVariable Long productId,
+            @RequestBody List<Long> imageIds);
+
+    @PutMapping("/api/v1/product-images/main/{imageId}")
+    ResponseEntity<ProductImageDto.Response> setMainImage(@PathVariable Long imageId);
 
 
 }

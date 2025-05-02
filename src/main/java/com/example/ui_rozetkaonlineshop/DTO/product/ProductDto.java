@@ -74,7 +74,7 @@ public class ProductDto {
         private String sku;
         private String slug;
         private Set<CategoryDto.CategoryListDto> categories = new HashSet<>();
-        private List<ProductImageDto.ProductImageDTO> images = new ArrayList<>();
+        private List<ProductImageDto> images = new ArrayList<>();
         private List<ProductAttributeClientDTO> attributes = new ArrayList<>();
         private BrandDto.BrandDTO brand;
         private BigDecimal price;
