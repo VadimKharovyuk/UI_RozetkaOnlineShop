@@ -7,13 +7,16 @@ import lombok.NoArgsConstructor;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ProductAttributeDto {
+/**
+ * DTOs for ProductServiceClient
+ */
+public class ProductAttributeClientDTO {
 
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
-    public static class ProductAttributeDTO {
+    public static class Response {
         private Long id;
         private Long productId;
         private String color;
@@ -25,16 +28,16 @@ public class ProductAttributeDto {
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
-    public static class ProductAttributeListDTO {
+    public static class ListResponse {
         private Long productId;
-        private List<ProductAttributeDTO> attributes = new ArrayList<>();
+        private List<Response> attributes = new ArrayList<>();
     }
 
     @Data
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
-    public static class ProductAttributeCreateDTO {
+    public static class CreateRequest {
         private Long productId;
         private String color;
         private String size;
@@ -45,7 +48,7 @@ public class ProductAttributeDto {
     @NoArgsConstructor
     @AllArgsConstructor
     @Builder
-    public static class ProductAttributeUpdateDTO {
+    public static class UpdateRequest {
         private Long id;
         private String color;
         private String size;

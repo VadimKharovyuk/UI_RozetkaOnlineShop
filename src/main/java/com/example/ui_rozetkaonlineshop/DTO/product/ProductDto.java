@@ -1,6 +1,6 @@
 package com.example.ui_rozetkaonlineshop.DTO.product;
 import com.example.ui_rozetkaonlineshop.DTO.Brand.BrandDto;
-import com.example.ui_rozetkaonlineshop.DTO.ProductAttribute.ProductAttributeDto;
+import com.example.ui_rozetkaonlineshop.DTO.ProductAttribute.ProductAttributeClientDTO;
 import com.example.ui_rozetkaonlineshop.DTO.ProductImage.ProductImageDto;
 import com.example.ui_rozetkaonlineshop.DTO.category.CategoryDto;
 import lombok.AllArgsConstructor;
@@ -75,7 +75,7 @@ public class ProductDto {
         private String slug;
         private Set<CategoryDto.CategoryListDto> categories = new HashSet<>();
         private List<ProductImageDto.ProductImageDTO> images = new ArrayList<>();
-        private List<ProductAttributeDto.ProductAttributeDTO> attributes = new ArrayList<>();
+        private List<ProductAttributeClientDTO> attributes = new ArrayList<>();
         private BrandDto.BrandDTO brand;
         private BigDecimal price;
         private Integer stockQuantity;

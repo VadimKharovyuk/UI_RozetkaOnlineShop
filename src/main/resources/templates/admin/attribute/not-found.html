@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Атрибут не найден</title>
+</head>
+<body>
+<div th:replace="~{admin/layout :: content(~{::div.content})}">
+    <div class="content">
+        <div class="alert alert-danger">
+            <h3>Атрибут не найден</h3>
+            <p>Запрашиваемый атрибут не существует или был удален.</p>
+        </div>
+
+        <a href="/admin/products" class="btn btn-primary">Вернуться к списку продуктов</a>
+    </div>
+</div>
+</body>
+</html>

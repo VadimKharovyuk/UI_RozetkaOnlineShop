@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Новый атрибут</title>
+</head>
+<body>
+<div th:replace="~{admin/layout :: content(~{::div.content})}">
+  <div class="content">
+    <h2>Добавление нового атрибута</h2>
+    <form th:action="@{/admin/attributes/save}" method="post">
+      <input type="hidden" name="productId" th:value="${productId}" />
+
+      <div class="mb-3">
+        <label for="color" class="form-label">Цвет</label>
+        <input type="text" class="form-control" id="color" name="color" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="size" class="form-label">Размер</label>
+        <input type="text" class="form-control" id="size" name="size" required>
+      </div>
+
+      <div class="mb-3">
+        <label for="material" class="form-label">Материал</label>
+        <input type="text" class="form-control" id="material" name="material" required>
+      </div>
+
+      <button type="submit" class="btn btn-primary">Сохранить</button>
+      <a th:href="@{/admin/products/{id}(id=${productId})}" class="btn btn-secondary">Отмена</a>
+    </form>
+  </div>
+</div>
+</body>
+</html>
