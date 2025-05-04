@@ -128,15 +128,13 @@ public interface ProductServiceClient {
     ResponseEntity<Long> getCategoriesCount();
 
     ///
-
+    @GetMapping("/api/categories/public/popular")
+    ResponseEntity<List<CategoryDto.PopularCategoryDto>> getPopularCategories();
 
     /// нужно реализовать
 
     @GetMapping("/api/categories/public/by-slug/{slug}")
     ResponseEntity<CategoryDto.CategoryDetailsDto> getCategoryBySlug(@PathVariable String slug);
-
-    @GetMapping("/api/categories/public/popular")
-    ResponseEntity<List<CategoryDto.CategoryListDto>> getPopularCategories();
 
     @GetMapping("/api/categories/public/{id}/breadcrumbs")
     ResponseEntity<List<CategoryDto.CategoryListDto>> getCategoryBreadcrumbs(@PathVariable Long id);
