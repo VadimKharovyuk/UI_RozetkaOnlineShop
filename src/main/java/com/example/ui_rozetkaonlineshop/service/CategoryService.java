@@ -156,10 +156,10 @@ public class CategoryService {
         }
     }
 
-    public List<CategoryDto.CategoryListDto> getPopularCategories() {
+    public List<CategoryDto.PopularCategoryDto> getPopularCategories() {
         try {
             log.info("Отправка запроса на получение популярных категорий");
-            ResponseEntity<List<CategoryDto.CategoryListDto>> response =
+            ResponseEntity<List<CategoryDto.PopularCategoryDto>> response =
                     categoryServiceClient.getPopularCategories();
             return response.getBody() != null ? response.getBody() : Collections.emptyList();
         } catch (Exception e) {

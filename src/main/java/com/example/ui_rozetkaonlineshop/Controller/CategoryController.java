@@ -99,11 +99,7 @@ public class CategoryController {
     @GetMapping("/popular")
     public String listPopularCategories(Model model) {
         log.info("Запрос на отображение популярных категорий");
-
-        // Предполагается, что у вас есть метод для получения популярных категорий
-        // Если такого метода нет, его нужно добавить в сервис и клиент
-        List<CategoryDto.CategoryListDto> popularCategories = categoryService.getPopularCategories();
-
+        List<CategoryDto.PopularCategoryDto> popularCategories = categoryService.getPopularCategories();
         model.addAttribute("categories", popularCategories);
         return "client/categories/popular";
     }
