@@ -5,14 +5,16 @@ import com.example.ui_rozetkaonlineshop.DTO.product.ProductDto;
 import com.example.ui_rozetkaonlineshop.FeignClient.ProductServiceClient;
 import feign.FeignException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class ProductService {
@@ -179,5 +181,41 @@ public class ProductService {
      */
     public void updateStockQuantity(Long id, Integer quantity) {
         productClient.updateStockQuantity(id, quantity);
+    }
+
+
+    public PageResponse<ProductDto.ProductListDTO> getFilteredProducts(
+            Long categoryId,
+            List<Long> brandIds,
+            BigDecimal minPrice,
+            BigDecimal maxPrice,
+            String sort,
+            int page,
+            int size) {
+        try {
+            log.info("Отправка запроса на получение отфильтрованных продуктов для категории: {}", categoryId);
+
+            ResponseEntity<PageResponse<ProductDto.ProductListDTO>> response =
+                    productClient.getFilteredProducts(categoryId, brandIds, minPrice, maxPrice, sort, page, size);
+
+            if (response.getBody() != null) {
+                return response.getBody();
+            } else {
+                // Возвращаем пустую страницу, если ответ пустой
+                return new PageResponse<>(
+                        Collections.emptyList(),  // content
+                        0,                       // pageNumber
+                        0,                       // pageSize
+                        0L,                      // totalElements (используем L для явного указания типа long)
+                        0,                       // totalPages
+                        true,                    // first
+                        true,                    // last
+                        true                     // empty
+                );
+            }
+        } catch (Exception e) {
+            log.error("Ошибка при получении отфильтрованных продуктов: {}", e.getMessage());
+            throw new RuntimeException("Ошибка при получении отфильтрованных продуктов: " + e.getMessage());
+        }
     }
 }

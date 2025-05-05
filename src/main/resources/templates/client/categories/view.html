@@ -1,0 +1,662 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="${category.name} + ' | Rozetka Online Shop'">Категория</title>
+
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <style>
+    /* Глобальные стили */
+    :root {
+      --primary-color: #00a046;
+      --secondary-color: #3e77aa;
+      --light-gray: #f5f5f5;
+      --gray: #e9e9e9;
+      --dark-gray: #797878;
+      --black: #221f1f;
+      --white: #ffffff;
+      --red: #f84147;
+      --shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Roboto', Arial, sans-serif;
+      color: var(--black);
+      line-height: 1.5;
+      background-color: var(--light-gray);
+    }
+
+    a {
+      text-decoration: none;
+      color: var(--secondary-color);
+      transition: color 0.3s;
+    }
+
+    a:hover {
+      color: var(--primary-color);
+    }
+
+    ul {
+      list-style: none;
+    }
+
+    /* Хлебные крошки */
+    .breadcrumbs {
+      padding: 15px 20px;
+      background-color: var(--white);
+      margin-bottom: 20px;
+      box-shadow: var(--shadow);
+    }
+
+    .breadcrumbs ul {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .breadcrumbs li {
+      position: relative;
+      margin-right: 20px;
+      font-size: 14px;
+      color: var(--dark-gray);
+    }
+
+    .breadcrumbs li:not(:last-child)::after {
+      content: '›';
+      position: absolute;
+      right: -15px;
+      top: 0;
+    }
+
+    .breadcrumbs a {
+      color: var(--secondary-color);
+    }
+
+    .breadcrumbs a:hover {
+      text-decoration: underline;
+    }
+
+    /* Контейнер категории */
+    .category-content {
+      display: flex;
+      gap: 20px;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px 40px;
+    }
+
+    /* Боковая панель с фильтрами */
+    .sidebar {
+      width: 260px;
+      flex-shrink: 0;
+    }
+
+    .sidebar h3 {
+      font-size: 16px;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+
+    .subcategories-block,
+    .brands-filter,
+    .price-filter {
+      background-color: var(--white);
+      padding: 15px;
+      margin-bottom: 20px;
+      border-radius: 4px;
+      box-shadow: var(--shadow);
+    }
+
+    .subcategories-list li {
+      margin-bottom: 8px;
+    }
+
+    .subcategories-list a {
+      color: var(--black);
+      transition: color 0.2s;
+      display: block;
+    }
+
+    .subcategories-list a:hover {
+      color: var(--primary-color);
+    }
+
+    .product-count {
+      color: var(--dark-gray);
+      font-size: 13px;
+    }
+
+    .filter-search {
+      margin-bottom: 10px;
+    }
+
+    .filter-search input {
+      width: 100%;
+      padding: 8px 10px;
+      border: 1px solid var(--gray);
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    .brands-list li {
+      margin-bottom: 8px;
+    }
+
+    .brands-list label {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+    }
+
+    .brand-filter-checkbox {
+      margin-right: 8px;
+    }
+
+    .price-inputs {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .price-inputs input {
+      width: 80px;
+      padding: 8px 10px;
+      border: 1px solid var(--gray);
+      border-radius: 4px;
+      font-size: 14px;
+    }
+
+    #apply-price {
+      background-color: var(--primary-color);
+      color: var(--white);
+      border: none;
+      border-radius: 4px;
+      padding: 8px 15px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+
+    #apply-price:hover {
+      background-color: #008c3c;
+    }
+
+    /* Контейнер продуктов */
+    .products-container {
+      flex-grow: 1;
+    }
+
+    .category-header {
+      background-color: var(--white);
+      padding: 20px;
+      margin-bottom: 20px;
+      border-radius: 4px;
+      box-shadow: var(--shadow);
+    }
+
+    .category-header h1 {
+      font-size: 24px;
+      margin-bottom: 10px;
+      font-weight: 500;
+    }
+
+    .category-header p {
+      color: var(--dark-gray);
+      font-size: 14px;
+    }
+
+    .products-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: var(--white);
+      padding: 15px 20px;
+      margin-bottom: 20px;
+      border-radius: 4px;
+      box-shadow: var(--shadow);
+    }
+
+    .sort-controls label {
+      margin-right: 10px;
+      font-size: 14px;
+    }
+
+    #sort-select {
+      padding: 8px 10px;
+      border: 1px solid var(--gray);
+      border-radius: 4px;
+      font-size: 14px;
+      cursor: pointer;
+    }
+
+    /* Сетка продуктов */
+    .products-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .no-products {
+      grid-column: 1 / -1;
+      text-align: center;
+      padding: 50px 0;
+      background-color: var(--white);
+      border-radius: 4px;
+      box-shadow: var(--shadow);
+      color: var(--dark-gray);
+    }
+
+    .product-card {
+      background-color: var(--white);
+      border-radius: 4px;
+      overflow: hidden;
+      transition: transform 0.3s, box-shadow 0.3s;
+      box-shadow: var(--shadow);
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .product-image-container {
+      position: relative;
+      padding-top: 100%; /* Соотношение сторон 1:1 */
+      overflow: hidden;
+    }
+
+    .product-image {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      transition: transform 0.3s;
+    }
+
+    .product-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.05);
+      opacity: 0;
+      transition: opacity 0.3s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .product-image-container:hover .product-overlay {
+      opacity: 1;
+    }
+
+    .product-image-container:hover .product-image {
+      transform: scale(1.05);
+    }
+
+    .overlay-actions {
+      display: flex;
+      gap: 15px;
+    }
+
+    .action-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background-color: var(--white);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      cursor: pointer;
+      transition: background-color 0.3s;
+      border: none;
+      color: var(--dark-gray);
+    }
+
+    .action-icon:hover {
+      background-color: var(--primary-color);
+      color: var(--white);
+    }
+
+    .product-info {
+      padding: 15px;
+    }
+
+    .product-title {
+      font-size: 16px;
+      font-weight: 400;
+      margin-bottom: 8px;
+      line-height: 1.3;
+      overflow: hidden;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      height: 42px;
+    }
+
+    .product-title a {
+      color: var(--black);
+    }
+
+    .product-title a:hover {
+      color: var(--primary-color);
+    }
+
+    .product-brand {
+      margin-bottom: 8px;
+      font-size: 13px;
+    }
+
+    .product-brand a {
+      color: var(--dark-gray);
+    }
+
+    .product-brand a:hover {
+      color: var(--primary-color);
+    }
+
+    .product-price {
+      font-weight: 500;
+      font-size: 18px;
+      margin-bottom: 12px;
+      color: var(--black);
+    }
+
+    .product-availability {
+      font-size: 13px;
+      margin-bottom: 12px;
+      color: var(--primary-color);
+    }
+
+    .add-to-cart-btn {
+      width: 100%;
+      padding: 10px;
+      background-color: var(--primary-color);
+      color: var(--white);
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      font-size: 14px;
+      font-weight: 500;
+    }
+
+    .add-to-cart-btn:hover {
+      background-color: #008c3c;
+    }
+
+    /* Пагинация */
+    .pagination {
+      display: flex;
+      justify-content: center;
+      margin-top: 30px;
+      gap: 5px;
+    }
+
+    .pagination a {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 36px;
+      height: 36px;
+      border-radius: 4px;
+      color: var(--black);
+      background-color: var(--white);
+      box-shadow: var(--shadow);
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    .pagination a.active {
+      background-color: var(--primary-color);
+      color: var(--white);
+    }
+
+    .pagination a:hover:not(.active, .disabled) {
+      background-color: var(--gray);
+    }
+
+    .pagination a.disabled {
+      color: var(--dark-gray);
+      cursor: not-allowed;
+    }
+
+    /* Адаптивность */
+    @media (max-width: 900px) {
+      .category-content {
+        flex-direction: column;
+      }
+
+      .sidebar {
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .products-grid {
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+      }
+
+      .products-controls {
+        flex-direction: column;
+        gap: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+<!-- Хлебные крошки -->
+<nav class="breadcrumbs">
+  <ul>
+    <li><a href="/">Главная</a></li>
+    <li th:if="${parentCategory != null}">
+      <a th:href="@{'/categories/' + ${parentCategory.slug}}"
+         th:text="${parentCategory.name}">Родительская категория</a>
+    </li>
+    <li th:text="${category.name}">Текущая категория</li>
+  </ul>
+</nav>
+
+<div class="category-content">
+  <!-- Левая колонка с фильтрами и подкатегориями -->
+  <div class="sidebar">
+    <!-- Подкатегории -->
+    <div class="subcategories-block" th:if="${!subcategories.isEmpty()}">
+      <h3>Подкатегории</h3>
+      <ul class="subcategories-list">
+        <li th:each="subcat : ${subcategories}">
+          <a th:href="@{'/categories/' + ${subcat.slug}}" th:text="${subcat.name}">Подкатегория</a>
+          <span class="product-count" th:if="${subcat.productCount > 0}"
+                th:text="'(' + ${subcat.productCount} + ')'"></span>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Фильтр по брендам -->
+    <div class="brands-filter" th:if="${!brands.isEmpty()}">
+      <h3>Бренды</h3>
+      <div class="filter-search">
+        <input type="text" placeholder="Поиск брендов" id="brand-search" />
+      </div>
+      <ul class="brands-list">
+        <li th:each="brand : ${brands}">
+          <label>
+            <input type="checkbox" name="brand" th:value="${brand.id}"
+                   th:checked="${selectedBrands != null && selectedBrands.contains(brand.id)}"
+                   class="brand-filter-checkbox" />
+            <span th:text="${brand.name}">Название бренда</span>
+            <span class="product-count" th:if="${brand.productCount != null}"
+                  th:text="'(' + ${brand.productCount} + ')'"></span>
+          </label>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Фильтр по цене -->
+    <div class="price-filter">
+      <h3>Цена</h3>
+      <form id="price-filter-form" th:action="@{'/categories/' + ${category.slug}}" method="get">
+        <!-- Скрытые поля для сохранения других параметров -->
+        <input type="hidden" name="sort" th:value="${sortBy}" />
+        <input type="hidden" name="page" value="0" />
+        <th:block th:if="${selectedBrands != null}">
+          <input th:each="brandId : ${selectedBrands}" type="hidden" name="brand" th:value="${brandId}" />
+        </th:block>
+
+        <div class="price-inputs">
+          <input type="number" id="min-price" name="minPrice" placeholder="от"
+                 th:value="${minPrice}" />
+          <span>-</span>
+          <input type="number" id="max-price" name="maxPrice" placeholder="до"
+                 th:value="${maxPrice}" />
+          <button type="submit" id="apply-price">OK</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Правая колонка с товарами -->
+  <div class="products-container">
+    <div class="category-header">
+      <h1 th:text="${category.name}">Название категории</h1>
+      <p th:if="${category.description != null}" th:text="${category.description}">Описание категории</p>
+    </div>
+
+    <!-- Сортировка и пагинация -->
+    <div class="products-controls">
+      <div class="sort-controls">
+        <label for="sort-select">Сортировать:</label>
+        <select id="sort-select" onchange="updateSortAndSubmit()">
+          <option value="popularity" th:selected="${sortBy == 'popularity'}">По популярности</option>
+          <option value="price-asc" th:selected="${sortBy == 'price-asc'}">От дешевых к дорогим</option>
+          <option value="price-desc" th:selected="${sortBy == 'price-desc'}">От дорогих к дешевым</option>
+          <option value="name-asc" th:selected="${sortBy == 'name-asc'}">По названию (А-Я)</option>
+          <option value="name-desc" th:selected="${sortBy == 'name-desc'}">По названию (Я-А)</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Список товаров -->
+    <div class="products-grid">
+      <div th:if="${products.isEmpty()}" class="no-products">
+        <p>В данной категории пока нет товаров.</p>
+      </div>
+      <div th:each="product : ${products}" class="product-card">
+        <div class="product-image-container">
+          <a th:href="@{'/products/' + ${product.slug}}">
+            <img th:src="${product.mainImageUrl != null ? product.mainImageUrl : '/img/default-product.jpg'}"
+                 th:alt="${product.name}" class="product-image" />
+          </a>
+          <div class="product-overlay">
+            <div class="overlay-actions">
+              <button class="action-icon"><i class="far fa-heart"></i></button>
+              <a th:href="@{'/products/' + ${product.slug}}" class="action-icon" data-redirect="true">
+                <i class="far fa-eye"></i>
+              </a>
+              <button class="action-icon add-to-cart" th:data-product-id="${product.id}">
+                <i class="fas fa-shopping-cart"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="product-info">
+          <h3 class="product-title">
+            <a th:href="@{'/products/' + ${product.slug}}" th:text="${product.name}">Название товара</a>
+          </h3>
+          <div class="product-brand" th:if="${product.brandName != null}">
+            <a th:href="@{'/categories/' + ${category.slug} + '?brand=' + ${product.brandId}}"
+               th:text="${product.brandName}">Бренд</a>
+          </div>
+          <div class="product-price">
+            <span th:text="${#numbers.formatDecimal(product.price, 0, 'COMMA', 2, 'POINT')} + ' грн'">0.00 грн</span>
+          </div>
+          <div class="product-availability"
+               th:text="${product.status == 'ACTIVE' ? 'В наличии' : 'Нет в наличии'}">В наличии</div>
+          <button class="add-to-cart-btn" th:data-product-id="${product.id}">В корзину</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Пагинация -->
+    <div class="pagination" th:if="${totalPages > 1}">
+      <a th:href="@{${currentUrl}(page=0, sort=${sortBy}, minPrice=${minPrice}, maxPrice=${maxPrice}, brand=${selectedBrands})}"
+         th:class="${currentPage == 0 ? 'disabled' : ''}">«</a>
+
+      <th:block th:each="i : ${#numbers.sequence(1, totalPages)}">
+        <a th:href="@{${currentUrl}(page=${i-1}, sort=${sortBy}, minPrice=${minPrice}, maxPrice=${maxPrice}, brand=${selectedBrands})}"
+           th:text="${i}"
+           th:class="${currentPage == i-1 ? 'active' : ''}"></a>
+      </th:block>
+
+      <a th:href="@{${currentUrl}(page=${totalPages-1}, sort=${sortBy}, minPrice=${minPrice}, maxPrice=${maxPrice}, brand=${selectedBrands})}"
+         th:class="${currentPage == totalPages-1 ? 'disabled' : ''}">»</a>
+    </div>
+  </div>
+</div>
+
+<!-- JavaScript для фильтрации и сортировки -->
+<script>
+  // Функция для обновления сортировки и отправки формы
+  function updateSortAndSubmit() {
+    const sortValue = document.getElementById('sort-select').value;
+    const currentUrl = new URL(window.location.href);
+
+    currentUrl.searchParams.set('sort', sortValue);
+    currentUrl.searchParams.set('page', '0'); // Сбрасываем на первую страницу
+
+    window.location.href = currentUrl.toString();
+  }
+
+  // Поиск по брендам
+  document.getElementById('brand-search').addEventListener('input', function() {
+    const searchValue = this.value.toLowerCase();
+    const brandItems = document.querySelectorAll('.brands-list li');
+
+    brandItems.forEach(item => {
+      const brandName = item.querySelector('span').textContent.toLowerCase();
+      if (brandName.includes(searchValue)) {
+        item.style.display = '';
+      } else {
+        item.style.display = 'none';
+      }
+    });
+  });
+
+  // Обработка чекбоксов брендов
+  document.querySelectorAll('.brand-filter-checkbox').forEach(checkbox => {
+    checkbox.addEventListener('change', function() {
+      const currentUrl = new URL(window.location.href);
+
+      // Очищаем все параметры brand
+      currentUrl.searchParams.delete('brand');
+
+      // Добавляем выбранные бренды
+      document.querySelectorAll('.brand-filter-checkbox:checked').forEach(checked => {
+        currentUrl.searchParams.append('brand', checked.value);
+      });
+
+      // Сбрасываем страницу на первую
+      currentUrl.searchParams.set('page', '0');
+
+      window.location.href = currentUrl.toString();
+    });
+  });
+
+  // Добавление в корзину
+  document.querySelectorAll('.add-to-cart-btn, .add-to-cart').forEach(button => {
+    button.addEventListener('click', function() {
+      const productId = this.getAttribute('data-product-id');
+      // Здесь можно добавить AJAX-запрос для добавления в корзину
+      alert('Товар добавлен в корзину: ' + productId);
+    });
+  });
+</script>
+</body>
+</html>

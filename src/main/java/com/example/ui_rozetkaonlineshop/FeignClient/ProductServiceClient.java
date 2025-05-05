@@ -1,34 +1,20 @@
 package com.example.ui_rozetkaonlineshop.FeignClient;
-
-import com.example.ui_rozetkaonlineshop.DTO.Brand.BrandDto;
 import com.example.ui_rozetkaonlineshop.DTO.PageResponse;
-import com.example.ui_rozetkaonlineshop.DTO.ProductAttribute.ProductAttributeClientDTO;
-import com.example.ui_rozetkaonlineshop.DTO.ProductImage.ProductImageDto;
-import com.example.ui_rozetkaonlineshop.DTO.category.CategoryDto;
 import com.example.ui_rozetkaonlineshop.DTO.product.ProductDto;
 import com.example.ui_rozetkaonlineshop.config.FeignConfig;
-
 import org.springframework.cloud.openfeign.FeignClient;
-import org.springframework.cloud.openfeign.SpringQueryMap;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
 import jakarta.validation.Valid;
-
 import java.math.BigDecimal;
 import java.util.List;
-
 @FeignClient(
         name = "PRODUCT",
         configuration = FeignConfig.class
 )
 public interface ProductServiceClient {
-
-
-    /// продуктовый крнтролер
-
 
     /**
      * Обновить существующий продукт
@@ -161,4 +147,13 @@ public interface ProductServiceClient {
             @PathVariable Long id,
             @RequestParam Integer quantity);
 
+    @GetMapping("/api/products/filter")
+     ResponseEntity<PageResponse<ProductDto.ProductListDTO>> getFilteredProducts(
+            @RequestParam(required = false) Long categoryId,
+            @RequestParam(required = false) List<Long> brandIds,
+            @RequestParam(required = false) BigDecimal minPrice,
+            @RequestParam(required = false) BigDecimal maxPrice,
+            @RequestParam(defaultValue = "popularity") String sort,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "12") int size);
 }
