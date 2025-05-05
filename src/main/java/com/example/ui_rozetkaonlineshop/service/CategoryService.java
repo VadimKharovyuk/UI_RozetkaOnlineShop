@@ -2,6 +2,7 @@ package com.example.ui_rozetkaonlineshop.service;
 
 
 import com.example.ui_rozetkaonlineshop.DTO.category.CategoryDto;
+import com.example.ui_rozetkaonlineshop.FeignClient.CategoryServiceClient;
 import com.example.ui_rozetkaonlineshop.FeignClient.ProductServiceClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +19,7 @@ import java.util.stream.Collectors;
 @Slf4j
 public class CategoryService {
 
-    private final ProductServiceClient categoryServiceClient;
+    private final CategoryServiceClient categoryServiceClient;
 
     public CategoryDto.CategoryDetailsDto createCategory(CategoryDto.CategoryCreateDto categoryDto,
                                                          MultipartFile imageFile) {

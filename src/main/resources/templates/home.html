@@ -132,6 +132,7 @@
     </div>
 
     <!-- Popular Categories Section -->
+    <!-- Popular Categories Section -->
     <section class="popular-categories">
         <div class="section-header">
             <h2 class="section-title">Популярные категории</h2>
@@ -139,63 +140,105 @@
         </div>
 
         <div class="categories-grid">
-            <div class="category-card">
+            <!-- Цикл по списку популярных категорий -->
+            <div th:each="category : ${PopularCategories}" class="category-card">
                 <div class="category-image-container">
-                    <img src="/img/luda.jpg" alt="Женская одежда" class="category-image">
+                    <!-- Используем URL изображения из DTO с проверкой на null -->
+                    <img th:src="${category.imageUrl != null ? category.imageUrl : '/img/default-category.jpg'}"
+                         th:alt="${category.name}" class="category-image">
                     <div class="category-overlay">
                         <div class="overlay-actions">
                             <button class="action-icon"><i class="far fa-heart"></i></button>
-                            <button class="action-icon"><i class="far fa-eye"></i></button>
+                            <!-- Иконка глаза для перехода в категорию -->
+                            <a th:href="@{'/category/' + ${category.slug}}" class="action-icon" data-redirect="true">
+                                <i class="far fa-eye"></i>
+                            </a>
                         </div>
                     </div>
                 </div>
-                <h3 class="category-title">Женская одежда</h3>
-                <p class="category-items">120 товаров</p>
-            </div>
+                <!-- Имя категории из DTO -->
+                <h3 class="category-title" th:text="${category.name}">Название категории</h3>
 
-            <div class="category-card">
-                <div class="category-image-container">
-                    <img src="/img/luda.jpg" alt="Мужская одежда" class="category-image">
-                    <div class="category-overlay">
-                        <div class="overlay-actions">
-                            <button class="action-icon"><i class="far fa-heart"></i></button>
-                            <button class="action-icon"><i class="far fa-eye"></i></button>
-                        </div>
-                    </div>
-                </div>
-                <h3 class="category-title">Мужская одежда</h3>
-                <p class="category-items">98 товаров</p>
-            </div>
-
-            <div class="category-card">
-                <div class="category-image-container">
-                    <img src="/img/luda.jpg" alt="Аксессуары" class="category-image">
-                    <div class="category-overlay">
-                        <div class="overlay-actions">
-                            <button class="action-icon"><i class="far fa-heart"></i></button>
-                            <button class="action-icon"><i class="far fa-eye"></i></button>
-                        </div>
-                    </div>
-                </div>
-                <h3 class="category-title">Аксессуары</h3>
-                <p class="category-items">74 товара</p>
-            </div>
-
-            <div class="category-card">
-                <div class="category-image-container">
-                    <img src="/img/luda.jpg" alt="Обувь" class="category-image">
-                    <div class="category-overlay">
-                        <div class="overlay-actions">
-                            <button class="action-icon"><i class="far fa-heart"></i></button>
-                            <button class="action-icon"><i class="far fa-eye"></i></button>
-                        </div>
-                    </div>
-                </div>
-                <h3 class="category-title">Обувь</h3>
-                <p class="category-items">56 товаров</p>
+                <!-- Отображение количества товаров -->
+                <p class="category-items" th:if="${category.productCount != null}">
+                    <span th:text="${category.productCount}"></span>
+                    <span th:with="mod10=${category.productCount % 10}, mod100=${category.productCount % 100}"
+                          th:text="${(mod10 == 1 && mod100 != 11) ? 'товар' :
+                      ((mod10 >= 2 && mod10 <= 4 && (mod100 < 12 || mod100 > 14)) ? 'товара' : 'товаров')}">
+                </span>
+                </p>
+                <p class="category-items" th:if="${category.productCount == null}">Нет товаров</p>
             </div>
         </div>
     </section>
+
+<!--    &lt;!&ndash; Popular Categories Section &ndash;&gt;-->
+<!--    <section class="popular-categories">-->
+<!--        <div class="section-header">-->
+<!--            <h2 class="section-title">Популярные категории</h2>-->
+<!--            <p class="section-subtitle">Быстрый доступ к самым востребованным разделам</p>-->
+<!--        </div>-->
+
+<!--        <div class="categories-grid">-->
+<!--            <div class="category-card">-->
+<!--                <div class="category-image-container">-->
+<!--                    <img src="/img/luda.jpg" alt="Женская одежда" class="category-image">-->
+<!--                    <div class="category-overlay">-->
+<!--                        <div class="overlay-actions">-->
+<!--                            <button class="action-icon"><i class="far fa-heart"></i></button>-->
+<!--                            <button class="action-icon"><i class="far fa-eye"></i></button>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <h3 class="category-title">Женская одежда</h3>-->
+<!--                <p class="category-items">120 товаров</p>-->
+<!--            </div>-->
+
+<!--            <div class="category-card">-->
+<!--                <div class="category-image-container">-->
+<!--                    <img src="/img/luda.jpg" alt="Мужская одежда" class="category-image">-->
+<!--                    <div class="category-overlay">-->
+<!--                        <div class="overlay-actions">-->
+<!--                            <button class="action-icon"><i class="far fa-heart"></i></button>-->
+<!--                            <button class="action-icon"><i class="far fa-eye"></i></button>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <h3 class="category-title">Мужская одежда</h3>-->
+<!--                <p class="category-items">98 товаров</p>-->
+<!--            </div>-->
+
+<!--            <div class="category-card">-->
+<!--                <div class="category-image-container">-->
+<!--                    <img src="/img/luda.jpg" alt="Аксессуары" class="category-image">-->
+<!--                    <div class="category-overlay">-->
+<!--                        <div class="overlay-actions">-->
+<!--                            <button class="action-icon"><i class="far fa-heart"></i></button>-->
+<!--                            <button class="action-icon"><i class="far fa-eye"></i></button>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <h3 class="category-title">Аксессуары</h3>-->
+<!--                <p class="category-items">74 товара</p>-->
+<!--            </div>-->
+
+<!--            <div class="category-card">-->
+<!--                <div class="category-image-container">-->
+<!--                    <img src="/img/luda.jpg" alt="Обувь" class="category-image">-->
+<!--                    <div class="category-overlay">-->
+<!--                        <div class="overlay-actions">-->
+<!--                            <button class="action-icon"><i class="far fa-heart"></i></button>-->
+<!--                            <button class="action-icon"><i class="far fa-eye"></i></button>-->
+<!--                        </div>-->
+<!--                    </div>-->
+<!--                </div>-->
+<!--                <h3 class="category-title">Обувь</h3>-->
+<!--                <p class="category-items">56 товаров</p>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--    </section>-->
+
+
 </header>
 
 <!-- Sidebar menu (similar to Wildberries) -->
@@ -568,7 +611,7 @@
 <div class="overlay" id="overlay"></div>
 
 <script src="/js/notification.js"></script>
-<script src="/js/modal-windows.js"></script>
+<!--<script src="/js/modal-windows.js"></script>-->
 <script src="/js/CardActions.js"></script>
 <script src="/js/siteInterface.js"></script>
 </body>

@@ -1,6 +1,7 @@
 package com.example.ui_rozetkaonlineshop.service;
 
 import com.example.ui_rozetkaonlineshop.DTO.ProductAttribute.ProductAttributeClientDTO;
+import com.example.ui_rozetkaonlineshop.FeignClient.ProductAttributeClient;
 import com.example.ui_rozetkaonlineshop.FeignClient.ProductServiceClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,7 +16,7 @@ import java.util.List;
 @Slf4j
 public class ProductAttributeClientService {
 
-    private final ProductServiceClient productServiceClient;
+    private final ProductAttributeClient productServiceClient;
 
     public ProductAttributeClientDTO.ListResponse getProductAttributes(Long productId) {
         try {
