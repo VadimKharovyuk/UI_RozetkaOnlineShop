@@ -1,5 +1,6 @@
 package com.example.ui_rozetkaonlineshop.FeignClient;
 
+import com.example.ui_rozetkaonlineshop.DTO.Brand.BrandDto;
 import com.example.ui_rozetkaonlineshop.DTO.category.CategoryDto;
 import com.example.ui_rozetkaonlineshop.config.FeignConfig;
 import jakarta.validation.Valid;
@@ -59,20 +60,33 @@ public interface CategoryServiceClient {
     @GetMapping("/api/categories/count")
     ResponseEntity<Long> getCategoriesCount();
 
-    ///
-    ///
+
     @GetMapping("/api/categories/public/popular")
     ResponseEntity<List<CategoryDto.PopularCategoryDto>> getPopularCategories();
 
-    /// нужно реализовать
-
-    @GetMapping("/api/categories/public/by-slug/{slug}")
-    ResponseEntity<CategoryDto.CategoryDetailsDto> getCategoryBySlug(@PathVariable String slug);
-
-    @GetMapping("/api/categories/public/{id}/breadcrumbs")
-    ResponseEntity<List<CategoryDto.CategoryListDto>> getCategoryBreadcrumbs(@PathVariable Long id);
-
     @GetMapping("/api/categories/public/tree")
     ResponseEntity<List<CategoryDto.CategoryTreeDto>> getCategoryTree();
+
+    @GetMapping("/api/categories/slug/{slug}")
+    ResponseEntity<CategoryDto.CategoryDetailsDto> getCategoryBySlug(@PathVariable String slug);
+
+    @GetMapping("/api/categories/{id}/breadcrumbs")
+    ResponseEntity<List<CategoryDto.CategoryListDto>> getCategoryBreadcrumbs(@PathVariable Long id);
+
+    @GetMapping("/api/categories/{id}/popular-brands")
+    ResponseEntity<List<BrandDto.BrandListDTO>> getPopularBrandsByCategory(
+            @PathVariable Long id,
+            @RequestParam(defaultValue = "5") int limit);
+
+    @GetMapping("/api/categories/by-level")
+    ResponseEntity<List<CategoryDto.CategoryListDto>> getCategoriesByLevel(@RequestParam int level);
+
+
+    @PostMapping("/api/categories/{id}/view")
+    ResponseEntity<Void> incrementViewCount(@PathVariable Long id);
+
+
+    @GetMapping("/api/categories/shortInfo/{parentId}")
+    CategoryDto.CategoryListDto getCategoryShortInfo(@PathVariable Long parentId);
 
 }

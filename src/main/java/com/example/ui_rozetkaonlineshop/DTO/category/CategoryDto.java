@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 public class CategoryDto {
@@ -66,7 +67,7 @@ public class CategoryDto {
         private String name;
         private String slug;
         private String imageUrl;
-        private boolean popular;
+        private int productCount;
         private int subcategoriesCount;
 
 
@@ -102,4 +103,5 @@ public class CategoryDto {
         private BigDecimal maxPrice; // Максимальная цена товара в категории
         private boolean hasDiscount; // Есть ли товары со скидкой
     }
+
 }

@@ -1,6 +1,7 @@
 package com.example.ui_rozetkaonlineshop.service;
 
 
+import com.example.ui_rozetkaonlineshop.DTO.Brand.BrandDto;
 import com.example.ui_rozetkaonlineshop.DTO.category.CategoryDto;
 import com.example.ui_rozetkaonlineshop.FeignClient.CategoryServiceClient;
 import com.example.ui_rozetkaonlineshop.FeignClient.ProductServiceClient;
@@ -141,10 +142,8 @@ public class CategoryService {
     }
 
 
-
     ///
     // И соответственно в CategoryService:
-
     public CategoryDto.CategoryDetailsDto getCategoryBySlug(String slug) {
         try {
             log.info("Отправка запроса на получение категории по slug: {}", slug);
@@ -203,4 +202,50 @@ public class CategoryService {
         }
         return Collections.emptyList();
     }
+
+    public List<BrandDto.BrandListDTO> getPopularBrandsByCategory(Long categoryId, int limit) {
+        try {
+            log.info("Отправка запроса на получение популярных брендов для категории с ID: {}, лимит: {}", categoryId, limit);
+            ResponseEntity<List<BrandDto.BrandListDTO>> response =
+                    categoryServiceClient.getPopularBrandsByCategory(categoryId, limit);
+            return response.getBody() != null ? response.getBody() : Collections.emptyList();
+        } catch (Exception e) {
+            log.error("Ошибка при получении популярных брендов: {}", e.getMessage());
+            throw new RuntimeException("Ошибка при получении популярных брендов: " + e.getMessage());
+        }
+    }
+
+    public List<CategoryDto.CategoryListDto> getCategoriesByLevel(int level) {
+        try {
+            log.info("Отправка запроса на получение категорий по уровню вложенности: {}", level);
+            ResponseEntity<List<CategoryDto.CategoryListDto>> response =
+                    categoryServiceClient.getCategoriesByLevel(level);
+            return response.getBody() != null ? response.getBody() : Collections.emptyList();
+        } catch (Exception e) {
+            log.error("Ошибка при получении категорий по уровню: {}", e.getMessage());
+            throw new RuntimeException("Ошибка при получении категорий по уровню: " + e.getMessage());
+        }
+    }
+
+    public void incrementViewCount(Long id) {
+        try {
+            log.info("Отправка запроса на увеличение счетчика просмотров для категории с ID: {}", id);
+            categoryServiceClient.incrementViewCount(id);
+        } catch (Exception e) {
+            log.error("Ошибка при увеличении счетчика просмотров: {}", e.getMessage());
+            throw new RuntimeException("Ошибка при увеличении счетчика просмотров: " + e.getMessage());
+        }
+    }
+
+    public CategoryDto.CategoryListDto getCategoryShortInfo(Long parentId) {
+        try {
+            log.info("Отправка запроса на получение краткой информации о категории с ID: {}", parentId);
+
+            return categoryServiceClient.getCategoryShortInfo(parentId);
+        } catch (Exception e) {
+            log.error("Ошибка при получении краткой информации о категории: {}", e.getMessage());
+            throw new RuntimeException("Ошибка при получении информации о категории: " + e.getMessage());
+        }
+    }
+
 }

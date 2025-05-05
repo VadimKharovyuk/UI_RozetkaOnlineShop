@@ -26,69 +26,66 @@ public class CategoryController {
     private final ProductService productService;
     private final BrandService brandService;
 
-//    @GetMapping("/{slug}")
-//    public String viewCategory(
-//            @PathVariable String slug,
-//            @RequestParam(required = false) List<Long> brand,
-//            @RequestParam(required = false) BigDecimal minPrice,
-//            @RequestParam(required = false) BigDecimal maxPrice,
-//            @RequestParam(defaultValue = "popularity") String sort,
-//            @RequestParam(defaultValue = "0") int page,
-//            @RequestParam(defaultValue = "12") int size,
-//            Model model
-//    ) {
-//        log.info("Запрос на просмотр категории: {}", slug);
-//
-//        try {
-//            // Получаем категорию по slug
-//            CategoryDto.CategoryDetailsDto category = categoryService.getCategoryBySlug(slug);
-//
-//            // Получаем родительскую категорию (для хлебных крошек)
-//            CategoryDto.CategoryListDto parentCategory = null;
-//            if (category.getParentId() != null) {
-//                parentCategory = categoryService.getCategoryShortInfo(category.getParentId());
-//            }
-//
-//            // Получаем подкатегории
-//            List<CategoryDto.CategoryListDto> subcategories = categoryService.getSubcategories(category.getId());
-//
-//            // Получаем все бренды в данной категории
-//            List<BrandDto.BrandListDTO> brands = brandService.getBrandsByCategory(category.getId());
-//
-//            // Настраиваем сортировку и фильтрацию
-//            PageResponse<ProductDto.ProductListDTO> products = productService.getFilteredProducts(
-//                    category.getId(), brand, minPrice, maxPrice, sort, page, size);
-//
-//            // Добавляем все данные в модель
-//            model.addAttribute("category", category);
-//            model.addAttribute("parentCategory", parentCategory);
-//            model.addAttribute("subcategories", subcategories);
-//            model.addAttribute("brands", brands);
-//            model.addAttribute("products", products.getContent());
-//            model.addAttribute("currentPage", page);
-//            model.addAttribute("totalPages", products.getTotalPages());
-//            model.addAttribute("totalItems", products.getTotalElements());
-//
-//            // Сохраняем текущие параметры для пагинации
-//            model.addAttribute("currentUrl", "/category/" + slug);
-//            model.addAttribute("selectedBrands", brand);
-//            model.addAttribute("minPrice", minPrice);
-//            model.addAttribute("maxPrice", maxPrice);
-//            model.addAttribute("sortBy", sort);
-//
-//            // Увеличиваем счетчик просмотров категории
-//            categoryService.incrementViewCount(category.getId());
-//
-//            return "category/view";
-//
-//        } catch (Exception e) {
-//            log.error("Ошибка при отображении категории: {}", e.getMessage());
-//            return "error/404";
-//        }
-//    }
+    @GetMapping("/{slug}")
+    public String viewCategory(
+            @PathVariable String slug,
+            @RequestParam(required = false) List<Long> brand,
+            @RequestParam(required = false) BigDecimal minPrice,
+            @RequestParam(required = false) BigDecimal maxPrice,
+            @RequestParam(defaultValue = "popularity") String sort,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "12") int size,
+            Model model
+    ) {
+        log.info("Запрос на просмотр категории: {}", slug);
 
+        try {
+            // Получаем категорию по slug
+            CategoryDto.CategoryDetailsDto category = categoryService.getCategoryBySlug(slug);
 
+            // Получаем родительскую категорию (для хлебных крошек)
+            CategoryDto.CategoryListDto parentCategory = null;
+            if (category.getParentId() != null) {
+                parentCategory = categoryService.getCategoryShortInfo(category.getParentId());
+            }
 
+            // Получаем подкатегории
+            List<CategoryDto.CategoryListDto> subcategories = categoryService.getSubcategories(category.getId());
+
+            // Получаем все бренды в данной категории
+            List<BrandDto.BrandListDTO> brands = brandService.getBrandsByCategory(category.getId());
+
+            // Настраиваем сортировку и фильтрацию
+            PageResponse<ProductDto.ProductListDTO> products = productService.getFilteredProducts(
+                    category.getId(), brand, minPrice, maxPrice, sort, page, size);
+
+            // Добавляем все данные в модель
+            model.addAttribute("category", category);
+            model.addAttribute("parentCategory", parentCategory);
+            model.addAttribute("subcategories", subcategories);
+            model.addAttribute("brands", brands);
+            model.addAttribute("products", products.getContent());
+            model.addAttribute("currentPage", page);
+            model.addAttribute("totalPages", products.getTotalPages());
+            model.addAttribute("totalItems", products.getTotalElements());
+
+            // Сохраняем текущие параметры для пагинации
+            model.addAttribute("currentUrl", "/category/" + slug);
+            model.addAttribute("selectedBrands", brand);
+            model.addAttribute("minPrice", minPrice);
+            model.addAttribute("maxPrice", maxPrice);
+            model.addAttribute("sortBy", sort);
+
+            // Увеличиваем счетчик просмотров категории
+            categoryService.incrementViewCount(category.getId());
+
+            return "client/categories/view";
+
+        } catch (Exception e) {
+            log.error("Ошибка при отображении категории: {}", e.getMessage());
+            return "error/404";
+        }
+    }
 
 
 
@@ -103,31 +100,31 @@ public class CategoryController {
         return "client/categories/list";
     }
 
-    /**
-     * Отображает детальную информацию о категории по её ID
-     * Включает список подкатегорий и другую информацию
-     */
-    @GetMapping("/{id}")
-    public String viewCategory(@PathVariable Long id, Model model) {
-        log.info("Запрос на просмотр категории с ID: {}", id);
-        try {
-            CategoryDto.CategoryDetailsDto category = categoryService.getCategoryById(id);
-            List<CategoryDto.CategoryListDto> subcategories = categoryService.getSubcategories(id);
-
-            model.addAttribute("category", category);
-            model.addAttribute("subcategories", subcategories);
-
-            // Здесь можно добавить информацию о продуктах в категории,
-            // если у вас есть соответствующий сервис
-            // model.addAttribute("products", productService.getProductsByCategory(id));
-
-            return "client/categories/view";
-        } catch (Exception e) {
-            log.error("Ошибка при загрузке категории", e);
-            model.addAttribute("errorMessage", "Категория не найдена");
-            return "redirect:/categories";
-        }
-    }
+//    /**
+//     * Отображает детальную информацию о категории по её ID
+//     * Включает список подкатегорий и другую информацию
+//     */
+//    @GetMapping("/{id}")
+//    public String viewCategory(@PathVariable Long id, Model model) {
+//        log.info("Запрос на просмотр категории с ID: {}", id);
+//        try {
+//            CategoryDto.CategoryDetailsDto category = categoryService.getCategoryById(id);
+//            List<CategoryDto.CategoryListDto> subcategories = categoryService.getSubcategories(id);
+//
+//            model.addAttribute("category", category);
+//            model.addAttribute("subcategories", subcategories);
+//
+//            // Здесь можно добавить информацию о продуктах в категории,
+//            // если у вас есть соответствующий сервис
+//            // model.addAttribute("products", productService.getProductsByCategory(id));
+//
+//            return "client/categories/view";
+//        } catch (Exception e) {
+//            log.error("Ошибка при загрузке категории", e);
+//            model.addAttribute("errorMessage", "Категория не найдена");
+//            return "redirect:/categories";
+//        }
+//    }
 
     /**
      * Отображает категорию по её slug (ЧПУ)

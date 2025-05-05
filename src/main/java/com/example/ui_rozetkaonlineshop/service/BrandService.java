@@ -177,12 +177,13 @@ public class BrandService {
         return Collections.emptyList();
     }
 
-//    public List<BrandDto.BrandListDTO> getBrandsByCategory(Long id) {
-//        ResponseEntity<List<BrandDto.BrandListDTO>> brandList = productServiceClient.getBrandsByCategory(id);
-//        if (brandList.getBody() != null) {
-//            return brandList.getBody();
-//        } else {
-//            return Collections.emptyList();
-//        }
-//    }
+
+    public List<BrandDto.BrandListDTO> getBrandsByCategory(Long id) {
+        ResponseEntity<List<BrandDto.BrandListDTO>> brandList = productServiceClient.getBrandsByCategory(id);
+        if (brandList.getBody() != null) {
+            return brandList.getBody();
+        } else {
+            return Collections.emptyList();
+        }
+    }
 }

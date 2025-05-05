@@ -12,6 +12,9 @@ public class UiRozetkaOnlineShopApplication {
 
     public static void main(String[] args) {
         SpringApplication.run(UiRozetkaOnlineShopApplication.class, args);
+
+
+
     }
 
 }

@@ -23,6 +23,8 @@ public class ProfileController {
             return "redirect:/auth/register";
         }
 
+
+        System.out.println();
         UserDto userDto = authService.getCurrentUser(token);
         model.addAttribute("user", userDto);
         System.out.println(userDto.getRoles() +" зашел в аканут ");

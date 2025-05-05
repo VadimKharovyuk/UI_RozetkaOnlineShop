@@ -77,4 +77,7 @@ public interface BrandServiceClient {
     @GetMapping("/api/products/public/brands/count")
     Long getPublicBrandsCount();
 
+    @GetMapping("/api/products/brands/category/{categoryId}")
+    ResponseEntity<List<BrandDto.BrandListDTO>> getBrandsByCategory(@PathVariable Long categoryId);
+
 }

@@ -150,7 +150,11 @@
                         <div class="overlay-actions">
                             <button class="action-icon"><i class="far fa-heart"></i></button>
                             <!-- Иконка глаза для перехода в категорию -->
-                            <a th:href="@{'/category/' + ${category.slug}}" class="action-icon" data-redirect="true">
+                            <!-- Иконка глаза для перехода в категорию -->
+                            <a th:href="@{'/categories/' + ${category.slug}}" class="action-icon" data-redirect="true">
+                                <i class="far fa-eye"></i>
+                            </a>
+<!--                            <a th:href="@{'/category/' + ${category.slug}}" class="action-icon" data-redirect="true">-->
                                 <i class="far fa-eye"></i>
                             </a>
                         </div>
