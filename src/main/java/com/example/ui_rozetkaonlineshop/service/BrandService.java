@@ -2,6 +2,8 @@ package com.example.ui_rozetkaonlineshop.service;
 
 import com.example.ui_rozetkaonlineshop.DTO.Brand.BrandDto;
 import com.example.ui_rozetkaonlineshop.DTO.PageResponse;
+import com.example.ui_rozetkaonlineshop.FeignClient.BrandServiceClient;
+import com.example.ui_rozetkaonlineshop.FeignClient.CategoryServiceClient;
 import com.example.ui_rozetkaonlineshop.FeignClient.ProductServiceClient;
 
 import lombok.RequiredArgsConstructor;
@@ -20,7 +22,8 @@ import java.util.Optional;
 @Slf4j
 public class BrandService {
 
-    private final ProductServiceClient productServiceClient;
+    private final BrandServiceClient productServiceClient;
+
 
     // Методы для работы с публичными эндпоинтами брендов
 
@@ -145,7 +148,6 @@ public class BrandService {
     }
 
 
-
     public void deleteBannerImage(Long id) {
         try {
             ResponseEntity<Void> response = productServiceClient.deleteBannerImage(id);
@@ -159,8 +161,8 @@ public class BrandService {
     }
 
     public Long brandCount() {
-     Long count = productServiceClient.getPublicBrandsCount();
-     return count;
+        Long count = productServiceClient.getPublicBrandsCount();
+        return count;
     }
 
 
@@ -174,4 +176,13 @@ public class BrandService {
         }
         return Collections.emptyList();
     }
+
+//    public List<BrandDto.BrandListDTO> getBrandsByCategory(Long id) {
+//        ResponseEntity<List<BrandDto.BrandListDTO>> brandList = productServiceClient.getBrandsByCategory(id);
+//        if (brandList.getBody() != null) {
+//            return brandList.getBody();
+//        } else {
+//            return Collections.emptyList();
+//        }
+//    }
 }

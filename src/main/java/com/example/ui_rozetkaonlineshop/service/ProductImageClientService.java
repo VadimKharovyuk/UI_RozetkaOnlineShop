@@ -2,6 +2,7 @@ package com.example.ui_rozetkaonlineshop.service;
 
 
 import com.example.ui_rozetkaonlineshop.DTO.ProductImage.ProductImageDto;
+import com.example.ui_rozetkaonlineshop.FeignClient.ProductImageClient;
 import com.example.ui_rozetkaonlineshop.FeignClient.ProductServiceClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,7 +18,7 @@ import java.util.List;
 @Slf4j
 public class ProductImageClientService {
 
-    private final ProductServiceClient productImageClient;
+    private final ProductImageClient productImageClient;
 
     public ProductImageDto.ListResponse getProductImages(Long productId) {
         try {
